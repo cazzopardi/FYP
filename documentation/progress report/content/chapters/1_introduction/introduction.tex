@@ -1,0 +1,36 @@
+\chapter{Introduction}%
+\label{chp:introduction}
+
+The ever-evolving landscape of cyber threats poses a pervasive danger to all
+facets of society, ranging from commercial enterprises to individuals and
+government entities. As technology relentlessly advances and more aspects of
+our lives become digitised, the risks posed by these threats continue to
+escalate. There are numerous defence options available to help mitigate these
+threats, prominent among them are \gls{ids}.
+
+\gls{ids} are a crucial part of
+any information system's defence that aims to identify and mitigate threats in
+real time. There are two primary domains at which intrusion detection systems
+can operate, namely \gls{nids}, which analyse network packets to identify
+attacks, and \gls{hids}, which analyse logs and other information sources from
+a single host. In addition, two major classifications exist that characterise
+the function of intrusion detection systems.\ \gls{sids} detect attacks by
+matching sequences of code or commands with those of known attacks.\ \gls{aids}
+on the other hand, detect threats by recognising deviations from normal,
+non-malicious traffic.
+
+Extensive research exists in the field of \gls{ids}, however, despite these
+advancements, successful attacks continue to occur. Zero-day attacks are an
+especially challenging problem in the field of cybersecurity which contribute
+heavily to these undetected attacks. Zero-day attacks are cyber attacks
+executed on the basis of a vulnerability or attack vector that was not
+previously known, in essence, they are the first exploitation of a previously
+unknown vulnerability. Due to their nature, \gls{sids} are completely
+ineffective in detecting zero-day attacks, as by definition, they cannot exist
+on any attack signature database.\ \gls{aids} exhibits promise through its
+ability to identify zero-day attacks, particularly with the advent of \gls{ml}
+techniques, notably \gls{dl}. Extensive research exists in this field in
+the hope of detecting and mitigating zero-day attacks, however, despite
+numerous implicit assumptions that current \gls{ml}-based \gls{aids}
+can detect unseen attacks, little empirical evidence exists supporting this
+assumption.

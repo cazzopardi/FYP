@@ -1,0 +1,89 @@
+\graphicspath{{content/chapters/2_background/figures/}}
+
+\chapter{Background}%
+\label{chp:background}
+
+% Figure~\ref{fig:sample} shows a sample figure and how to cross-reference
+% figures.
+% %
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=\textwidth,keepaspectratio]{sample}
+%     \caption[Short sample caption.]{Longer caption that  and shows below the figure.\label{fig:sample}}
+% \end{figure}
+%
+In the literature, there is no absence of works in the field of \gls{ml}-based
+intrusion detection. In this section, we will briefly outline some of the
+significant works in the field.
+
+In 2020, Karatas et al.\ proposed 6 \gls{ml}-based \gls{ids}, employing the
+techniques of K Nearest Neighbours, Random Forest, Gradient Boosting, Adaboost,
+Decision Tree and Linear Discriminant Analysis. They evaluated their models on
+the CSE-CIC-IDS 2018 dataset. Due to the class imbalance present in this
+dataset, the authors applied the \gls{smote}. The results indicate the proposed
+models are very effective with accuracies on the sampled data ranging from
+91.18\% to 99.35\%. The Random Forest algorithm had the highest accuracy on the
+sampled dataset, however the Adaboost algorithm had the highest precision and
+F1 score which may be more significant given the class imbalance present in the
+dataset.
+
+Zuech et al.\ in 2021, investigate the efficacy of different undersampling
+ratios in detecting web attacks. They consider eight different ratios,
+specifically: no sampling, 999:1, 99:1, 95:5, 9:1,3:1, 65:35 and 1:1. Seven
+different classifiers are employed in the study: Decision Tree, Random Forest,
+CatBoost, LightGBM, XGBoost, Naive Bayes and Logistic Regression. The study
+found that undersampling significantly improved the performance of these
+\gls{ml} models and that LightGBM was the top performer. The conclusion of the
+study was that the undersampling ratio, classifier and interaction between the
+two were all statistically significant to the efficacy of web intrusion
+detection.
+
+Jiang et al. (2020) take a \gls{dl} approach to the problem. They propose a
+\gls{cnn} to extract spatial features, which are then processed through a
+\gls{bilstm} network to extract temporal features. To handle class imblance,
+the authors first apply \gls{oss} to reduce noisy smaples in the
+majority class, then incerase the number of minority samples through
+\gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
+the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
+respectively.
+
+Khan (2021) takes a similar approach proposing a hybrid convolutional recurrent
+neural network-based \gls{ids}. The hybrid model, similar to the work of Jiang
+et al, extracts features using a \gls{cnn}, then feeds the extracted features
+to a \gls{rnn} classifier. Class imbalance is handled through oversampling,
+specifically by arbitrarily replcating minority samples. The proposed model is
+evaluated on the CSE-CIC-IDS2018 dataset, achieving an accuracy of up to
+97.75\% when using 10-fold-cross-validation.
+
+Mighan and Kahani (2021)~\cite{} propose a hybrid approach using a stacked
+autoencoder network for latent feature extraction followed by a support vector
+machine classifier. The proposed model was evaluated on the ISCX2012 and CICIDS2017
+datasets achieving accuracies of 90.2\% and 99.49\% respectively. They
+concluded that \gls{dl} feature extraction outperformed other methods. Note,
+class imbalance was not addressed in this study, despite being present in both
+datasets used.
+
+Kus et al. (2022)~\cite{} argue that the current evaluation standard in
+\gls{ml}-based industrial intrusion detection may create a false sense of
+security. They argue that it does not assess the model's ability to detect
+unknown attacks, absent from the training set. They propose a new evaluation
+methodology to assess the efficacy of \gls{ml}-based industrial \gls{ids} in
+detecting these unknown attacks.
+
+The methodology involves iteratively training and testing the model. The
+procedure consists of 4 phases. In the first phase, one attack category is
+excluded from the training set each iteration. Hence, the generalisability to
+this unseen attack can be measured from the evaluation on the test set. In the
+second phase, only one attack category is included in the training set,
+allowing the relations between different attack cateogries to be investigated.
+Finally, in the thrid and fourth phase, the first two phases are repeated
+however using individual attacks in place of attack categories.
+
+This methodology is applied to three industrial intrusion detection models
+proposed in a work by Lopez Perez~\cite{}. The results indicate an alarmingly
+low ability to recognise unseen attacks, with detection rates dropping to
+between 3.2\% and 14.7\% for some types of attacks. The authors conclude that
+the models they tested only learn signatures of attacks and are not performing
+true anomaly-based intrusion detection. The study focuses primarily on
+industrial intrusion detection and does not attempt to make any generalisations
+to other domains of intrusion detection.
