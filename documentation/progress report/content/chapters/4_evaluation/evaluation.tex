@@ -11,19 +11,19 @@ methodology, however with a wider scope.
 
 The methodology will be applied to several state of the art models designed for
 more general purpose datasets. Namely, the study will reproduce the models
-proposed in the works of Karatas et al.~\cite{} and Jiang et al.~\cite{} which
-were discussed in the previous section. These works have been selected as they
-are the most highly cited amongst recent studies that provide clear
-methodologies and were evaluated on realistic datasets. In addition, both these
-studies address class imbalance, which is a significant problem when applying
-\gls{ml} to intrusion detection due to the prevalence of normal, non-malicious
-traffic in realsitic scenarios when compared to the volume of malicious
-traffic~\cite{}.
+proposed in the works of Karatas et al.~\cite{Karatas} and Jiang et
+al.~\cite{Jiang} which were discussed in the background section. These works
+have been selected as they are the most highly cited amongst recent studies
+that provide clear methodologies and were evaluated on realistic datasets. In
+addition, both these studies address class imbalance, which is a significant
+problem when applying \gls{ml} to intrusion detection due to the prevalence of
+normal, non-malicious traffic in realsitic scenarios when compared to the
+volume of malicious traffic~\cite{imbalance}.
 
 \section{Datasets}%
 \label{sec:datasets}
 
-The UNSW-NB15 dataset was generated on the IXIA PerfectStorm tools. The Tcpdump
+The UNSW-NB15 dataset was generated on the IXIA PerfectStorm tool. The Tcpdump
 tool was used to capture 100GB of raw traffic. This traffic was processed into
 4 csv files containing a collective 2,540,044 records with 49 features. The
 dataset contains diverse attack scenarios including nine attack categories.
@@ -32,7 +32,7 @@ exploits, generic (e.g.\ brute force), reconaissance, shellcode and worms. The
 simulation consisted of three virtual networks, two of which generated normal
 traffic and one which generated the malicious traffic. The attack behaviour is
 derived from the CVE site in order to ensure the attack scenarios are
-realistic.
+realistic~\cite{unsw15}.
 
 The CSE-CIC-IDS2018 dataset is a collaborative effort between the
 Communications Security Authority and the Candian Institute of Cybersecurity,
@@ -46,9 +46,8 @@ through statistical and \gls{ml} techniques, allowing it to be accurately
 reproduced. The dataset includes a variety of modern attack categories, namely,
 \gls{dos} attacks, brute force attacks, code injection, botnet attacks, and
 infiltration attacks which involve using an exploit on a host inside the
-network to attack the network~\cite{}. The resulting dataset contains 80
-features and approximately 16,000,000 instances.
-% TODO: add topology image
+network to attack the network. The resulting dataset contains 80 features and
+approximately 16,000,000 instances~\cite{cic2018, cic2018data}.
 
 Both these datasets provide a large volume of data containing diverse attack
 scenarios and a realistic network environment. It is for these reasons that
@@ -57,7 +56,7 @@ of Karatas et al.\ and Jiang et al. Furthermore, the CSE-CIC-IDS2018 dataset
 is, to the best of my knowledge, the most up-to-date, general purpose network
 intrusion dataset publicly available today. The UNSW-NB15 dataset is also one
 of the more recent publicly available general purpose datasets. Note, each
-selected model includes one of these datasets in the original authors
+selected model includes one of these datasets in the original authors'
 evaluation. This allows for comparison of results to verify that the models
 were accurately reproduced.
 
@@ -105,6 +104,16 @@ detect never-seen-before attacks.
 
 To address the second research question, we can compare the performance of the
 models proposed by Karatas et al.\ with that of the model proposed by Jiang et
-al. Karatas et al.\ take a tradition \gls{ml} approach whereas Jiang et al.\
+al. Karatas et al.\ take a traditional \gls{ml} approach whereas Jiang et al.\
 take a \gls{dl} approach, hence, comparision of these results will address the
 second research question.
+
+This study will investigate the relations between groups of attacks which will
+be referred to under a descriptive name that we will call a category. As Ahmad
+et al.~\cite{zero-day} noted, categorising attacks into broad labels such as
+\gls{dos} can create inconsistencies and confusion in the literature due to
+their subjectivity. Hence, it should be noted that this categorisation should
+be interpreted as a shorthand method of referring to the specific attack types
+included under the cateogry in this study. Conclusions will not be intended to
+generalise to attack types not present in the dataset that may fall under the
+same subjective categorisation.

@@ -3,46 +3,45 @@
 
 Going forward, the next step will be to reproduce the results obtained by Kus
 et al.\ from the developed python script. This will verify that the script
-implementes their methodology correctly.
+implements their methodology correctly.
 
 Once this has been done, the work of Karatas et al.\ will be reproduced. This
 will involve the following steps:
 \begin{enumerate}
-    \item Applying \gls{smote} on the CSE-CIC-IDS2018 dataset to reduce the class
-          imbalance present in the dataset.
-    \item Preprocessing the dataset,
-          \begin{enumerate}
-              \item adding an ID column to keep track of samples during preprocessing
-              \item replacing NaN and inifinity values with numerical representations
-              \item dividing the timestamp column into 2 numerical columns
-              \item adding sign columns for the \'Init Fwd Win Byts' and \'Init Bwd Win Byts'
-                    columns
-              \item converting attack labels to numerical values
-              \item shuffling the dataset
-          \end{enumerate}
-    \item implementation of the 6 \gls{ml} models using the scikit-learn library in
-          python
-    \item training the models and verifying the results match the original work
-    \item repeating the above steps on the UNSW-NB15 dataset (if computational resources
-          allow) in order to compare with the \gls{dl} model.
+      \item Applying \gls{smote} on the CSE-CIC-IDS2018 dataset to reduce the class
+            imbalance present in the dataset.
+      \item Preprocessing the dataset,
+            \begin{enumerate}
+                  \item Adding an ID column to keep track of samples during preprocessing
+                  \item Replacing NaN and inifinity values with numerical representations
+                  \item Dividing the timestamp column into 2 numerical columns
+                  \item Adding sign columns for the `Init Fwd Win Byts' and `Init Bwd Win Byts' columns
+                  \item Converting attack labels to numerical values
+                  \item Shuffling the dataset
+            \end{enumerate}
+      \item Implementation of the 6 \gls{ml} models using the scikit-learn library in
+            python
+      \item Training the models and verifying the results match the original work
+      \item Repetition of the above steps on the UNSW-NB15 dataset (if computational
+            resources allow) in order to compare with the \gls{dl} model.
 \end{enumerate}
 
 Next, the UNSW-NB15 dataset will be downloaded and labels will be added to it
 uniquely identifying attacks. The work of Jiang et al.\ can then be reproduced,
 which will involve the following steps:
 \begin{enumerate}
-    \item Reducing the imbalance of the UNSW-NB15 dataset using \gls{oss} on the majority
-          samples and \gls{smote} on the minority samples.
-    \item Preprocessing the data:
-          \begin{enumerate}
-              \item Converting cateogrical features into one-hot encoding
-              \item Normalisation of all features
-          \end{enumerate}
-    \item Developing the \gls{cnn} using the Tensorflow and Keras libraries in python
-    \item Developing the \gls{bilstm} network with the same libraries
-    \item Training the model and verifying the results wioth the original work
-    \item Repeating the above steps on the CSE-CIC-IDS2018 dataset in order to compare
-          with the previous models.
+      \item Reducing the imbalance of the UNSW-NB15 dataset using \gls{oss} on the majority
+            samples and \gls{smote} on the minority samples.
+      \item Preprocessing the data:
+            \begin{enumerate}
+                  \item Converting cateogrical features into one-hot encoding
+                  \item Normalisation of all features
+            \end{enumerate}
+      \item Developing the \gls{cnn} using the Tensorflow and Keras libraries in python
+      \item Developing the \gls{bilstm} network with the same libraries
+      \item Training the model and verifying the results wioth the original work
+      \item Repetiton of the above steps on the CSE-CIC-IDS2018 dataset in order to compare
+            with the previous models.
 \end{enumerate}
 
 Finally, the developed python script can be executed being given each
