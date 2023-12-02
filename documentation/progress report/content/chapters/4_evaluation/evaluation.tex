@@ -9,7 +9,7 @@ methodology, however with a wider scope.
 \section{Models}%
 \label{sec:models}
 
-The methodology will be applied to several state of the art models designed for
+The methodology will be applied to several state-of-the-art models designed for
 more general purpose datasets. Namely, the study will reproduce the models
 proposed in the works of Karatas et al.~\cite{Karatas} and Jiang et
 al.~\cite{Jiang} which were discussed in the background section. These works
@@ -17,25 +17,25 @@ have been selected as they are the most highly cited amongst recent studies
 that provide clear methodologies and were evaluated on realistic datasets. In
 addition, both these studies address class imbalance, which is a significant
 problem when applying \gls{ml} to intrusion detection due to the prevalence of
-normal, non-malicious traffic in realsitic scenarios when compared to the
+normal, non-malicious traffic in realistic scenarios when compared to the
 volume of malicious traffic~\cite{imbalance}.
 
 \section{Datasets}%
 \label{sec:datasets}
 
 The UNSW-NB15 dataset was generated on the IXIA PerfectStorm tool. The Tcpdump
-tool was used to capture 100GB of raw traffic. This traffic was processed into
-4 csv files containing a collective 2,540,044 records with 49 features. The
+tool was used to capture 100 GB of raw traffic. This traffic was processed into
+4 CSV files containing a collective 2,540,044 records with 49 features. The
 dataset contains diverse attack scenarios including nine attack categories.
-Namely, these are fuzzers, analysis (e.g.\ portscan), backdoors, \gls{dos},
-exploits, generic (e.g.\ brute force), reconaissance, shellcode and worms. The
+Namely, these are fuzzers, analysis (e.g., portscan), backdoors, \gls{dos},
+exploits, generic (e.g., brute force), reconnaissance, shellcode and worms. The
 simulation consisted of three virtual networks, two of which generated normal
 traffic and one which generated the malicious traffic. The attack behaviour is
 derived from the CVE site in order to ensure the attack scenarios are
 realistic~\cite{unsw15}.
 
 The CSE-CIC-IDS2018 dataset is a collaborative effort between the
-Communications Security Authority and the Candian Institute of Cybersecurity,
+Communications Security Authority and the Canadian Institute of Cybersecurity,
 and serves as a successor to the CICIDS2017 dataset which is a smaller, less
 diverse counterpart. The aim of the project was to produce an up to date,
 realistic dataset for the evaluation of \gls{nids}. The dataset was generated
@@ -98,14 +98,14 @@ attacks.
 The first research question defined in the aims and objectives section can be
 addressed by an aggregate of all the results. If overall, models achieve high
 detection rates on attacks omitted from the training set, we can conclude that
-current state of the art models can indeed detect never-seen-before attacks. If
-models on the otherhand achieve low metrics, we can conclude that they cannot
+current state-of-the-art models can indeed detect never-seen-before attacks. If
+models on the other hand achieve low metrics, we can conclude that they cannot
 detect never-seen-before attacks.
 
 To address the second research question, we can compare the performance of the
 models proposed by Karatas et al.\ with that of the model proposed by Jiang et
 al. Karatas et al.\ take a traditional \gls{ml} approach whereas Jiang et al.\
-take a \gls{dl} approach, hence, comparision of these results will address the
+take a \gls{dl} approach, hence, comparison of these results will address the
 second research question.
 
 This study will investigate the relations between groups of attacks which will
@@ -114,6 +114,6 @@ et al.~\cite{zero-day} noted, categorising attacks into broad labels such as
 \gls{dos} can create inconsistencies and confusion in the literature due to
 their subjectivity. Hence, it should be noted that this categorisation should
 be interpreted as a shorthand method of referring to the specific attack types
-included under the cateogry in this study. Conclusions will not be intended to
+included under the category in this study. Conclusions will not be intended to
 generalise to attack types not present in the dataset that may fall under the
 same subjective categorisation.

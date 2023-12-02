@@ -2,8 +2,8 @@
 \label{chp:background}
 
 In the literature, there is no absence of works in the field of \gls{ml}-based
-intrusion detection. In this section, we will briefly outline some of the
-significant works in the field.
+intrusion detection. This section, will briefly outline some significant works
+in the field.
 
 In 2020, Karatas et al.~\cite{Karatas} proposed 6 \gls{ml}-based \gls{ids},
 employing the techniques of K Nearest Neighbours, Random Forest, Gradient
@@ -23,29 +23,29 @@ Seven different classifiers are employed in the study: Decision Tree, Random
 Forest, CatBoost, LightGBM, XGBoost, Naive Bayes and Logistic Regression. The
 study found that undersampling significantly improved the performance of these
 \gls{ml} models and that LightGBM was the top performer. The conclusion of the
-study was that the undersampling ratio, classifier and interaction between the
+study was that the undersampling ratio, classifier, and interaction between the
 two were all statistically significant to the efficacy of web intrusion
 detection.
 
 Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
 propose a \gls{cnn} to extract spatial features, which are then processed
 through a \gls{bilstm} network to extract temporal features. To handle class
-imblance, the authors first apply \gls{oss} to reduce noisy smaples in the
-majority class, then incerase the number of minority samples through
+imbalance, the authors first apply \gls{oss} to reduce noisy samples in the
+majority class, then increase the number of minority samples through
 \gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
 the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
 respectively.
 
 Khan (2021)~\cite{Khan} takes a similar approach proposing a hybrid
 convolutional recurrent neural network-based \gls{ids}. The hybrid model,
-similar to the work of Jiang et al, extracts features using a \gls{cnn}, then
+similar to the work of Jiang et al., extracts features using a \gls{cnn}, then
 feeds the extracted features to a \gls{rnn} classifier. Class imbalance is
-handled through oversampling, specifically by arbitrarily replcating minority
+handled through oversampling, specifically by arbitrarily replicating minority
 samples. The proposed model is evaluated on the CSE-CIC-IDS2018 dataset,
 achieving an accuracy of up to 97.75\% when using 10-fold-cross-validation.
 
 Mighan and Kahani (2021)~\cite{Mighan} propose a hybrid approach using a
-stacked autoencoder network for latent feature extraction followed by a support
+stacked auto-encoder network for latent feature extraction followed by a support
 vector machine classifier. The proposed model was evaluated on the ISCX2012 and
 CICIDS2017 datasets achieving accuracies of 90.2\% and 99.49\% respectively.
 They concluded that \gls{dl} feature extraction outperformed other methods.
@@ -65,7 +65,7 @@ excluded from the training set each iteration. Hence, the generalisability to
 this unseen attack can be measured from the evaluation on the test set. In the
 second phase, only one attack category is included in the training set,
 allowing the relations between different attack categories to be investigated.
-Finally, in the thrid and fourth phase, the first two phases are repeated
+Finally, in the third and fourth phase, the first two phases are repeated
 however using individual attacks in place of attack categories.
 
 This methodology is applied to three industrial intrusion detection models
@@ -77,8 +77,8 @@ not performing true anomaly-based intrusion detection. The study focuses
 primarily on industrial intrusion detection and does not attempt to make any
 generalisations to other domains of intrusion detection.
 
-A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day}
-reviews many more similar works with a particular focus on zero-day attacks. It
+A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day} reviews
+many more similar works with a particular focus on zero-day attacks. It
 supports the argument of Kus et al.\ stating that many researchers in the field
 are not currently addressing the existence of zero-day attacks and suggests
 that future works should not assume all existing attack classifications are
