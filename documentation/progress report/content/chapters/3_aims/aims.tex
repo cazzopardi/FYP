@@ -1,31 +1,29 @@
 \chapter{Aims and Objectives}%
 \label{chp:aims}
+\hypertarget{obj}{}
 
-From the previous section, we can see that the research community has achieved
-very impressive results in the field of intrusion detection. However, as Kus et
-al.\ have discovered, these laboratory results may not accurately reflect
-reality.
+The principal aim of this study, will be to empirically investigate the
+interaction between current state-of-the-art network intrusion detection models
+and unseen attacks. This will take the form of two objectives:
 
-\gls{aids} is said to be able to detect zero-day attacks as it categorises
-traffic based on its behaviour as opposed to particular
-signatures~\cite{aids-zero-day}. However, current state of the art
-\gls{ml}-based \gls{ids} are typically trained on labelled data, meaning the
-resultant models are classification models as opposed to true anomaly detection
-models. This may bring them closer to \gls{sids} than \gls{aids}, significantly
-reducing their efficacy in detecting zero-day attacks.
+\begin{center}
+    \fbox{\parbox{0.8\linewidth}{\textbf{Objective 1:} To determine the extent current state-of-the-art
+            network intrusion detection models are able to detect attacks that were not
+            present in their training set.}}
+\end{center}
 
-The principal aim of this study, will be to determine whether current
-state-of-the-art network intrusion detection models can detect attacks that
-were not present in their training set.
+This information is vital to measure the pragmatic performance of these models
+as \gls{nids} deployed in practical circumstances will face a wide variety of
+attacks, most of which will not have been present in its training set.
 
-This should serve as a more realistic measurement of performance as \gls{nids}
-deployed in practical circumstances will face a wide variety of attacks, most
-of which will not have been present in its training set.
+\begin{center}
+    \fbox{\parbox{0.8\linewidth}{\textbf{Objective 2:} To investigate the extent to which \gls{dl} is
+            more or less effective in detecting unseen attacks than traditional \gls{ml}
+            techniques.}}
+\end{center}
 
-In addition, the study will investigate whether \gls{dl} is more effective in
-detecting unseen attacks than traditional \gls{ml} techniques.\ \gls{dl} is
-able to model complex patterns and relationships, requiring far less feature
-engineering and preprocessing from the developer. Therefore, we hypothesise
-these features may make it better equipped to model the complex and abstract
-underlying patterns in malicious behaviour. This study will aim to verify this
-hypothesis.
+\gls{dl} is able to model complex patterns and relationships,
+requiring far less feature engineering and preprocessing from the developer.
+Therefore, we hypothesise these features may make it better equipped to model
+the complex and abstract underlying patterns in malicious behaviour. This study
+will aim to verify this hypothesis.
