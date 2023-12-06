@@ -1,6 +1,7 @@
 # project
 data/CSE-CIC-IDS-2018/*
 !data/CSE-CIC-IDS-2018/attack_list.csv
+data/UNSW-NB15/*
 
 # python
 venv
