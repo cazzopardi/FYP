@@ -5,34 +5,30 @@ The ever-evolving landscape of cyber threats poses a pervasive danger to all
 facets of society, ranging from commercial enterprises to individuals and
 government entities. As technology relentlessly advances and more aspects of
 our lives become digitised, the risks posed by these threats continue to
-escalate. There are numerous defence options available to help mitigate these
-threats, prominent among them are \gls{ids}.
+escalate~\cite{ENISA}. There are numerous defence options available to help
+mitigate these threats, prominent among them are \gls{nids}.
 
-\gls{ids} are a crucial part of any information system's defence that aims to
-identify and mitigate threats in real time. There are two primary domains at
-which \gls{ids} can operate, namely \gls{nids}, which analyse
-network packets to identify attacks, and \gls{hids}, which analyse logs and
-other information sources from a single host. In addition, two major
+\gls{nids} are a crucial part of any information system's defence that aims to
+identify and mitigate network threats in real time. Two major
 classifications exist that characterise the function of intrusion detection
 systems.\ \gls{sids} detect attacks by matching sequences of code or commands
 with those of known attacks.\ \gls{aids} on the other hand, detect threats by
 recognising deviations from normal, non-malicious traffic~\cite{survey1}.
 
-Extensive research exists in the field of \gls{ids}, however, despite these
-advancements, zero-day attacks remain an especially challenging problem in the
-field of cybersecurity~\cite{zero-day}. Zero-day attacks are cyberattacks
-executed on the basis of an exploit that was not previously known. Due to their
-nature, \gls{sids} are ineffective in detecting zero-day attacks, as by
-definition, they cannot exist on any attack signature database~\cite{survey1}.
+Unknown attacks pose a challenge to these \gls{nids}. These could take the form
+of new deviations of known attacks, new attacks based on known vulnerabilities
+or zero-day attacks, which are cyberattacks executed on the basis of an unknown
+exploit. Due to their nature, \gls{sids} are ineffective in detecting unknown
+attacks, as by definition, they cannot exist on any attack signature
+database~\cite{survey1}.
 
-\gls{aids} exhibits promise through its ability to identify zero-day
-attacks~\cite{aids-zero-day}, particularly with the advent of \gls{ml}
+\gls{aids} exhibits promise through its ability to identify unknown
+attacks~\cite{aids-unseen}, particularly with the advent of \gls{ml}
 techniques, notably \gls{dl}. Extensive research exists in this field, however,
 many researchers present their work as a closed-set classification
 problem~\cite{zero-day}. A closed-set classification problem is one where the
 dataset includes all possible classes the model needs to predict. This may
 create a false sense of security as this does not account for the possibility
-of zero-day attacks, which have been increasing in prevalence~\cite{symantec2017}.
-Furthermore, these closed-set models are presented as \gls{aids}, creating the
-implication that they can detect zero-day attacks, with no empirical evidence
-to measure the models' efficacy in this regard.
+of unknown attacks. Furthermore, these closed-set models are presented as
+\gls{aids}, creating the implication that they can detect unknown attacks, with
+no empirical evidence to measure the models' efficacy in this regard.
