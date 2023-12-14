@@ -19,17 +19,6 @@ the highest accuracy on the sampled dataset, however the Adaboost algorithm had
 the highest precision and F1 score which may be more significant given the
 class imbalance present in the dataset.
 
-Zuech et al.\ in 2021~\cite{Zuech}, investigate the efficacy of different
-undersampling ratios in detecting web attacks. They consider eight different
-ratios, specifically: no sampling, 999:1, 99:1, 95:5, 9:1,3:1, 65:35 and 1:1.
-Seven different classifiers are employed in the study: Decision Tree, Random
-Forest, CatBoost, LightGBM, XGBoost, Naive Bayes and Logistic Regression. The
-study found that undersampling significantly improved the performance of these
-\gls{ml} models and that LightGBM was the top performer. The conclusion of the
-study was that the undersampling ratio, classifier, and interaction between the
-two were all statistically significant to the efficacy of web intrusion
-detection.
-
 Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
 propose a \gls{cnn} to extract spatial features, which are then processed
 through a \gls{bilstm} network to extract temporal features. To handle class
@@ -38,15 +27,6 @@ majority class, then increase the number of minority samples through
 \gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
 the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
 respectively.
-
-Khan (2021)~\cite{Khan} takes a similar approach proposing a hybrid
-convolutional recurrent neural network-based \gls{ids}. The hybrid model,
-similar to the work of Jiang et al.~\cite{Jiang}, extracts features using a
-\gls{cnn}, then feeds the extracted features to a \gls{rnn} classifier. Class
-imbalance is handled through oversampling, specifically by arbitrarily
-replicating minority samples. The proposed model is evaluated on the
-CSE-CIC-IDS2018 dataset, achieving an accuracy of up to 97.75\% when using
-10-fold-cross-validation.
 
 Mighan and Kahani (2021)~\cite{Mighan} propose a hybrid approach using a
 stacked auto-encoder network for latent feature extraction followed by a
@@ -63,14 +43,16 @@ unknown attacks, absent from the training set. They propose a new evaluation
 methodology to assess the efficacy of \gls{ml}-based industrial \gls{ids} in
 detecting these unknown attacks.
 
-The methodology involves iteratively training and testing the model. The
-procedure consists of 4 phases. In the first phase, one attack category is
-excluded from the training set each iteration. Hence, the generalisability to
-this unseen attack can be measured from the evaluation on the test set. In the
-second phase, only one attack category is included in the training set,
-allowing the relations between different attack categories to be investigated.
-Finally, in the third and fourth phase, the first two phases are repeated
-however using individual attacks in place of attack categories.
+The methodology involves training and testing the model on variants of the
+dataset. The procedure consists of 4 phases. In the first phase, one attack
+category is excluded from the training set each iteration. Hence, the
+generalisability to this unseen attack can be measured from the evaluation on
+the test set. In the second phase, only one attack category is included in the
+training set, allowing the relations between different attack categories to be
+investigated. Finally, in the third and fourth phase, the first two phases are
+repeated however using individual attacks in place of attack categories. This
+results in a number of dataset variants equal to 4 times the number of attack
+categories.
 
 This methodology is applied to three industrial intrusion detection models
 proposed in a work by Lopez Perez et al.~\cite{Perez} The results indicate an
@@ -88,6 +70,31 @@ the field are not currently addressing the existence of zero-day attacks and
 suggests that future works should not assume all existing attack
 classifications are present in the dataset.
 
+Pu et al.~\cite{} propose an unsupervised approach, combining \gls{ssc} and
+\gls{ocsvm}. They evaluate their proposal on the NSL-KDD dataset against three
+other unsupervised models, specifically, a combination of \gls{ssc} and
+\gls{ea}, \gls{dbscan} and K-means clustering. The results indicated the
+proposed model outperformed the other models.
+
+Cao et al.~\cite{} take an unsupervised deep learning approach, proposing new
+regularisers to classical and variational \gls{ae}s to map normal network
+samples towards the origin. One class classification models can then be used to
+detect malicious samples which will be mapped further from the origin. They
+evaluated this approach of 4 datasets, namely, CTU13\-09, CTU13\-13, NSL-KDD,
+and UNSW-NB15. The results indicate the approach is effective on high
+dimensional and sparse network data.
+
+In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
+machine learning algorithms on 11 different network intrusion datasets. The
+study includes supervised, unsupervised, deep learning and meta-learning
+algorithms. The methodology, like that of Kus et al.\ involves creating
+variants of each dataset excluding specific categories in order to simulate the
+occurrence of unknown attacks. They conclude that supervised classifiers yield
+a higher accuracy, however, this is significantly degraded in the face of
+unknown attacks. Unsupervised learners on the other hand are less accurate but
+experience a less dramatic decline in the face of unknown attacks. They also
+conclude meta-learners outperform their non-meta-learning counterparts.
+
 \section{Conclusion}%
 \label{sec:conclusion}
 From the above works, we observe that the research community has achieved
@@ -95,10 +102,8 @@ very impressive results in the field of intrusion detection. However, as Kus et
 al.\ have discovered, these laboratory results may not accurately reflect
 reality.
 
-\gls{aids} is said to be able to detect unknown attacks as it categorises
-traffic based on its behaviour as opposed to particular
-signatures~\cite{aids-unseen}. However, current state of the art
-\gls{ml}-based \gls{ids} are typically trained on labelled data, meaning the
-resultant models are classification models as opposed to true anomaly detection
-models. This may bring them closer to \gls{sids} than \gls{aids}, significantly
-reducing their efficacy in detecting unknown attacks.
+The supervised learning approaches explored above do not consider the
+possibility of unknown attacks and hence may be ineffective in practical
+applications. As indicated by Zoppi et al.~\cite{Zoppi}, unsupervised
+techniques may be more effective in detecting unknown attacks, however at the
+cost of reduced efficacy against known attacks.

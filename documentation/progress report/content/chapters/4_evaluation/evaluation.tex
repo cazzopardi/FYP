@@ -1,41 +1,48 @@
 \chapter{Proposed Evaluation}%
 \label{chp:evaluation}
 
-The work of Kus et al.\ shines an illuminating light onto the field, however is
-limited to the scope of industrial intrusion detection and the single work on
-which their methodology was evaluated. Hence, this study will apply the same
-methodology, however with a wider scope.
+The work of Kus et al.~\cite{Kus} and Zoppi et al.~\cite{Zoppi} shines an
+illuminating light onto the field. Hence, this study will follow similar
+principles.
+
+Models will be evaluated using the methodology of Kus et al.~\cite{Kus} as this
+is a superset of the methodology applied by Zoppi et al.~\cite{Zoppi}.
+Additionally, as noted by Ahmad et al.~\cite{zero-day}, categorising attacks
+into broad labels such as \gls{dos} can create inconsistencies and confusion in
+the literature due to their subjectivity. Hence, it is important to also
+consider individual attacks as Kus et al.~\cite{Kus} do.
+
+It should also be noted that categorisations used in this paper should be
+interpreted as a shorthand method of referring to the specific attack types
+included under the category in this study. Conclusions will not be intended to
+generalise to attack types not present in the dataset that may fall under the
+same subjective categorisation.
 
 \section{Models}%
 \label{sec:models}
 
 The methodology will be applied to several state-of-the-art models designed for
-more general purpose datasets. Namely, the study will replicate the models
-proposed in the works of Karatas et al.~\cite{Karatas} and Jiang et
-al.~\cite{Jiang} which were discussed in the background section. These works
+general purpose datasets belonging to three families. Namely, these families
+are supervised traditional \gls{ml} techniques, unsupervised traditional
+\gls{ml} techniques and unsupervised \gls{dl} techniques. It should be noted
+that supervised \gls{dl} techniques will not be considered as they have been
+found to be less effective by Zoppi et al.~\cite{Zoppi}.
+
+The study will replicate the models proposed in the works of Karatas et
+al.~\cite{Karatas}, Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao}. These works
 have been selected as they are the most highly cited amongst recent studies
-that provide clear methodologies and were evaluated on realistic datasets. In
-addition, both these studies address class imbalance, which is a significant
-problem when applying \gls{ml} to intrusion detection due to the prevalence of
-normal, non-malicious traffic in realistic scenarios when compared to the
-volume of malicious traffic~\cite{imbalance}.
+that provide clear methodologies from the families the study will compare.
+
+In addition, the work of Karatas et al.~\cite{Karatas} addresses class
+imbalance, which is a significant problem when applying supervised \gls{ml} to
+intrusion detection. This is due to the prevalence of normal, non-malicious
+traffic in realistic scenarios when compared to the volume of malicious
+traffic~\cite{imbalance}.
 
 \section{Datasets}%
 \label{sec:datasets}
-
-The UNSW-NB15 dataset was generated on the IXIA PerfectStorm tool. The Tcpdump
-tool was used to capture 100 GB of raw traffic. This traffic was processed into
-4 CSV files containing a collective 2,540,044 records with 49 features. The
-dataset contains diverse attack scenarios including nine attack categories.
-Namely, these are fuzzers, analysis (e.g., portscan), backdoors, \gls{dos},
-exploits, generic (e.g., brute force), reconnaissance, shellcode and worms. The
-simulation consisted of three virtual networks, two of which generated normal
-traffic and one which generated the malicious traffic. The attack behaviour is
-derived from the CVE site in order to ensure the attack scenarios are
-realistic~\cite{unsw15}.
-
 The CSE-CIC-IDS2018 dataset is a collaborative effort between the
-Communications Security Authority and the Canadian Institute of Cybersecurity,
+Communications Security Establishment and the Canadian Institute of Cybersecurity,
 and serves as a successor to the CICIDS2017 dataset which is a smaller, less
 diverse counterpart. The aim of the project was to produce an up to date,
 realistic dataset for the evaluation of \gls{nids}. The dataset was generated
@@ -50,43 +57,41 @@ botnet attacks, and infiltration attacks which involve using an exploit on a
 host inside the network to attack the network. The resulting dataset contains
 80 features and approximately 16,000,000 instances~\cite{cic2018, cic2018data}.
 
-Both these datasets provide a large volume of data containing diverse attack
-scenarios and a realistic network environment. It is for these reasons that
-they will be used to evaluate the models that will be replicated from the work
-of Karatas et al.\ and Jiang et al. Furthermore, the CSE-CIC-IDS2018 dataset
-is, to the best of my knowledge, the most up-to-date, general purpose network
-intrusion dataset publicly available today. The UNSW-NB15 dataset is also one
-of the more recent publicly available general purpose datasets. Note, each
-selected model includes one of these datasets in the original authors'
-evaluation. This allows for comparison of results to verify that the models
-were accurately replicated.
+The CSE-CIC-IDS2018 dataset is, to the best of my knowledge, the most
+up-to-date, general purpose network intrusion dataset publicly available today.
+It offers a large volume of data containing diverse attack scenarios and a
+realistic network environment. It is for these reasons that it will be used to
+evaluate and compare the models of this study.
 
+The NSL-KDD~\cite{nsl} dataset is an improvement over its predecessor, the
+KDD99 dataset. It was created as a benchmark for intrusion detection systems
+and offers a more balanced class distribution than its predecessor. The dataset
+is presently considered outdated, however both the unsupervised models this
+study will replicate have been evaluated on this dataset by the original
+authors. Hence, this dataset will be used to verify the models were replicated
+correctly.
+% TODO: citation on it being obsolete?
 \section{Methodology}%
 \label{sec:methodology}
 
 Once the models have been replicated, the procedure proposed by Kus et al.\
-will be carried out. In the ideal case, the methodology will be applied to both
-models on both datasets, necessitating four complete runs of the procedure and
-the evaluation metrics of each iteration would be calculated using 5-fold cross
-validation. However, due to the high computational demands of the methodology,
-there is a possibility that the proposed procedure will be unfeasible to carry
-out using the resources available at the University of Malta. Should this be
-the case, the UNSW-NB15 dataset can be omitted. The model proposed by Jiang et
-al.\ will be validated on the UNSW-NB15 to verify accurate reproduction and all
-following experiments will be carried out solely on the CSE-CIC-IDS2018
-dataset. If further reduction in computation time is required, a standard
-train-test split may be employed in place of k-fold cross validation and
-stratified sampling can be explored to reduce the size of the dataset without
-decreasing the quality of the results.
+will be carried out. In the ideal case, the evaluation metrics of each dataset
+variant would be calculated using 5-fold cross validation. However, due to the
+high computational demands of the methodology, there is a possibility that the
+proposed procedure will be unfeasible to carry out using the resources
+available. Should this be the case, a standard train-test split may be employed
+in place of 5-fold cross validation and stratified sampling can be explored to
+reduce the size of the dataset without decreasing the quality of the results.
 
 \section{Metrics}%
 \label{sec:metrics}
 
-The performance of each iteration of training will be evaluated using standard
-metrics used in classification tasks in the field of \gls{ml}. These include
-accuracy, precision, recall and F-measure values, as well as the
-receiver-operating characteristic curve and the area under this
-curve.~\cite{metrics}
+The trained models will be expected to act as classifiers recognising benign
+and malicious traffic. Hence, the performance of the models on each dataset
+variant will be evaluated using standard metrics for classification tasks in
+the field of \gls{ml}. These include accuracy, precision, recall and F-measure
+values, as well as the receiver-operating characteristic curve and the area
+under this curve.~\cite{metrics}
 
 The recall calculated can then be used to generate a heatmap for each phase of
 the methodology proposed by Kus et al. The resulting heatmaps will clearly
@@ -100,17 +105,9 @@ attacks.
 The aggregate of the results described above allow conclusions to be drawn
 regarding the overall performance of current state-of-the-art \gls{nids}. This
 addresses \hyperlink{obj}{Objective 1} defined in the aims and objectives
-section. Furthermore, Karatas et al.~\cite{Karatas} take a traditional \gls{ml}
-approach whereas Jiang et al.~\cite{Jiang} take a \gls{dl} approach. Hence, the
-comparison of the results across these two works allows for conclusions to be
-drawn addressing \hyperlink{obj}{Objective 2}.
+section.
 
-This study will investigate the relations between groups of attacks which will
-be referred to under a descriptive name that we will call a category. As Ahmad
-et al.~\cite{zero-day} noted, categorising attacks into broad labels such as
-\gls{dos} can create inconsistencies and confusion in the literature due to
-their subjectivity. Hence, it should be noted that this categorisation should
-be interpreted as a shorthand method of referring to the specific attack types
-included under the category in this study. Conclusions will not be intended to
-generalise to attack types not present in the dataset that may fall under the
-same subjective categorisation.
+Furthermore, Karatas et al.~\cite{Karatas} take a supervised learning approach
+whereas Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao} take an unsupervised
+learning approach. Hence, the comparison of the results across these works
+allows for conclusions to be drawn addressing \hyperlink{obj}{Objective 2}.
