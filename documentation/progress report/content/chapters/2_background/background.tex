@@ -70,14 +70,14 @@ the field are not currently addressing the existence of zero-day attacks and
 suggests that future works should not assume all existing attack
 classifications are present in the dataset.
 
-Pu et al.~\cite{} propose an unsupervised approach, combining \gls{ssc} and
+Pu et al.~\cite{Pu} propose an unsupervised approach, combining \gls{ssc} and
 \gls{ocsvm}. They evaluate their proposal on the NSL-KDD dataset against three
 other unsupervised models, specifically, a combination of \gls{ssc} and
-\gls{ea}, \gls{dbscan} and K-means clustering. The results indicated the
+Evidence Accumulation, \gls{dbscan} and K-means clustering. The results indicated the
 proposed model outperformed the other models.
 
-Cao et al.~\cite{} take an unsupervised deep learning approach, proposing new
-regularisers to classical and variational \gls{ae}s to map normal network
+Cao et al.~\cite{Cao} take an unsupervised deep learning approach, proposing new
+regularisers to classical and variational autoencoders to map normal network
 samples towards the origin. One class classification models can then be used to
 detect malicious samples which will be mapped further from the origin. They
 evaluated this approach of 4 datasets, namely, CTU13\-09, CTU13\-13, NSL-KDD,
@@ -87,7 +87,7 @@ dimensional and sparse network data.
 In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
 machine learning algorithms on 11 different network intrusion datasets. The
 study includes supervised, unsupervised, deep learning and meta-learning
-algorithms. The methodology, like that of Kus et al.\ involves creating
+algorithms. The methodology, like that of Kus et al., involves creating
 variants of each dataset excluding specific categories in order to simulate the
 occurrence of unknown attacks. They conclude that supervised classifiers yield
 a higher accuracy, however, this is significantly degraded in the face of

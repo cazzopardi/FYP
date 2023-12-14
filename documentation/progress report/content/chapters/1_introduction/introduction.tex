@@ -15,20 +15,26 @@ systems.\ \gls{sids} detect attacks by matching sequences of code or commands
 with those of known attacks.\ \gls{aids} on the other hand, detect threats by
 recognising deviations from normal, non-malicious traffic~\cite{survey1}.
 
-Unknown attacks pose a challenge to these \gls{nids}. These could take the form
-of new deviations of known attacks, new attacks based on known vulnerabilities
-or zero-day attacks, which are cyberattacks executed on the basis of an unknown
-exploit. Due to their nature, \gls{sids} are ineffective in detecting unknown
-attacks, as by definition, they cannot exist on any attack signature
-database~\cite{survey1}.
+Designing \gls{nids} suitable for the ever-evolving cyberthreat landscape is no
+trivial task.\ \gls{nids} deployed practically are likely to face attacks not
+known to the developer. These will be referred to as unknown or unseen attacks.
+These could take the form of new deviations of known attacks, new attacks based
+on known vulnerabilities or zero-day attacks, which are cyberattacks executed
+on the basis of an unknown exploit. Due to their nature, \gls{sids} are
+ineffective in detecting unknown attacks, as by definition, they cannot exist
+on any attack signature database~\cite{survey1}.  % TODO p : find citation for unknown attacks
 
 \gls{aids} exhibits promise through its ability to identify unknown
 attacks~\cite{aids-unseen}, particularly with the advent of \gls{ml}
-techniques, notably \gls{dl}. Extensive research exists in this field, however,
-many researchers present their work as a closed-set classification
+techniques. The majority of works in the field investigate
+the use of supervised learning, which has achieved impressive accuracy.
+However, many researchers present their work as a closed-set classification
 problem~\cite{zero-day}. A closed-set classification problem is one where the
-dataset includes all possible classes the model needs to predict. This may
-create a false sense of security as this does not account for the possibility
-of unknown attacks. Furthermore, these closed-set models are presented as
-\gls{aids}, creating the implication that they can detect unknown attacks, with
-no empirical evidence to measure the models' efficacy in this regard.
+dataset includes all possible classes the model needs to predict~\cite{closed-set}. This does not
+account for the existence of unknown attacks which may present misleading
+results as the cyberthreat landscape is ever-evolving.
+
+Numerous approaches have been proposed to detect unknown attacks, however these
+will typically come at the cost of a reduced accuracy when considering known
+attacks. Hence, the detection of unknown attacks remains an open problem in
+intrusion detection.

@@ -66,22 +66,25 @@ evaluate and compare the models of this study.
 The NSL-KDD~\cite{nsl} dataset is an improvement over its predecessor, the
 KDD99 dataset. It was created as a benchmark for intrusion detection systems
 and offers a more balanced class distribution than its predecessor. The dataset
-is presently considered outdated, however both the unsupervised models this
+has been used extensively in the field of intrusion detection, however, the
+underlying network data dates back to 1998. Both the unsupervised models this
 study will replicate have been evaluated on this dataset by the original
 authors. Hence, this dataset will be used to verify the models were replicated
-correctly.
-% TODO: citation on it being obsolete?
+correctly, but will not be used to make comparisons as due to its age, the
+results may not generalise well to modern cyber threat landscapes.
+
 \section{Methodology}%
 \label{sec:methodology}
 
-Once the models have been replicated, the procedure proposed by Kus et al.\
-will be carried out. In the ideal case, the evaluation metrics of each dataset
-variant would be calculated using 5-fold cross validation. However, due to the
-high computational demands of the methodology, there is a possibility that the
-proposed procedure will be unfeasible to carry out using the resources
-available. Should this be the case, a standard train-test split may be employed
-in place of 5-fold cross validation and stratified sampling can be explored to
-reduce the size of the dataset without decreasing the quality of the results.
+Once the models have been replicated, the procedure proposed by Kus et
+al.~\cite{Kus} will be carried out. In the ideal case, the evaluation metrics
+of each dataset variant would be calculated using 5-fold cross validation.
+However, due to the high computational demands of the methodology, there is a
+possibility that the proposed procedure will be unfeasible to carry out using
+the resources available. Should this be the case, a standard train-test split
+may be employed in place of 5-fold cross validation and stratified sampling can
+be explored to reduce the size of the dataset without decreasing the quality of
+the results.
 
 \section{Metrics}%
 \label{sec:metrics}
