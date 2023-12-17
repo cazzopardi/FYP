@@ -1,0 +1,3 @@
+[submodule "external_repos/ML-NIDS-for-SCADA"]
+	path = external_repos/ML-NIDS-for-SCADA
+	url = https://github.com/Rocionightwater/ML-NIDS-for-SCADA.git
