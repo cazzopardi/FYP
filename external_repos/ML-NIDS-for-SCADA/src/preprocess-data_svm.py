@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
-from keras.utils import np_utils
+from keras import utils as np_utils
 from sklearn.model_selection import StratifiedShuffleSplit
 
 class MaskedStandardScaler:
@@ -453,7 +453,7 @@ if __name__ == '__main__':
 
   print('Encoding labels...')
   label_name = label_types[flags.label]
-  labels = dataset[label_name].astype(np.float)
+  labels = dataset[label_name].astype(float)
   labels = labels.reshape((-1, 1))
    
 
@@ -462,11 +462,11 @@ if __name__ == '__main__':
   addresses = preprocessing.label_binarize(dataset['address'], classes=[4])
 
   print('Encoding functions...')
-  functions = dataset['function'].astype(np.float).reshape((-1, 1))
+  functions = dataset['function'].astype(float).reshape((-1, 1))
 
   print('Encoding command responses...')
   #pre-process address before splitting, parse string and reshape into column vec
-  responses = dataset['command response'].astype(np.float).reshape((-1, 1))
+  responses = dataset['command response'].astype(float).reshape((-1, 1))
 
   print('Extracting payload features...')
   payload_feature_names = meta.names()[3:14]
@@ -487,12 +487,12 @@ if __name__ == '__main__':
 
   if not flags.discard_length:
     print('\tAdding length...')
-    lengths = dataset['length'].astype(np.float).reshape((-1, 1))
+    lengths = dataset['length'].astype(float).reshape((-1, 1))
     Xs = np.column_stack((Xs, lengths))
 
   if not flags.discard_crc:
     print('\tAdding crc rate...')
-    crcs = dataset['crc rate'].astype(np.float).reshape((-1, 1))
+    crcs = dataset['crc rate'].astype(float).reshape((-1, 1))
     Xs = np.column_stack((Xs, crcs))
 
   if flags.time_series:

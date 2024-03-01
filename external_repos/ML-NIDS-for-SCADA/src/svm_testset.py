@@ -55,6 +55,8 @@ if __name__ == '__main__':
     print(Xs_train_val.shape,Ys_train_val.shape)
     print(Xs_train_test.shape,Ys_train_test.shape)
 
+    C=131.921
+    gamma = 0.0468
     print('Selected C: {:.3f}'.format(C))
     print('Selected gamma: {:.4f}'.format(gamma))
 
