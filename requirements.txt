@@ -1,0 +1,14 @@
+
+dask[distributed]
+dask[dataframe]
+mkl
+
+# Kus et al. replication
+liac-arff
+
+# Rocio Lopez Repo Requirements
+scipy>=1.6.1
+tensorflow>=2.4.1
+numpy>=1.19.2
+keras>=2.3.0
+scikit_learn>=0.22.0
