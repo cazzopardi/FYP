@@ -49,27 +49,27 @@ if __name__ == '__main__':
 
     raw_dataset = load_dataset(f'{REPOSITORY_ROOT}/data/IanArffDataset.arff')
     dataset = FilteredDataset(raw_dataset, category_col_name='categorized result', attack_col_name='specific result')
-    variants, labels = dataset.get_all_variants()
+    variants = dataset.get_all_variants()
 
     if not os.path.exists('output'):
         os.mkdir('output')
     wd_root = 'output/kus_et_al_replication'
-    label = 0
-    for exp_class in variants:
-        for experiment in exp_class:
-            cwd = wd_root+str(label)
-            label += 1
+    for exp_class, exp_class_label in variants:
+        for experiment, label in exp_class:
+            if not (exp_class_label[0].value == 'attack' and exp_class_label[1].value == 'inc'):
+                break
+            cwd = '-'.join((wd_root, exp_class_label[0].value, exp_class_label[1].value, label))
             
             if not os.path.exists(cwd):
                 os.mkdir(cwd)
             dataset_path = cwd+'/experiment_dataset.arff'
             write_dataset(experiment, dataset_path)
 
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'svm', f'--label binary -n minmax --payload-kmeans-imputed 3 3 -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
+            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'svm', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
             subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/svm_testset.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)
             
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'rf', f'--label binary -n minmax --payload-kmeans-imputed 3 3 -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
+            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'rf', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
             subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/random_forest_testset.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)
 
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'blstm', f'--label binary -n minmax --payload-kmeans-imputed 3 3 -o {cwd}/{TS_DIR}/binary-std-minmax-kmeans')
+            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'blstm', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{TS_DIR}/binary-std-minmax-kmeans')
             subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/bidirectional-lstm.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)

@@ -592,19 +592,19 @@ if __name__ == '__main__':
     functions_val = 1
     functions_test = 2
 
-    while(functions_test!= 28):
-      Xs_data, Ys_labels = split_dataset(Xs, labels, 0.8, 0.2)
-      Xs_train_val, Xs_test = Xs_data
-      Ys_train_val, Ys_test = Ys_labels
-      functions_train = len(np.unique(Xs_train_val[:, 1]))
-      functions_test = len(np.unique(Xs_test[:, 1]))
+    # while(functions_test!= 28):
+    Xs_data, Ys_labels = split_dataset(Xs, labels, 0.8, 0.2)
+    Xs_train_val, Xs_test = Xs_data
+    Ys_train_val, Ys_test = Ys_labels
+    functions_train = len(np.unique(Xs_train_val[:, 1]))
+    functions_test = len(np.unique(Xs_test[:, 1]))
                                             
-    while(functions_val!= 28):
-      Xs_data, Ys_labels = split_dataset(Xs_train_val, Ys_train_val, 0.75, 0.25)
-      Xs_train, Xs_val = Xs_data
-      Ys_train, Ys_val = Ys_labels
-      functions_train = len(np.unique(Xs_train[:, 1]))
-      functions_val = len(np.unique(Xs_val[:, 1]))
+    # while(functions_val!= 28):
+    Xs_data, Ys_labels = split_dataset(Xs_train_val, Ys_train_val, 0.75, 0.25)
+    Xs_train, Xs_val = Xs_data
+    Ys_train, Ys_val = Ys_labels
+    functions_train = len(np.unique(Xs_train[:, 1]))
+    functions_val = len(np.unique(Xs_val[:, 1]))
                       
     print(functions_train,functions_val, functions_test)
                           

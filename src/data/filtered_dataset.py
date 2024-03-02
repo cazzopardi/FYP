@@ -24,8 +24,8 @@ class FilteredDataset:
     def get_variant(self, level: Level, mode: Mode, label:str) -> DataFrame:
         return self._dataset[self.op[mode](self._dataset[self.col_labels[level]], label)]
 
-    def get_variants(self, level: Level, mode: Mode) -> DataFrame:
-        return [self.get_variant(level, mode, label) for label in self._dataset[self.col_labels[level]].unique()]
+    def get_variants(self, level: Level, mode: Mode) -> list[tuple[DataFrame, str]]:
+        return [(self.get_variant(level, mode, label), label) for label in self._dataset[self.col_labels[level]].unique()]
 
-    def get_all_variants(self) -> DataFrame:
-        return zip(*[(self.get_variants(l, m), (l,m)) for m in Mode for l in Level])
+    def get_all_variants(self) -> list[tuple[list[tuple[DataFrame, str]], tuple[Level, Mode]]]:
+        return [(self.get_variants(l, m), (l,m)) for l in Level for m in Mode]
