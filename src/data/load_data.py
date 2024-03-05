@@ -2,7 +2,7 @@ import dask.dataframe as dd
 
 from data.utils import dtype, open_cluster, close_cluster
 
-def load_dataset_dask(path):
+def load_dataset_dask(path) -> dd.DataFrame:
     # setup dask cluster
     open_cluster()
 

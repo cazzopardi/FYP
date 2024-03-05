@@ -86,8 +86,8 @@ def main():
     print('Input dimension test data is: {}'.format(input_test))
     
     #ne and md equal to the best coming from hyperparameter search
-    ne =  np.random.randint(10,100)
-    md   = np.random.randint(10,100)
+    ne =  64
+    md   = 88
 
     cr = np.random.choice(['gini'])
     cw = 'balanced'

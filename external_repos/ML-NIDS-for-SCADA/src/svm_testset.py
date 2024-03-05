@@ -41,8 +41,8 @@ if __name__ == '__main__':
 
   print('Label dimension is: {}'.format(label_dim))
   
-  if not label_dim in [1, 2, 8, 36]:
-    raise Exception('Unknown label dimension! Was {}'.format(label_dim))
+  # if not label_dim in [1, 2, 8, 36]:
+  #   raise Exception('Unknown label dimension! Was {}'.format(label_dim))
 
   input_dim = Xs_train_val.shape[0]
   print('Input dimension is: {}'.format(input_dim))
@@ -55,8 +55,8 @@ if __name__ == '__main__':
     print(Xs_train_val.shape,Ys_train_val.shape)
     print(Xs_train_test.shape,Ys_train_test.shape)
 
-    C=131.921
-    gamma = 0.0468
+    C=536.672
+    gamma = 0.7150
     print('Selected C: {:.3f}'.format(C))
     print('Selected gamma: {:.4f}'.format(gamma))
 

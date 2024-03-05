@@ -1,40 +1,92 @@
 import subprocess
 import argparse
 import os
-from io import StringIO
+import platform
+from typing import Callable
+is_unix =  platform.system() in ['Linux', 'Darwin']
+if not is_unix:
+    import shutil
 
-from scipy.io.arff import loadarff
-import arff
+import numpy as np
 import pandas as pd
 
-from data.filtered_dataset import FilteredDataset
+from data.filtered_dataset import FilteredDataset, Level, Mode
 
-def load_dataset(path):
-    record_array, meta = loadarff(path)
-    dataset = pd.DataFrame(record_array, columns=meta.names())
+def infer_category(attack_id: int) -> int:
+    if attack_id < 0 or attack_id > 35:
+        raise ValueError('Invalid attack ID')
+    elif attack_id == 0:
+        return 0
+    elif attack_id <= 12:
+        return 4
+    elif attack_id <= 17:
+        return 3
+    elif attack_id == 18:
+        return 6
+    elif attack_id in [20,23,24]:
+        return 7
+    elif attack_id in [19,21,22]:
+        return 5
+    elif 29 <= attack_id <= 32:
+        return 1
+    else:
+        return 2
+infer_categories: Callable[[np.ndarray], np.ndarray] = np.vectorize(infer_category)
+
+if is_unix:
+    copy = os.link
+else:
+    copy = shutil.copy
+
+def cp(src: str, dest: str, level: Level) -> None:
+    os.makedirs(dest, exist_ok=True)
+    for file in os.listdir(src):
+        if 'test' in file and not os.path.exists(os.path.join(dest, file)):
+            if level == Level.CATEGORY and 'Y' in file:
+                ys: np.ndarray = np.load(os.path.join(src, file))
+                ys = infer_categories(ys.ravel())
+                np.save(os.path.join(dest, file), ys.reshape(-1, 1))
+            else:
+                copy(os.path.join(src, file), os.path.join(dest, file))
+
+def filter_dataset(dataset_dir: str) -> tuple[FilteredDataset, FilteredDataset, FilteredDataset]:
+    # data loading script taken from ML-NIDS-for-SCADA repository
+    dataset_filenames = [
+        'Xs_train.npy', 'Xs_val.npy', 'Xs_test.npy', 'Xs_train_val.npy', 'Xs_train_test.npy',
+        'Ys_train.npy', 'Ys_val.npy', 'Ys_test.npy', 'Ys_train_val.npy', 'Ys_train_test.npy'
+    ]
+
+    dataset_filenames = map(lambda x: os.path.join(dataset_dir, x), dataset_filenames)
+    X_train, X_val, _, X_train_val, _, Y_train, Y_val, _, Y_train_val, _ = map(np.load, dataset_filenames)
+
+    # generate variants
+    cat: str = Level.CATEGORY.value
+    att: str = Level.ATTACK.value
+
+    df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train.ravel()), name=cat), pd.Series(Y_train.ravel(), name=att)], axis=1)
+    train: FilteredDataset = FilteredDataset(df_train, cat, att)
     
-    for col, dtype in zip(dataset.columns, meta.types()):
-        type_map = {'numeric': float, 'nominal':str}
-        dataset[col] = dataset[col].astype(type_map[dtype])
+    df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val.ravel()), name=cat), pd.Series(Y_val.ravel(), name=att)], axis=1)
+    val: FilteredDataset = FilteredDataset(df_val, cat, att)
+    
+    df_train_val = pd.concat([pd.DataFrame(X_train_val), pd.Series(infer_categories(Y_train_val.ravel()), name=cat), pd.Series(Y_train_val.ravel(), name=att)], axis=1)
+    train_val = FilteredDataset(df_train_val, cat, att)
 
-    return dataset
+    return train, val, train_val
 
-def write_dataset(data, output_file):
-    # retreived from https://stackoverflow.com/questions/48993918/exporting-dataframe-to-arff-file-python, written by Simon Provost
-    attributes = [(j, 'REAL') if data[j].dtypes == 'float64' else (j, data[j].unique().astype(str).tolist()) for j in data]
-    arff_dic = {
-        'attributes': attributes,
-        'data': data.values,
-        'relation': 'gas',
-        'description': ''
-    }
-    with open(output_file, "w", encoding="utf8") as f, StringIO() as tmp:
-        arff.dump(arff_dic, tmp)
-        f.write(tmp.getvalue().replace('"', "'"))  # switch the quote type because SciPy doesn't like double quotes for some reason
+def write_dataset(dataset_dir, df_train, df_val, df_train_val, level: Level):
+    # data saving script taken from ML-NIDS-for-SCADA repository
+    np.save(os.path.join(dataset_dir, 'Xs_train'), df_train.iloc[:, :-2].values)
+    np.save(os.path.join(dataset_dir, 'Xs_val'),   df_val.iloc[:, :-2].values)
 
+    np.save(os.path.join(dataset_dir, 'Ys_train'), df_train[level.value].values.reshape(-1, 1))
+    np.save(os.path.join(dataset_dir, 'Ys_val'), df_val[level.value].values.reshape(-1, 1))
+
+    np.save(os.path.join(dataset_dir, 'Xs_train_val'), df_train_val.iloc[:, :-2].values)
+    np.save(os.path.join(dataset_dir, 'Ys_train_val'), df_train_val[level.value].values.reshape(-1, 1))
 
 REPOSITORY_ROOT = './external_repos/ML-NIDS-for-SCADA'
-PRE_PROCESS_CMD = lambda path, type, args: f'python {REPOSITORY_ROOT}/src/preprocess-data_{type}.py -d {path} --split 0.6 0.2 0.2 --encode-function '+args
+PRE_PROCESS_CMD = lambda path, type, args: f'python {REPOSITORY_ROOT}/src/preprocess-data_{type}.py -d {path} --time-series --split 0.6 0.2 0.2 --encode-function --label dcategory -n minmax '+args
 
 STD_DIR = 'normal-datasets'
 TS_DIR = 'time-series-datasets'        
@@ -47,29 +99,47 @@ if __name__ == '__main__':
     if args.ml_nids_root:
         REPOSITORY_ROOT = args.r
 
-    raw_dataset = load_dataset(f'{REPOSITORY_ROOT}/data/IanArffDataset.arff')
-    dataset = FilteredDataset(raw_dataset, category_col_name='categorized result', attack_col_name='specific result')
-    variants = dataset.get_all_variants()
+    # output directory setup
+    output_dir = 'output'
 
-    if not os.path.exists('output'):
-        os.mkdir('output')
-    wd_root = 'output/kus_et_al_replication'
-    for exp_class, exp_class_label in variants:
-        for experiment, label in exp_class:
-            if not (exp_class_label[0].value == 'attack' and exp_class_label[1].value == 'inc'):
-                break
-            cwd = '-'.join((wd_root, exp_class_label[0].value, exp_class_label[1].value, label))
-            
-            if not os.path.exists(cwd):
-                os.mkdir(cwd)
-            dataset_path = cwd+'/experiment_dataset.arff'
-            write_dataset(experiment, dataset_path)
+    # Run model command
+    model_cmd = {'svm':'svm_testset', 'rf': 'random_forest_testset', 'blstm':'bidirectional-lstm'}
+    payload = {'svm':'--payload-indicator-imputed', 'rf': '--payload-indicator-imputed', 'blstm':'--payload-keep-value-imputed'}
 
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'svm', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
-            subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/svm_testset.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)
-            
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'rf', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{STD_DIR}/binary-std-minmax-kmeans')
-            subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/random_forest_testset.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)
+    for model in ('rf', 'svm', 'blstm'):
+        # setup data folder
+        model_dir = os.path.join(output_dir, model)
+        data_path = os.path.join(model_dir, 'data')
+        os.makedirs(data_path, exist_ok=True)
+        
+        # preprocess dataset for model
+        # TODO: deal with payload
+        setup_cmd: str = PRE_PROCESS_CMD(f'{REPOSITORY_ROOT}/data/IanArffDataset.arff', model, f'{payload[model]} -o {data_path}')
+        subprocess.run(setup_cmd.split())
 
-            setup_cmd = PRE_PROCESS_CMD(dataset_path, 'blstm', f'--label binary -n minmax --payload-indicator-imputed -o {cwd}/{TS_DIR}/binary-std-minmax-kmeans')
-            subprocess.run(f'{setup_cmd};python {REPOSITORY_ROOT}/src/bidirectional-lstm.py -d {cwd}/{STD_DIR}/binary-std-minmax-kmeans -i 1', shell=True)
+        train, val, train_val= filter_dataset(data_path)
+        
+        # run model on all variants
+        for exp_class_train, (level, mode) in train.get_all_variants():
+            for experiment, label in exp_class_train:
+                # working directory setup
+                cwd = '-'.join((level.value, mode.value, str(label)))
+                cwd = os.path.join(model_dir, cwd)
+                os.makedirs(cwd, exist_ok=True)
+                
+                # write experiment-specfic dataset
+                cp(data_path, cwd, level)  # create symlink copy of the original
+                exp_val = val.get_variant(level, mode, label)
+                exp_train_val = train_val.get_variant(level, mode, label)
+                write_dataset(cwd, experiment, exp_val, exp_train_val, level)  # overwrite training data with data from variant
+                
+                subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
+                # data loading script taken from ML-NIDS-for-SCADA repository
+                dataset_filenames = [
+                    'Xs_train.npy', 'Xs_val.npy', 'Xs_test.npy', 'Xs_train_val.npy', 'Xs_train_test.npy',
+                    'Ys_train.npy', 'Ys_val.npy', 'Ys_test.npy', 'Ys_train_val.npy', 'Ys_train_test.npy'
+                ]
+
+                dataset_filenames = map(lambda x: os.path.join(cwd, x), dataset_filenames)
+                X_train, X_val, X_test, X_train_val, _, Y_train, Y_val, Y_test, Y_train_val, _ = map(np.load, dataset_filenames)
+                print('HALT, who goes there')
