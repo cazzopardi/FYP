@@ -81,6 +81,11 @@ if __name__ == '__main__':
       acc_train = accuracy_score(Ys_train_val,predictions_train)
 
       predictions_test = svr.predict(Xs_train_test)  
+
+      # convert predictions into binary predictions whilst preserving the category labels in the output
+      true_mask = np.logical_and(predictions_test != 0, Ys_train_test.ravel() != 0)
+      predictions_test[true_mask == 1] = Ys_train_test.ravel()[true_mask == 1]
+      
       acc_test         = accuracy_score(Ys_train_test,predictions_test)
       print("Accuracy test data = "+str(acc_test))
       f.write("Accuracy test data = "+str(acc_test)+"\n")

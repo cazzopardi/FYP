@@ -125,11 +125,16 @@ def main():
       f.write("Accuray training data = "+str(acc_train)+"\n")
 
       predictions_test = clf.predict(Xs_train_test)  
+      
+      # convert predictions into binary predictions whilst preserving the category labels in the output
+      true_mask = np.logical_and(predictions_test != 0, Ys_train_test.ravel() != 0)
+      predictions_test[true_mask == 1] = Ys_train_test.ravel()[true_mask == 1]
+      
       acc_test = accuracy_score(Ys_train_test,predictions_test)
       print("Accuray test data = "+str(acc_test))
       f.write("Accuray test data = "+str(acc_test)+"\n")
       classiReport_test = classification_report(Ys_train_test, predictions_test,digits=4)
-      conf_matrix  = confusion_matrix(Ys_train_test, predictions_test)
+      conf_matrix = confusion_matrix(Ys_train_test, predictions_test)
       print(classiReport_test)
       print(conf_matrix)
       f.write(classiReport_test+"\n")

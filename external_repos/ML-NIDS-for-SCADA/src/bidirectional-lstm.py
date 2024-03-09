@@ -34,6 +34,10 @@ class ReportMetric(tensorflow.keras.callbacks.Callback):
       Y_pred = (model.predict(self.valid_data[0], batch_size=self.bs, verbose=1) > 0.5).astype("int32").reshape(-1)
       Y_true = self.valid_data[1].reshape(-1)
 
+    # convert predictions into binary predictions whilst preserving the category labels in the output
+    true_mask = np.logical_and(Y_pred != 0, Y_true.ravel() != 0)
+    Y_pred[true_mask == 1] = Y_true.ravel()[true_mask == 1]
+    
     report = classification_report(Y_true, Y_pred,digits=4)
     conf_matrix  = confusion_matrix(Y_true, Y_pred)
     self.file.write('\n' + report + '\n')

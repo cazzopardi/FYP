@@ -41,12 +41,15 @@ else:
 def cp(src: str, dest: str, level: Level) -> None:
     os.makedirs(dest, exist_ok=True)
     for file in os.listdir(src):
-        if 'test' in file and not os.path.exists(os.path.join(dest, file)):
+        if 'test' in file and 'npy' in file:
             if level == Level.CATEGORY and 'Y' in file:
                 ys: np.ndarray = np.load(os.path.join(src, file))
-                ys = infer_categories(ys.ravel())
-                np.save(os.path.join(dest, file), ys.reshape(-1, 1))
+                ys1 = infer_categories(ys.ravel())
+                np.save(os.path.join(dest, file), ys1.reshape(-1, 1))
             else:
+                path: str = os.path.join(dest, file)
+                if os.path.exists(path):
+                    os.remove(path)
                 copy(os.path.join(src, file), os.path.join(dest, file))
 
 def filter_dataset(dataset_dir: str) -> tuple[FilteredDataset, FilteredDataset, FilteredDataset]:
@@ -63,13 +66,13 @@ def filter_dataset(dataset_dir: str) -> tuple[FilteredDataset, FilteredDataset, 
     cat: str = Level.CATEGORY.value
     att: str = Level.ATTACK.value
 
-    df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train.ravel()), name=cat), pd.Series(Y_train.ravel(), name=att)], axis=1)
+    df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train.ravel()), name=cat), pd.Series(Y_train.ravel(), name=att, dtype=int)], axis=1)
     train: FilteredDataset = FilteredDataset(df_train, cat, att)
     
-    df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val.ravel()), name=cat), pd.Series(Y_val.ravel(), name=att)], axis=1)
+    df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val.ravel()), name=cat), pd.Series(Y_val.ravel(), name=att, dtype=int)], axis=1)
     val: FilteredDataset = FilteredDataset(df_val, cat, att)
     
-    df_train_val = pd.concat([pd.DataFrame(X_train_val), pd.Series(infer_categories(Y_train_val.ravel()), name=cat), pd.Series(Y_train_val.ravel(), name=att)], axis=1)
+    df_train_val = pd.concat([pd.DataFrame(X_train_val), pd.Series(infer_categories(Y_train_val.ravel()), name=cat), pd.Series(Y_train_val.ravel(), name=att, dtype=int)], axis=1)
     train_val = FilteredDataset(df_train_val, cat, att)
 
     return train, val, train_val
@@ -119,11 +122,15 @@ if __name__ == '__main__':
 
         train, val, train_val= filter_dataset(data_path)
         
+        # run model on whole dataset as baseline
+        subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {data_path} -i 1'.split())
+
         # run model on all variants
         for exp_class_train, (level, mode) in train.get_all_variants():
             for experiment, label in exp_class_train:
+                if label == '0': continue
                 # working directory setup
-                cwd = '-'.join((level.value, mode.value, str(label)))
+                cwd = '-'.join((level.value, mode.value, label))
                 cwd = os.path.join(model_dir, cwd)
                 os.makedirs(cwd, exist_ok=True)
                 
@@ -134,12 +141,4 @@ if __name__ == '__main__':
                 write_dataset(cwd, experiment, exp_val, exp_train_val, level)  # overwrite training data with data from variant
                 
                 subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
-                # data loading script taken from ML-NIDS-for-SCADA repository
-                dataset_filenames = [
-                    'Xs_train.npy', 'Xs_val.npy', 'Xs_test.npy', 'Xs_train_val.npy', 'Xs_train_test.npy',
-                    'Ys_train.npy', 'Ys_val.npy', 'Ys_test.npy', 'Ys_train_val.npy', 'Ys_train_test.npy'
-                ]
-
-                dataset_filenames = map(lambda x: os.path.join(cwd, x), dataset_filenames)
-                X_train, X_val, X_test, X_train_val, _, Y_train, Y_val, Y_test, Y_train_val, _ = map(np.load, dataset_filenames)
-                print('HALT, who goes there')
+    
