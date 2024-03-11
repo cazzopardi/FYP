@@ -35,8 +35,8 @@ class ReportMetric(tensorflow.keras.callbacks.Callback):
       Y_true = self.valid_data[1].reshape(-1)
 
     # convert predictions into binary predictions whilst preserving the category labels in the output
-    true_mask = np.logical_and(Y_pred != 0, Y_true.ravel() != 0)
-    Y_pred[true_mask == 1] = Y_true.ravel()[true_mask == 1]
+    true_mask = np.logical_and(Y_pred != 0, Y_true != 0)
+    Y_pred[true_mask] = Y_true[true_mask]
     
     report = classification_report(Y_true, Y_pred,digits=4)
     conf_matrix  = confusion_matrix(Y_true, Y_pred)
@@ -83,10 +83,10 @@ if __name__ == '__main__':
   X_train, X_valid, X_test, Xs_train_val, Xs_train_test, Y_train, Y_valid, Y_test, Ys_train_val, Ys_train_test  = map(np.load, dataset_filenames)
   
   # If you are evaluating the test set, uncomment the following lines
-  # X_train = Xs_train_val
-  # Y_train = Ys_train_val
-  # X_test = Xs_train_test
-  # Y_test = Ys_train_test
+  X_train = Xs_train_val
+  Y_train = Ys_train_val
+  X_test = Xs_train_test
+  Y_test = Ys_train_test
 
   print(X_train.shape, Y_train.shape)
   print(X_valid.shape, Y_valid.shape)
@@ -127,7 +127,8 @@ if __name__ == '__main__':
 
   for iterations in range(iters):
     #p() is calling all functions in the list
-    hyperparams = [p() for p in ranges]
+    # hyperparams = [p() for p in ranges]
+    hyperparams = 0.008308, 67, 300, 4, 0.019025, 110, 4
     (lr, bs, ne, sl, dr, hls, step) = hyperparams
     hparams = ','.join(map(str, hyperparams))
 
@@ -162,22 +163,22 @@ if __name__ == '__main__':
 
       smcb = tensorflow.keras.callbacks.ModelCheckpoint(chpt_filepath)
       tbcb = tensorflow.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=0, write_graph=True)
-      valid_data = (X_valid_seq, Y_valid_seq)
+      # valid_data = (X_valid_seq, Y_valid_seq)
+      valid_data = (X_test_seq, Y_test_seq)
       rmcb = ReportMetric(valid_data, label_dim, bs, f) 
 
       reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2,
                               patience=3, min_lr=0.001)
 
-      h = model.fit(X_train_seq, Y_train_seq, \
-        validation_data=(X_valid_seq, Y_valid_seq), batch_size=bs, epochs=ne, \
-        callbacks=[tbcb, smcb, rmcb, reduce_lr]
-      )
-
-      # If you are evaluating the test set, uncomment the following lines and comment the previous one
-
       # h = model.fit(X_train_seq, Y_train_seq, \
-      #   validation_data=(X_test_seq, Y_test_seq), batch_size=bs, epochs=ne, \
+      #   validation_data=(X_valid_seq, Y_valid_seq), batch_size=bs, epochs=ne, \
       #   callbacks=[tbcb, smcb, rmcb, reduce_lr]
       # )
+
+      # If you are evaluating the test set, uncomment the following lines and comment the previous one
+      h = model.fit(X_train_seq, Y_train_seq, \
+        validation_data=(X_test_seq, Y_test_seq), batch_size=bs, epochs=ne, \
+        callbacks=[tbcb, smcb, rmcb, reduce_lr]
+      )
       for k,v in h.history.items():
         f.write(k + ':' + ','.join(map(str, v)) + '\n')
