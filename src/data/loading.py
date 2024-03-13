@@ -1,5 +1,6 @@
 import os
 
+import pandas as pd
 import dask.dataframe as dd
 from distributed import Client, LocalCluster
 
@@ -20,7 +21,7 @@ class CIC_IDS_2018:
         CIC_IDS_2018.count += 1
 
         self.data: dd.DataFrame = dd.read_csv(dataset_path, dtype=dtype)
-        self.data['Timestamp'] = dd.to_datetime(self.data['Timestamp'], dayfirst=True)
+        self.data['Timestamp'] = dd.to_datetime(self.data['Timestamp'])
 
     def __del__(self):
         CIC_IDS_2018.count -= 1

@@ -1,4 +1,4 @@
-Attacker,Victim,Attack Type,Date,Attack Start Time,Attack Finish Time,Attack Name,Attack Category
+Attacker,Victim,Label,Date,Attack Start Time,Attack Finish Time,Attack Name,Attack Category
 172.31.70.4(Valid IP:18.221.219.4),172.31.69.25(Valid IP:18.217.21.148),FTP-BruteForce,14-02-2018,10:32,12:09,FTP-BruteForce,Brute Force
 172.31.70.6(Valid IP:13.58.98.64),18.217.21.148- 172.31.69.25,SSH-Bruteforce,14-02-2018,14:01,15:31,SSH-Bruteforce,Brute Force
 172.31.70.46(Valid IP:18.219.211.138),18.217.21.148- 172.31.69.25,DoS-GoldenEye,15-02-2018,9:26,10:09,DoS-GoldenEye,DoS
@@ -15,10 +15,9 @@ Attacker,Victim,Attack Type,Date,Attack Start Time,Attack Finish Time,Attack Nam
 18.218.115.60,18.218.83.150- 172.31.69.28,Brute Force -Web,23-02-2018,10:03,11:03,Brute Force -Web2,Brute Force
 18.218.115.60,18.218.83.150- 172.31.69.28,Brute Force -XSS,23-02-2018,13:00,14:10,Brute Force -XSS2,Injection
 18.218.115.60,18.218.83.150- 172.31.69.28,SQL Injection,23-02-2018,15:05,15:18,SQL Injection2,Injection
-13.58.225.34,18.221.148.137-172.31.69.24,Infiltration,28-02-2018,10:50,12:05,Infiltration1,Infiltration
-13.58.225.34,18.221.148.137-172.31.69.24,Infiltration,28-02-2018,13:42,14:40,Infiltration2,Infiltration
-13.58.225.34,18.216.254.154-172.31.69.13,Infiltration,01-03-2018,9:57,10:55,Infiltration3,Infiltration
-13.58.225.34,18.216.254.154-172.31.69.13,Infiltration,01-03-2018,14:00,15:37,Infiltration4,Infiltration
-13.58.225.34,18.216.254.154-172.31.69.13,Infiltration,01-03-2018,14:00,15:37,Infiltration5,Infiltration
+13.58.225.34,18.221.148.137-172.31.69.24,Infilteration,28-02-2018,10:50,12:05,Infiltration1,Infiltration
+13.58.225.34,18.221.148.137-172.31.69.24,Infilteration,28-02-2018,13:42,14:40,Infiltration2,Infiltration
+13.58.225.34,18.216.254.154-172.31.69.13,Infilteration,01-03-2018,9:57,10:55,Infiltration3,Infiltration
+13.58.225.34,18.216.254.154-172.31.69.13,Infilteration,01-03-2018,14:00,15:37,Infiltration4,Infiltration
 18.219.211.138,18.217.218.111-172.31.69.2318.222.10.237-172.31.69.1718.222.86.193-172.31.69.1418.222.62.221-172.31.69.1213.59.9.106-172.31.69.1018.222.102.2-172.31.69.818.219.212.0-172.31.69.618.216.105.13-172.31.69.2618.219.163.126-172.31.69.2918.216.164.12-172.31.69.30,Bot,02-03-2018,10:11,11:34,Bot1,Bot
 18.219.211.138,18.217.218.111-172.31.69.2318.222.10.237-172.31.69.1718.222.86.193-172.31.69.1418.222.62.221-172.31.69.1213.59.9.106-172.31.69.1018.222.102.2-172.31.69.818.219.212.0-172.31.69.618.216.105.13-172.31.69.2618.219.163.126-172.31.69.2918.216.164.12-172.31.69.30,Bot,02-03-2018,14:24,15:55,Bot2,Bot
