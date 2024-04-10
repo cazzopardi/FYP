@@ -1,4 +1,4 @@
-dtype = {
+dtype_cic_ids2018 = {
           # explicit floats
           'Active Max': 'float32',
           'Active Mean': 'float32',
@@ -93,3 +93,49 @@ dtype = {
 
           # 'attack category': 'object',  # after NaNs are removed this should become implicit
      }
+
+dtype_nsl_kdd = {
+     'duration': 'float32',
+     'protocol_type': 'object',
+     'service': 'object',
+     'flag': 'object',
+     'src_bytes': 'float32',
+     'dst_bytes': 'float32',
+     'land': 'int8',
+     'wrong_fragment': 'float32',
+     'urgent': 'float32',
+     'hot': 'float32',
+     'num_failed_logins': 'float32',
+     'logged_in': 'int8',
+     'num_compromised': 'float32',
+     'root_shell': 'float32',
+     'su_attempted': 'float32',
+     'num_root': 'float32',
+     'num_file_creations': 'float32',
+     'num_shells': 'float32',
+     'num_access_files': 'float32',
+     'num_outbound_cmds': 'float32',
+     'is_host_login': 'int8',
+     'is_guest_login': 'int8',
+     'count': 'float32',
+     'srv_count': 'float32',
+     'serror_rate': 'float32',
+     'srv_serror_rate': 'float32',
+     'rerror_rate': 'float32',
+     'srv_rerror_rate': 'float32',
+     'same_srv_rate': 'float32',
+     'diff_srv_rate': 'float32',
+     'srv_diff_host_rate': 'float32',
+     'dst_host_count': 'float32',
+     'dst_host_srv_count': 'float32',
+     'dst_host_same_srv_rate': 'float32',
+     'dst_host_diff_srv_rate': 'float32',
+     'dst_host_same_src_port_rate': 'float32',
+     'dst_host_srv_diff_host_rate': 'float32',
+     'dst_host_serror_rate': 'float32',
+     'dst_host_srv_serror_rate': 'float32',
+     'dst_host_rerror_rate': 'float32',
+     'dst_host_srv_rerror_rate': 'float32',
+     'class': 'object',
+     'difficulty_level': 'int8',
+}
