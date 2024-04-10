@@ -1,7 +1,9 @@
 import sys
+from typing import TypeVar
 sys.path.append('./src')
 
 import pandas as pd
+import dask.dataframe as dd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
@@ -61,8 +63,20 @@ TARGET = 'attack category'
 #                 synthetic[self.newindex, col_index] = minority_samples[col].iloc[i] + gap*dif
 #             self.newindex += 1
 
+T = TypeVar('T', bound=pd.DataFrame|dd.DataFrame)
+def reassign_xss(data: T) -> T:
+    # Karatas et al. use a slightly differnet categorisation scheme to this study, hence, we match to replicate
+    if type(data) == dd.DataFrame:
+        def adjust_categories(part):
+            part.loc[part['Label'] == 'Brute Force -XSS', 'attack category'] = 'Brute Force' 
+            return part
+        data = data.map_partitions(adjust_categories)
+    else:
+        data.loc[data['Label'] == 'Brute Force -XSS', 'attack category'] = 'Brute Force'
+    return data
+
 def preprocess(data: pd.DataFrame, target: str='attack category') -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray, np.ndarray]:
-    data = data.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove string columns (TODO: nah mate, if they were those authors trippin')
+    data = data.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove string columns
     data = data.fillna(0)  # change NaN values to 0
 
     data_numeric = data.select_dtypes(include='number')
@@ -76,10 +90,7 @@ def preprocess(data: pd.DataFrame, target: str='attack category') -> tuple[pd.Da
 
     data['Init Fwd Win Byts Neg'] = data['Init Fwd Win Byts'] < 0  # add Negative columns
     data['Init Bwd Win Byts Neg'] = data['Init Bwd Win Byts'] < 0
-
-    # Karatas et al. use a slightly differnet categorisation scheme to this study, hence, we match to replicate
-    data.loc[data['Label'] == 'Brute Force -XSS', 'attack category'] = 'Brute Force'
-
+    
     label_encoding = {'Benign': '0', 'Bot': '1', 'Brute Force': '2', 'DoS': '3', 'Infiltration': '4', 'Injection': '5'}
     data[target] = data[target].replace(label_encoding).astype('int8')  # encode labels
 
@@ -88,7 +99,6 @@ def preprocess(data: pd.DataFrame, target: str='attack category') -> tuple[pd.Da
     X = data.drop(columns=['Label', 'attack name', 'attack category'])  # remove all label columns
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
-
     # TODO: SMOTE
 
     return X_train, X_test, y_train, y_test
