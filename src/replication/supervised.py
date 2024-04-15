@@ -4,8 +4,10 @@ import numpy as np
 from sklearn.metrics import classification_report
 
 from data.loading import CIC_IDS_2018, load_cic_ids_2018
-from preprocessing.karatas_et_al import preprocess, reassign_xss
+from preprocessing.supervised import preprocess, reassign_xss
 from models.supervised import *
+
+# Replication of the methodology proposed by Karatas et al. in doi.org/10.1109/ACCESS
 
 if __name__ == '__main__':
     print('Loading dataset...')

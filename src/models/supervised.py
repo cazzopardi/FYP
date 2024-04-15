@@ -3,6 +3,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
+# Replication of the methodology proposed by Karatas et al. in doi.org/10.1109/ACCESS
+
 def random_forest(n_jobs=-1):
     return RandomForestClassifier(n_estimators=100, random_state=42, criterion='gini', min_samples_split=2, min_samples_leaf=1, n_jobs=n_jobs)
 def ada_boost():

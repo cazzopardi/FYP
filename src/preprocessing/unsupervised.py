@@ -6,6 +6,8 @@ from sklearn.feature_selection import SelectKBest, f_classif, f_regression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
+# Replication of the methodology proposed by Pu et al. in doi.org/10.26599/TST.2019.9010051
+
 # label encoding maps
 category_encoding = {'normal':0, 'DoS':1, 'probe':2, 'r2l':3, 'u2r':4}
 category_decoding = {v:k for k,v in category_encoding.items()}

@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 
 from data.loading import load_cic_ids_2018, CIC_IDS_2018
 
+# Replication of the methodology proposed by Karatas et al. in doi.org/10.1109/ACCESS
+
 TARGET = 'attack category'
 
 # class SMOTE:
