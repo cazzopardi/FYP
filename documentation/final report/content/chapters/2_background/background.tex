@@ -1,238 +1,238 @@
-% \graphicspath{{content/chapters/2_background/figures/}}
+\chapter{Background}%
+\label{chp:background}
 
-% \chapter{Background}%
-% \label{chp:background}
+\section{Network Intrusion Detection}%
+\label{sec:nids}
 
-% Figure~\ref{fig:sample} shows a sample figure and how to cross-reference
-% figures.
-% %
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=\textwidth,keepaspectratio]{sample}
-%     \caption[Short sample caption.]{Longer caption that  and shows below the figure.\label{fig:sample}}
-% \end{figure}
-% %
-% Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-% Mauris sed ipsum risus.
-% Nulla aliquet quis quam sed eleifend.
-% Donec rutrum, dolor id vulputate pharetra, nulla tortor laoreet nisl,
-% pellentesque dapibus velit dolor suscipit purus.
-% Phasellus vitae eleifend sem.
-% Integer ultricies ex in neque pellentesque, vitae facilisis orci aliquam.
-% In pellentesque mollis turpis, eu tristique lacus eleifend nec.
-% Vestibulum orci neque, rhoncus vitae convallis eu, suscipit quis dui.
-% Nulla libero elit, porta sit amet sagittis vel, placerat sit amet tortor.
-% Aliquam hendrerit dolor sit amet sollicitudin ornare.
-% Aliquam placerat sodales est, in vestibulum nisl efficitur in.
-% Nulla venenatis aliquam sem, at volutpat nisl pellentesque eleifend.
-% Praesent vitae euismod nulla, eget vehicula turpis.
-% Duis quis tellus vitae nisi tempus tincidunt.
+\gls{nids} play a crucial role in the realm of network defence, complementing
+other techniques such as firewalls and encryption. These sophisticated software
+systems analyse network traffic to detect malicious behaviour in real time~\cite{survey2}.
+\gls{nids} can be broadly divided into two categories distinguished by the
+method of identification employed~\cite{survey1}.
 
-% \section{Literature Review}%
-% \label{sec:literature_review}
+\gls{sids} function by identifying specific attack signatures. They typically
+require access to a signature database recognising previously documented
+attacks by correlating sequences of commands or actions to entires on the
+database. This is highly effective on known threats present in the database,
+however their efficacy wanes considerably against unknown attacks~\cite{survey1, survey2}.
 
-% Vivamus sit amet orci erat.
-% Morbi eleifend velit purus, sed gravida metus ullamcorper sed.
-% Aliquam sit amet interdum nulla, in aliquam diam.
-% Aliquam non libero tortor.
-% Nulla imperdiet dolor vel justo semper, ut efficitur enim varius.
-% Donec ultrices odio id orci fringilla tristique.
-% Ut fringilla nec felis a finibus.
-% Sed a felis sed odio elementum porta a ac nisl.
-% Curabitur suscipit, sem et facilisis tempus, nisl elit vestibulum eros, in
-% varius dolor enim vitae ante.
-% Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-% curae; Nullam condimentum tempor consectetur.
-% Aliquam non porta nisi.
-% Proin molestie tincidunt tellus, id varius nibh finibus eget.
+\gls{aids}, in contrast, discern attacks by profiling non-malicious behaviour
+and recognising deviations. This strategy relies on the assumption that
+malicious traffic inherently differs from benign activity. This approach yields
+several advantages, primarily, the capability to recognise unknown attacks,
+absent from any attack signature database and the lack of a need for such a
+database, which can be laborious to maintain and keep up to date. Of course,
+the approach is not without disadvantages, most notably the high susceptibility
+to false alarms as any deviation from the expected profile, malicious or not,
+will be flagged~\cite{survey1, survey2}.
 
-% Vestibulum et neque erat.
-% Curabitur metus velit, dictum non vehicula vitae, sodales sed purus.
-% In mattis a mauris nec imperdiet.
-% Duis volutpat mi eget egestas placerat.
-% Vivamus non purus erat.
-% Cras quis egestas libero.
-% Sed id diam at enim vehicula porttitor.
+Numerous methodologies can be employed in the implemention of \gls{aids},
+including statistics-based, knowledge-based and \gls{ml}-based approaches.
+Statistics-based \gls{ids} relies on statistical models and tests to isolate
+outliers from normal data, which are then flagged as potential threats.
+Knowledge-based \gls{ids} leverages expert insights or domain-specific rules to
+flag behaviour that may be malicious.\ \gls{ml}-based \gls{ids} employs machine
+learning models trained to differentiate normal and malicious traffic
+patterns~\cite{survey1}.
 
-% Mauris tincidunt elementum porttitor.
-% Curabitur eu elit et metus luctus ultrices.
-% Aenean varius orci in turpis consectetur efficitur.
-% Quisque lacinia sagittis pharetra.
-% Aliquam efficitur aliquam arcu, vel ullamcorper tortor volutpat nec.
-% Curabitur sit amet semper tortor.
-% Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-% curae; Cras at leo aliquet, porta mauris nec, pharetra augue.
-% Nam volutpat eu urna in ullamcorper.
-% Aliquam ultrices condimentum odio id eleifend.
-% Mauris tellus felis, mattis et pellentesque ac, laoreet vitae eros.
-% Aliquam at nisl lorem.
-% Quisque consequat ligula nec tellus ornare eleifend.
+\section{Machine Learning in Network Intrusion Detection}%
+\label{sec:ml_nids}
 
-% \section{Instructions}%
-% \label{sec:instructions}
+\gls{ml} exhibits incredible potential in the field owing to its capacity to
+model complex patterns directly from data without developer knowledge~\cite{ml}.
+This could simplify the process of creating \gls{nids} and improve the ability
+of these sytems to detect unknown attacks. The realm of \gls{ml} encompasses a
+diverse array of methodologies and algorithms, broadly classified into
+supervised, unsupervised, and reinforcement learning paradigms~\cite{ml_taxonomy}.
 
-% This sentence refers to Section~\ref{sec:literature_review}, as an example of
-% how to do cross-referencing.
-% Equation~\eqref{eq:emc} shows one of the most famous equations.
-% %
-% \begin{equation}
-%     \label{eq:emc}
-%     e = mc^2
-% \end{equation}
-% %
-% An example of how to create multiple equations, where they all align is given
-% below.
-% %
-% \begin{align}
-%     e & = mc^2          \\
-%     m & = \frac{e}{c^2}
-% \end{align}
+This study will consider supervised and unsupervised techniques. Supervised
+techniques rely on labelled data and generate predictions by learning to map
+the feature set to the label based on the training data~\cite{supervised_ml,
+    ml_taxonomy}. Unsupervised techniques, on the other hand, operate without the
+need for labelled data. They instead learn patterns present in the data by
+measuring similarity and dissimilarity between data points. These identified
+patterns can subsequently be used to inform predictions~\cite{unsupervised_ml,
+    ml_taxonomy}.
 
-% \section{Inserting references}%
-% \label{sec:inserting_references}
+These families can be further divided into traditional techniques and \gls{dl}
+techniques. Traditional techniques typically leverage feature engineering and
+statistical methods to extract meaningful information from datasets enabling
+predictions or decisions based on the derived
+infromation.~\cite{Najafabadi2015, useful_ml} In contrast, \gls{dl} techniques
+consists of numerous layers of interconnected neurons which each take the sum
+of their inputs, multiply by their weight and apply an activation function to
+the output. This is then passed either to the neurons of the next layer or to
+the final output layer~\cite{dl}.
 
-% To insert a reference, the entry must be inserted in the \texttt{references.bib}
-% file.
-% The key or unique ID of the entry is then used to refer to it.
-% \LaTeX{} will automatically number the entry and generate the list of
-% references.
-% The paper in~\cite{sample_key} is used as a referencing example.
+% try fit some open closed set stuff here
 
-% \section{Inserting acronyms}%
-% \label{sec:inserting_acronyms_and_glossary_entries}
+Supervised techniques tend to be affected negatively by imbalanced datasets,
+where they may exhibit a bias towards predicting the majority class, leading to
+less accurate predictions for minority classes~\cite{imbalance_prob, survey_cicids}.
+One approach to address this issue, which has been employed extensively in the
+literature, is \gls{smote}~\cite{smote, smote_survey, Karatas, Jiang}.\
+\gls{smote} generates synthetic minority class samples to reduce imbalance by
+interpolating data from other nearby points. These points are selected using
+the \gls{knn} algorithm. By increasing the number of minority class samples in
+the dataset, the effects of class imbalance can be alleviated~\cite{smote}.
 
-% The \gls{tcp} and \gls{udp} protocols are two layer 4 protocols, used for
-% demonstrating how to use acronyms.
-% On the second use of an acronym, only its initials are shown as demonstrated in
-% the following sentence.
-% The \gls{tcp} and \gls{udp} protocols are two layer 4 protocols, used for
-% demonstrating how to use acronyms.
+\section{Evaluation Methods}%
+\label{sec:eval}
 
-% \section{Using glossary terms}%
-% \label{sec:using_glossary_terms}
+Various evaluation metrics exist in the field of \gls{ml}. In the domain of
+classification problems, some of the most prevalent metrics used to evaluate
+\gls{ml} models include accuracy, precision, recall and F-measure values. These
+are calculated from the counts of \gls{tp}, \gls{fp}, \gls{tn} and \gls{fn}
+predictions made during testing~\cite{metrics}.
 
-% Let \gls{G} represent a loop-free directed graph, where \gls{V} and \gls{E}
-% represent the set of nodes and edges, respectively.
+Accuracy represents the proportion of correct predictions and is the most
+common metric used. It can, however, be misleading in datasets with significant
+class imbalance as if the model performs well on the majority class, it will
+achieve a high accuracy regardless of the performance on the minorty class. In
+tasks like intrusion detection, where detecting minority classes is crucial,
+this skewed accuracy can be misleading. It is defined as:
 
-% \section{Inserting a table}%
-% \label{sec:inserting_a_table}
+\[ \text{Accuracy} = \frac{\text{\gls{tp}}+\text{\gls{tn}}}{\text{\gls{tp}}+\text{\gls{tn}}+\text{\gls{fp}}+\text{\gls{fn}}} \]
 
-% A simple table is shown in Table~\ref{tab:simple}, with a more complex example
-% given in Table~\ref{tab:complex}.
+Recall represents the proportion of samples of a specific class that were
+correctly identified by the model. In the context of intrusion detection,
+recall holds particular importance as it directly influences the system's
+capability to detect attacks effectively. It is defined as:
 
-% \begin{table}
-%     \caption{Simple table example.\label{tab:simple}}
-%     \centering
-%     \begin{tblr}{|c|S[table-format=3.2]|c|}
-%         \hline
-%         \textbf{Header 1} & \textbf{Header 2} & \textbf{Header 3} \\
-%         \hline
-%         1                 & 2.3               & Orange            \\
-%         2                 & 100.5             & Blue              \\
-%         3                 & 35.0              & Black             \\
-%         \hline
-%     \end{tblr}
-% \end{table}
+\[ \text{Recall} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fn}}} \]
 
-% \begin{table}
-%     \centering
-%     \caption{Complex table example.\label{tab:complex}}
-%     \begin{tblr}{|Q[m,0.2\textwidth]|Q[m,0.2\textwidth]|Q[m,0.2\textwidth]|Q[m,0.2\textwidth]|}
-%         \hline
-%         \SetCell[r=2]{c} Table Head & \SetCell[c=3]{c} Table Column Head & & \\
-%         \hline
-%         & Table column subhead 1 & Table column subhead 2 & Table column subhead 3 \\
-%         \hline
-%         Item 1 & 2 & 3 & 4 \\
-%         \hline
-%         Item 2 & 2 & 3 & 4 \\
-%         \hline
-%         Item 3 & 2 & 3 & 4 \\
-%         \hline
-%         Item 4 & 2 & 3 & 4 \\
-%         \hline
-%     \end{tblr}
-% \end{table}
+Precision represents the likelihood a positive prediction made by the model is
+correct, an important metric in intrusion detection as a low precision
+indicates a high false alarm rate. It is defined as:
 
-% \section{Inserting code snippet}%
-% \label{sec:inserting_code_snippet}
+\[ \text{Precision} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fp}}} \]
 
-% The code snippet in Listing~\ref{lst:python_example} demonstrates a very simple
-% python program.
+The f1-measure serves as a unified metric that considers both recall and
+precision. It is less susceptible to the effects of class imbalance when
+comapred to accuracy. It is defined as:
+\[ \text{F1-measure} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \]
 
-% \begin{lstlisting}[language=Python,caption=Python example,label={lst:python_example}]
-% def main() -> None:
-%     print("Hello World")
+The \gls{roc} curve is also a common tool used for evaluating models, with the
+area under the curve serving as a valuable metric. The curve consists of the
+\gls{fpr} rate on the x-axis plotted against the recall on the y-axis, where
+\gls{fpr} is defined as:
+\[ \text{\gls{fpr}} = \frac{\text{\gls{fp}}}{\text{\gls{fp}} + \text{\gls{tn}}} \]
 
-% if __name__ == "__main__":
-%     main()
-% \end{lstlisting}
+K-fold cross-validation is a robust evaluation strategy widely employed in
+machine learning. The dataset is divided into k partitions, or folds, and the
+model is trained k times each time using a different fold as the test set
+whilst all other partitions constitute the training set. The metrics calculated
+in each fold are then aggregated yielding the final results. This enahnces the
+reliability of the evaluation by decreasing variance in the metrics caused by
+stochasticity in the train-test splitting of the dataset~\cite{kfoldcv}.
 
-% \section{Inserting theorems, corollaries and lemmas}%
-% \label{sec:inserting_theorems,_corollaries_and_lemmas}
+\section{Feature Engineering}%
+\label{sec:feat_eng}
+% TODO: actually write this
 
-% \begin{theorem}
-%     Let \(f\) be a function whose derivative exists in every point, then \(f\) is
-%     a continuous function.
-% \end{theorem}
+\section{Literature Review}%
+\label{sec:literature}
 
-% \begin{theorem}[Pythagorean theorem]
-%     \label{pythagorean}
-%     This is a theorem about right triangles and can be summarised in the next
-%     equation
-%     \[ x^2 + y^2 = z^2 \]
-% \end{theorem}
+There exists countless works in the literature focused on the field of
+\gls{ml}-based network intrusion detection. This section will briefly outline
+some significant works in the field.
 
-% And a consequence of theorem \ref{pythagorean} is the statement in the next
-% corollary.
+In 2020, Karatas et al.~\cite{Karatas} proposed six \gls{ml}-based \gls{ids},
+employing the techniques of K Nearest Neighbours, Random Forest, Gradient
+Boosting, Adaboost, Decision Tree and Linear Discriminant Analysis. They
+evaluated their models on the CSE-CIC-IDS 2018 dataset. Due to the class
+imbalance present in this dataset, the authors applied the \gls{smote}. The
+results indicate the proposed models are very effective with accuracies on the
+sampled data ranging from 91.18\% to 99.35\%. The Random Forest algorithm had
+the highest accuracy on the sampled dataset, however the Adaboost algorithm had
+the highest precision and F1 score which may be more significant given the
+class imbalance present in the dataset.
 
-% \begin{corollary}
-%     There's no right rectangle whose sides measure 3cm, 4cm, and 6cm.
-% \end{corollary}
+Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
+propose a \gls{cnn} to extract spatial features, which are then processed
+through a \gls{bilstm} network to extract temporal features. To handle class
+imbalance, the authors first apply \gls{oss} to reduce noisy samples in the
+majority class, then increase the number of minority samples through
+\gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
+the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
+respectively.
 
-% You can reference theorems such as \ref{pythagorean} when a label is assigned.
+Mighan and Kahani (2021)~\cite{Mighan} propose a hybrid approach using a
+stacked auto-encoder network for latent feature extraction followed by a
+support vector machine classifier. The proposed model was evaluated on the
+ISCX2012 and CICIDS2017 datasets achieving accuracies of 90.2\% and 99.49\%
+respectively. They concluded that \gls{dl} feature extraction outperformed
+other methods. Note, class imbalance was not addressed in this study, despite
+being present in both datasets used.
 
-% \begin{lemma}
-%     Given two line segments whose lengths are \(a\) and \(b\) respectively there is a
-%     real number \(r\) such that \(b=ra\).
-% \end{lemma}
+Kus et al. (2022)~\cite{Kus} argue that the current evaluation standard in
+\gls{ml}-based industrial intrusion detection may create a false sense of
+security. They argue that it does not assess the model's ability to detect
+unknown attacks, absent from the training set. They propose a new evaluation
+methodology to assess the efficacy of \gls{ml}-based industrial \gls{ids} in
+detecting these unknown attacks.
 
-% \section{Inserting an algorithm}%
-% \label{sec:inserting_an_algorithm}
+The methodology involves training and testing the model on variants of the
+dataset. The procedure consists of 4 phases. In the first phase, one attack
+category is excluded from the training set each iteration. Hence, the
+generalisability to this unseen attack can be measured from the evaluation on
+the test set. In the second phase, only one attack category is included in the
+training set, allowing the relations between different attack categories to be
+investigated. Finally, in the third and fourth phase, the first two phases are
+repeated however using individual attacks in place of attack categories. This
+results in a number of dataset variants equal to 4 times the number of attack
+categories.
 
-% The pseudocode for a basic \gls{ea} using NSGA-II is given in
-% Algorithm~\ref{alg:evolutionaryAlgorithm}.
+This methodology is applied to three industrial intrusion detection models
+proposed in a work by Lopez Perez et al.~\cite{Perez} The results indicate an
+alarmingly low ability to recognise unseen attacks, with detection rates
+dropping to between 3.2\% and 14.7\% for some types of attacks. The authors
+conclude that the models they tested only learn signatures of attacks and are
+not performing true anomaly-based intrusion detection. The study focuses
+pr`ima'rily on industrial intrusion detection and does not attempt to make any
+generalisations to other domains of intrusion detection.
 
-% \begin{algorithm}
-%     \caption{Pseudocode for an Evolutionary Algorithm}%
-%     \label{alg:evolutionaryAlgorithm}
-%     \begin{algorithmic}
-%         \State \( \mathcal{P} \) = Population Size
-%         \State \( \chi \) = Number of Generations
-%         \State \( \omega \) = Crossover Probability
-%         \State \( \psi \) = Mutation Probability
-%         \State
-%         \State population = GenerateInitialPopulation(\( \mathcal{P} \))
-%         \For{\( 1, 2, \ldots, \chi \)}
-%         \State offspring = TournamentSelection(population, \( \mathcal{P} \))
-%         % Crossover
-%         \For{\(c_i \in \) offspring, \( i = 1, 3, 5, \ldots, \mathcal{P}\)}
-%         \State \(z\) = random(0, 1)
-%         \If{\( z < \omega \)}
-%         \State Crossover(\( c_i, c_{i+1} \))
-%         \EndIf
-%         \EndFor
-%         % Mutation
-%         \For{\(c_i \in \) offspring}
-%         \State \(z\) = random(0, 1)
-%         \If{\( z < \psi \)}
-%         \State Mutate(\( c_i \))
-%         \EndIf
-%         \EndFor
-%         % Calculate fitness
-%         \State CalculatePopulationFitness(offspring)
-%         % Update population size
-%         \State population = NSGA-II([population + offspring], \(\mathcal{P}\))
-%         \EndFor
-%     \end{algorithmic}
-% \end{algorithm}
+A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day} reviews
+many more similar works with a particular focus on zero-day attacks. It
+supports the argument of Kus et al.~\cite{Kus} stating that many researchers in
+the field are not currently addressing the existence of zero-day attacks and
+suggests that future works should not assume all existing attack
+classifications are present in the dataset.
+
+Pu et al.~\cite{Pu} propose an unsupervised approach, combining \gls{ssc} and
+\gls{ocsvm}. They evaluate their proposal on the NSL-KDD dataset against three
+other unsupervised models, specifically, a combination of \gls{ssc} and
+Evidence Accumulation, \gls{dbscan} and K-means clustering. The results
+indicated the proposed model outperformed the other models.
+
+Cao et al.~\cite{Cao} take an unsupervised deep learning approach, proposing
+new regularisers to classical and variational autoencoders to map normal
+network samples towards the origin. One class classification models can then be
+used to detect malicious samples which will be mapped further from the origin.
+They evaluated this approach on 14 datasets, including, CTU13\-09, CTU13\-13,
+NSL-KDD, and UNSW-NB15. The results indicate the approach is effective on high
+dimensional and sparse network data.
+
+In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
+machine learning algorithms on 11 different network intrusion datasets. The
+study includes supervised, unsupervised, deep learning and meta-learning
+algorithms. The methodology, like that of Kus et al., involves creating
+variants of each dataset excluding specific categories in order to simulate the
+occurrence of unknown attacks. They conclude that supervised classifiers yield
+a higher accuracy, however, this is significantly degraded in the face of
+unknown attacks. Unsupervised learners on the other hand are less accurate but
+experience a less dramatic decline in the face of unknown attacks. They also
+conclude meta-learners outperform their non-meta-learning counterparts.
+
+\section{Conclusion}%
+\label{sec:conclusion}
+From the above works, we observe that the research community has achieved
+very impressive results in the field of intrusion detection. However, as Kus et
+al.\ have discovered, these laboratory results may not accurately reflect
+reality.
+
+The supervised learning approaches explored above do not consider the
+possibility of unknown attacks and hence may be ineffective in practical
+applications. As indicated by Zoppi et al.~\cite{Zoppi}, unsupervised
+techniques may be more effective in detecting unknown attacks, however at the
+cost of reduced efficacy against known attacks.
