@@ -19,35 +19,33 @@ deviations from normal, non-malicious traffic~\cite{survey1}.
 
 Designing \gls{nids} suitable for the ever-evolving cyberthreat landscape is no
 trivial task.\ \gls{nids} deployed practically are likely to face attacks not
-known to the developer. These will be referred to as unknown attacks. These
-could take the form of new deviations of known attacks, new attacks based on
-known vulnerabilities or zero-day attacks, which are cyberattacks executed on
-the basis of an unknown exploit. Due to their nature, \gls{sids} are
-ineffective in detecting unknown attacks, as by definition, they cannot exist
-on any attack signature database~\cite{survey1}.
+known at the time of development, referred to as unknown attacks throughout this
+paper. These could take the form of new deviations of known attacks, new
+attacks based on known vulnerabilities or zero-day attacks, which are
+cyberattacks executed on the basis of an unknown exploit. Due to their nature,
+\gls{sids} are ineffective in detecting unknown attacks, as by definition, they
+cannot exist on any attack signature database~\cite{survey1}.
 
 AIDS exhibits promise through its ability to identify unknown
 attacks~\cite{aids-unknown}, particularly with the advent of \gls{ml}
 techniques.\ \gls{ml} techniques offer enormous potential in anomaly detection
 as they have the ability to model complex patterns which may not be known to
-the researcher in advance, particularly when using techniques based on
-unsupervised learning, which can identify patterns without labels. Due to this
-ability, researchers hope that these techniques can generalise and identify
-unknown attacks.% TODO: why?, citations required
+the researcher in advance. These capabilities hold the promise of developing
+more accurate and effective \gls{aids}.
 
 In the literature, there is no absence of works investigating the use of
-\gls{ml} in \gls{nids}~\cite{Karatas, Jiang, Mighan, Pu, Cao, Zoppi, Atefinia}.
-This work explores various different approaches including supervised and
+\gls{ml} in \gls{nids}~\cite{Karatas, Jiang, Mighan, Pu, Cao, Atefinia}. This
+work explores various different approaches including supervised and
 unsupervised techniques. The works of~\cite{Karatas, Jiang, Mighan, Atefinia}
-explore supervised techniques and demonstrate remarkable accuracies, as high as
+explore supervised techniques and demonstrate remarkable accuracies as high as
 100\%. These results offer great promise, with near perfect recall and very low
 false alarm rate. Unsupervised techniques have also been researched with
 results indicating a higher false alarm rate when compared to supervised
-techniques~\cite{}.\ \gls{ml} techniques can also be categorised into
+techniques~\cite{Zoppi}.\ \gls{ml} techniques can also be categorised into
 traditional algorithms and \gls{dl} techniques. The literature explores both
 branches of \gls{ml}. Numerous studies focused on supervised techniques have
 found traditional algorithms to be more effective in the field of \gls{nids}. % citation required
-%Make some comment on unsupervised trad vs dl
+% Make some comment on unsupervised trad vs dl
 
 Some researchers have brought into question the notion that supervised
 techniques can generalise to unknown attacks~\cite{Kus, Zoppi}. These studies
@@ -62,32 +60,30 @@ classification problems have all possible classes available in the dataset,
 whereas open-set classification problems may have other classes not known to
 the dataset. Network intrusion detection is a dynamic field due to the constant
 development of new and innovative attacks by threat actors, presenting an
-open-set classification problem~\cite{}. This has been explored in the
-literature, however, the number of studies exploring this aspect of the field
-is far lower than the number of works proposing new closed-set models. Hence,
-more research investigating the extent of generalisation and the suitability of
-the proposed techniques to the problem is required.% find citation if possible% consider citation for closed set classification
+open-set classification problem, calling further into question the efficacy of
+current state-of-the-art models, on unknown attacks.
 
 Unsupervised techniques do not rely on labelled data. It can therefore be
 hypothesised that they are better suited for open set classification problems
-as they can detect patterns without prior knowledge of specific classes. This
-is more akin to true anomaly detection whereby the algorithms focus on
-detecting deviations form benign traffic as opposed to identifying specific
-attacks. This notion has been explored previously in the literature by Zoppi et
-al.~\cite{Zoppi}, with results supporting the hypothesis.
+as they can detect patterns without prior knowledge of specific
+classes~\cite{unsupervised_ml}. This is more akin to true anomaly detection
+whereby the algorithms focus on detecting deviations form benign traffic as
+opposed to identifying specific attacks. This notion has been explored
+previously in the literature by Zoppi et al.~\cite{Zoppi}, with results
+supporting the hypothesis.
 
 However, unsupervised techniques tend to have significantly higher false alarm
-rates~\cite{}, which hinders their efficacy in practical applications and makes
-supervised approaches more appealing. Little research exists evaluating the
-supervised approaches proposed in the literature in the context of an open-set
-classification problem. Furthermore, the comparitive studies found during the
-literature review do not consider unsupervised deep learning
-approaches~\cite{}, which may offer an alternative approach. The principal aim
-of this study will be to investigate the efficacy of various techniques
-proposed in the literature against both known and unknown attacks, comparing
-the trade-offs between different techniques.% TODO: various? which ones?
+rates~\cite{Zoppi}, which hinders their efficacy in practical applications and
+makes supervised approaches more appealing. Little research exists evaluating
+the supervised approaches proposed in the literature in the context of an
+open-set classification problem. Furthermore, the comparative studies found
+during the literature review do not consider unsupervised deep learning
+approaches~\cite{Kus, Zoppi}, which may offer an alternative approach. The
+principal aim of this study will be to investigate the efficacy of various
+techniques proposed in the literature against both known and unknown attacks,
+comparing the trade-offs between different techniques.
 
-This will take the form of two objectives:
+This will take the form of three objectives:
 
 \hypertarget{obj}{}
 
@@ -111,6 +107,15 @@ Unsupervised techniques do not rely on labelled attack data in their training.
 Hence, they are theoretically better adapted to unknown attacks, however may be
 less accurate on known attacks. This hypothesis is supported by the findings of
 Zoppi et al.~\cite{Zoppi} and will be further explored in this study.
+
+\begin{center}
+    \fbox{\parbox{0.8\linewidth}{\textbf{Objective 3:} To investigate the relationships between specific attacks and attack
+            categories in regard to the generalisation ability of models trained on those attacks.}}
+\end{center}
+
+Certain attacks share similarities that may serve as the basis for models to
+generalise to these attacks without explicit presence in the training set.
+These similarities will be explored in this study.
 
 To the best of our knowledge, this study is the first to include deep
 unsupervised techniques in a comparative analysis and the first to investigate
