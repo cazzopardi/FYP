@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import auc, roc_curve
-from preprocessing.deep_unsupervised import preprocess
-from models.deep_unsupervised import SAE_OCSVM
+from preprocessing.unsupervised_dl import preprocess
+from models.unsupervised_dl import SAE_OCSVM
 
 # Methodology proposed by Cao et al. in doi.org/10.1109/TCYB.2018.2838668
 # Implementation retrieved from https://github.com/vanloicao/SAEDVAE/tree/master
