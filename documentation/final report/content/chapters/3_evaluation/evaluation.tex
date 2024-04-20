@@ -1,0 +1,180 @@
+\chapter{Proposed Evaluation}%
+\label{chp:evaluation}
+
+The work of Kus et al.~\cite{Kus} and Zoppi et al.~\cite{Zoppi} shines an
+illuminating light onto the field. Hence, this study follows similar
+principles.
+
+% This serves as an introduction to the section, summarise and sign post here
+
+Models are evaluated using the methodology of Kus et al.~\cite{Kus} as this
+is a superset of the methodology applied by Zoppi et al.~\cite{Zoppi}.
+Additionally, Kus et al.~\cite{Kus} consider individual attacks, which will
+provide valuable insights and address \hyperlink{obj3}{Objective 3}.
+
+\section{Selection of Models}%
+\label{sec:models}
+
+The methodology is applied to several state-of-the-art models designed for
+general purpose datasets belonging to three families. Namely, these families
+are supervised traditional \gls{ml} techniques, unsupervised traditional
+\gls{ml} techniques and unsupervised \gls{dl} techniques. It should be noted
+that supervised \gls{dl} techniques are not considered as they have been
+found to be less effective by Zoppi et al.~\cite{Zoppi}.
+
+The study replicates the models proposed in the works of Karatas et
+al.~\cite{Karatas}, Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao}. These works
+have been selected as they are the most highly cited amongst recent studies
+that provide clear methodologies from the families the study compares.
+
+In addition, the work of Karatas et al.~\cite{Karatas} addresses class
+imbalance, which is a significant problem when applying supervised \gls{ml} to
+intrusion detection. This is due to the prevalence of normal, non-malicious
+traffic in realistic scenarios when compared to the volume of malicious
+traffic~\cite{imbalance}.
+
+\section{Datasets}%
+\label{sec:datasets}
+The CSE-CIC-IDS2018 dataset is a collaborative effort between the
+Communications Security Establishment and the Canadian Institute of
+Cybersecurity,
+and serves as a successor to the CICIDS2017 dataset which is a smaller, less
+diverse counterpart. The aim of the project was to produce an up to date,
+realistic dataset for the evaluation of \gls{nids}. The dataset was generated
+on infrastructure consisting of a victim network with 420 machines and 30
+servers, and an attack network consisting of 50 machines. The machines were
+divided into departments mimicking a typical corporate network. A typical
+network environment was simulated using B-profiles, which describe user
+behaviour through statistical and \gls{ml} techniques, allowing it to be
+accurately replicated. The dataset includes a variety of modern attack
+categories, namely, \gls{dos} attacks, brute force attacks, code injection,
+botnet attacks, and infiltration attacks which involve using an exploit on a
+host inside the network to attack the network. The resulting dataset contains
+80 features and approximately 16,000,000 instances~\cite{cic2018, cic2018data}.
+
+The CSE-CIC-IDS2018 dataset is, to the best of our knowledge, the most
+up-to-date, general purpose network intrusion dataset publicly available today.
+It offers a large volume of data containing diverse attack scenarios and a
+realistic network environment. It is for these reasons that it has been used to
+evaluate and compare the models of this study.
+
+The NSL-KDD~\cite{nsl} dataset is an improvement over its predecessor, the
+KDD99 dataset. It was created as a benchmark for intrusion detection systems
+and offers a more balanced class distribution than its predecessor. The dataset
+has been used extensively in the field of intrusion detection, however, the
+underlying network data dates back to 1998. Both the unsupervised models this
+study replicates have been evaluated on this dataset by the original
+authors. Hence, this dataset is used to verify the models were replicated
+correctly, but is not used to make comparisons as due to its age, the
+results may not generalise well to the modern cyber threat landscapes.
+
+\section{Preprocessing}%
+\label{sec:preprocessing}
+
+The methodology we employ requires each instance in the dataset to be labelled
+with both the specific attack name and the attack category. The labels provided
+in the CSE-CIC-IDS2018 dataset can be described as an attack category, however,
+some labels are not broad enough to be defined as categories for the
+purpose of this study. An instance of this are the \gls{dos} attacks which are
+labelled according to the specific tool used. Hence, the dataset has an
+`attack name' column appended to it. The values of this column were filled
+according to Table 2 on the dataset's website~\cite{cic2018}, using the `Timestamp'
+and `Label' columns to determine the attack each instance belongs to.
+
+Next, an `attack category' column was generated from this new column. The
+categorisation adopted for this study is shown in table X.
+
+% TODO: insert table here
+
+As noted by Ahmad et al.~\cite{zero-day}, categorising attacks
+into broad labels, such as \gls{dos}, can create inconsistencies and confusion
+in the literature due to their subjectivity. Hence, the categorisations used in
+this paper should be interpreted as a shorthand method of referring to the
+specific attack types included under the category in this study. This shorthand
+serves to simplify the process of investigating generalisation across attacks
+that differ significantly in their nature. Conclusions are not be intended to
+generalise to attack types not present in the dataset that may fall under the
+same subjective categorisation.
+
+The CSE-CIC-IDS2018 dataset contains approximately 16,000,000 instances, an
+enormous number that introduces complexities as it is not feasible to keep the
+full dataset in memory during processing on the 32GB of RAM that were available
+for this project. Hence, the dataset was sampled to X instances. The sampling
+strategy adopted was random sampling of 33\% of the data.
+
+Once the sampled, fully labelled dataset was generated, the individual
+preprocessing pipelines of each replicated study was applied. We will briefly
+outline the steps taken in each work.
+
+Karatas et al.~\cite{Karatas} carried out the following preprocessing steps:
+
+\begin{enumerate}
+    \item Missing values were replaced with 0
+    \item Infinity values were replaced with the maximum value in the column
+    \item Timestamp was separated into date and time columns to ellimnate
+          non-numeric values
+    \item Two columns contain negative values. Two additional categorical
+          columns were added, containing a 1 for negative values and a 0 for
+          positive values in the corresponding column.
+    \item The label column was encoded into numeric values. This was done
+          for both the `attack category' and `attack name' columns for the
+          purposes of
+          this study.
+    \item The dataset was shuffled.
+    \item Lastly, \gls{smote} was employed to reduce the class imbalance
+          present in the dataset.
+\end{enumerate}
+
+Cao et al.~\cite{Cao} carried out the
+
+\section{Training Variants}%
+\label{sec:variants}
+
+Following preprocessing, the dataset was split into variants according to the
+methodology of Kus et al.~\cite{Kus}. Briefly, this consists of filtering the
+dataset in four phases. In the first phase, the dataset has particular attack
+categories excluded from the training set. Hence, the excluded attacks simulate
+unknown attacks and accurately depict model performance on such unknown attacks
+should it encounter them at runtime. In the second phase, all attacks are
+filtered out except for one attack type, and of course, the benign class. This
+provides more insight allowing for a better understanding of how indiviudal
+attacks provide valuable knowledge that may generalise to other attacks. In the
+thrid and fourth phases, these two steps are repeated using attack categories
+instead of particular attack types. This provides more insight as to how
+attacks may generalise to other attacks within the same categories as well as
+attacks in other categories.
+
+The CSE-CIC-IDS2018 contains x individual attacks,
+which have been divided into 5 categories. The sampled data contains X of these
+attacks and all 5 categories. Hence, 10+2*n dataset variants were generated in
+this phase.
+
+\section{Implementation and Execution}%
+\label{sec:variants}
+
+The evaluation of this study is written in Python 3.11. The models employed by
+Karatas et al.~\cite{Karatas} were implemented using the
+sci-kit learn library as was done by the original authors. The work
+of Pu et al.~\cite{Pu} was replicated using ThunderSVM~\cite{ThunderSVM}, a
+GPU-accelerated library that offers an \gls{ocsvm} implementation. Cao et
+al.~\cite{Cao} provide the source code of their implementation on
+GitHub~\cite{cao_git}. This implementation employs Tensorflow for the autoencoder and
+sci-kit learn for the \gls{ocsvm} model. The autoencoder implementation was
+updated to work with Tensorflow 2 and the \gls{ocsvm} model was replaced with a
+ThunderSVM model to reduce execution time.
+
+The results of each original study were replicated on one of the datasets used
+by the original authors to verify the models were repicated correctly. Once,
+matching results were achieved, the models were trained on the variants to
+produce the results of this study.
+
+All experiments were carried out on *insert machine specs here*
+
+% In the ideal case, the evaluation metrics of 
+% each dataset variant would be calculated using 5-fold cross validation.
+% However, due to the high computational demands of the methodology, there is a
+% possibility that the proposed procedure will be unfeasible to carry out using
+% the resources available. Should this be the case, a standard train-test split
+% may be employed in place of 5-fold cross validation and stratified sampling can
+% be explored to reduce the size of the dataset without decreasing the quality of
+% the results.
