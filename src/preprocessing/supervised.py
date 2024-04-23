@@ -5,9 +5,10 @@ from multiprocessing import Pool
 import random
 import sys
 import os
-from typing import TypeVar
+from typing import Any, TypeVar
 
-from sklearn.neighbors import NearestNeighbors
+# from sklearn.neighbors import NearestNeighbors
+from cuml import NearestNeighbors
 sys.path.append('./src')
 
 import pandas as pd
@@ -15,9 +16,8 @@ import dask.dataframe as dd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from data.loading import load_cic_ids_2018, CIC_IDS_2018
-
 # Replication of the methodology proposed by Karatas et al. in doi.org/10.1109/ACCESS
+# TODO: this file needs to be refactored in two
 
 TARGET = 'attack category'
 
@@ -30,7 +30,7 @@ class SMOTE:
         else:
             self.n_jobs = n_jobs
 
-    def fit_resample(self, X: pd.DataFrame, y: np.ndarray, amounts: dict[int, int]) -> tuple[pd.DataFrame, np.ndarray]:
+    def fit_resample(self, X: pd.DataFrame, y: pd.Series, amounts: dict[Any, int]) -> tuple[pd.DataFrame, pd.Series]:
         """
         data: original dataset
         amounts: dict mapping minority class to number of samples to generate
@@ -42,9 +42,9 @@ class SMOTE:
             df = pd.DataFrame(synth, columns=X.columns)
             df[self.label_col] = minority_class
             acc.append(df)
-        data: pd.DataFrame = pd.concat([X,pd.Series(y, name=self.label_col, index=X.index)], axis=1)
+        data: pd.DataFrame = pd.concat([X,y.rename(self.label_col)], axis=1)
         resampled_data: pd.DataFrame = pd.concat([data, *acc], ignore_index=True).sample(frac=1, random_state=42)
-        return resampled_data.drop(columns=[self.label_col]), resampled_data[self.label_col].to_numpy()
+        return resampled_data.drop(columns=[self.label_col]), resampled_data[self.label_col]
 
     def _fit(self, minority_samples: pd.DataFrame, N: int) -> np.ndarray:
         """
@@ -61,21 +61,19 @@ class SMOTE:
             N = 100
             logging.warn("SMOTE received amount lower than 100% this may influence the shape of the resulting resampled data")
         N = int(N/100)
-        # numattrs = len(data.columns)  # num attributes
-        # self.newindex: int = 0 # tracks number of synthetic samples
-        # synthetic: np.ndarray = np.empty((N*T, len(minority_samples.columns)))  # new samples  # TODO: verify N*T
-        knn: NearestNeighbors = NearestNeighbors(n_neighbors=self.k, n_jobs=self.n_jobs)
+        knn: NearestNeighbors = NearestNeighbors(n_neighbors=self.k) # n_jobs=self.n_jobs
         knn.fit(minority_samples)
-        neighbours = knn.kneighbors(minority_samples, return_distance=False)
-        # for i in range(T):  # TODO: parallelise
-        #     nnarray: np.ndarray = neighbours[i]
-        #     self.populate(nnarray, i, self.k, N, minority_samples)
+        neighbours: np.ndarray = knn.kneighbors(minority_samples, return_distance=False).values
+
         with Pool(processes=self.n_jobs) as p:
             f = partial(populate, k=self.k, N=N, minority_samples=minority_samples)
             synthetic: np.ndarray = np.vstack(p.starmap(f, zip(neighbours, range(T))))
+        # synthetic = np.empty((T*N, len(minority_samples.columns)))
+        # for item in zip(neighbours, range(T)):
+        #     synth = populate(item[0], item[1], k=self.k, N=N, minority_samples=minority_samples)
         return synthetic
 
-def populate(nnarray, i, k, N, minority_samples: pd.DataFrame) -> np.ndarray:
+def populate(nnarray: np.ndarray, i: int, k: int, N: int, minority_samples: pd.DataFrame) -> np.ndarray:
     """
     Generates a sample
     """
@@ -100,33 +98,66 @@ def reassign_xss(data: T) -> T:
         data.loc[data['Label'] == 'Brute Force -XSS', 'attack category'] = 'Brute Force'
     return data
 
-def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, np.ndarray, np.ndarray]:
-    data = data.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove string columns
-    data = data.fillna(0)  # change NaN values to 0
+def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
+    X = X.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove string columns
+    X = X.fillna(0)  # change NaN values to 0
 
-    data_numeric = data.select_dtypes(include='number')
-    max_vals = data_numeric[~np.isinf(data_numeric)].max()  # replace inf with highest value in column
+    data_numeric = X.select_dtypes(include='number')
+    max_vals = data_numeric[~np.isinf(data_numeric)].max() + 1  # replace inf with highest value in column +1
     replace_dict = {col: {np.inf: max_vals[col]} for col in data_numeric.columns}
-    data = data.replace(replace_dict)
+    X = X.replace(replace_dict)
 
-    data['Date'] = data['Timestamp'].dt.strftime('%Y%m%d').astype(int)  # split datetime column
-    data['Time'] = data['Timestamp'].dt.strftime('%H%M%S').astype(int)
-    data = data.drop(columns=['Timestamp'])
+    X['Date'] = X['Timestamp'].dt.strftime('%Y%m%d').astype(int)  # split datetime column
+    X['Time'] = X['Timestamp'].dt.strftime('%H%M%S').astype(int)
+    X = X.drop(columns=['Timestamp'])
 
-    data['Init Fwd Win Byts Neg'] = (data['Init Fwd Win Byts'] < 0).astype('int8')  # add Negative columns
-    data['Init Bwd Win Byts Neg'] = (data['Init Bwd Win Byts'] < 0).astype('int8')
+    X['Init Fwd Win Byts Neg'] = (X['Init Fwd Win Byts'] < 0).astype('int8')  # add Negative columns
+    X['Init Bwd Win Byts Neg'] = (X['Init Bwd Win Byts'] < 0).astype('int8')  # TODO: this makes no sense surely they also invert
+
+    # TODO: consider replacing the above with this
+    # get_neg_col_mask: Callable[[pd.DataFrame],pd.Series] = lambda df: (df < 0).any(axis=0)
+    # feature_neg: pd.Series = get_neg_col_mask(X_train)|get_neg_col_mask(X_test)  # mask indicating which columns contain large values
     
-    label_encoding = {'Benign': '0', 'Bot': '1', 'Brute Force': '2', 'DoS': '3', 'Infiltration': '4', 'Injection': '5'}
-    data[target] = data[target].replace(label_encoding).astype('int8')  # encode labels
+    # # create a boolean column for each column with negative values to represent the minus sign (necessary to apply logarithm later)
+    # for df in [X_train, X_test]:
+    #     for col in df.columns[feature_neg]: 
+    #         df[col+' Neg'] = (df[col] < 0).astype('int8')
+    #         df[col] = df[col].abs()
 
-    # split into X and y
-    y = data[target].values
-    X = data.drop(columns=['Label', 'attack name', 'attack category'])  # remove all label columns
+    return X
+
+
+# label_encoding = {'Benign': '0', 'Bot': '1', 'Brute Force': '2', 'DoS': '3', 'Infiltration': '4', 'Injection': '5'}
+def preprocess_labels(y: pd.Series, save_encoding=True) -> tuple[pd.Series, dict[str,int]]:
+    labels: np.ndarray = y.unique()
+    labels = labels[labels != 'Benign']
+    label_encoding: dict[str,int] = {label:i+1 for i, label in enumerate(labels)}
+    label_encoding['Benign'] = 0  # this is kept consistent for convenience
+    if save_encoding:
+        file = open('label encoding.txt', 'a')
+        file.write(str(label_encoding))
+    y = y.map(label_encoding).astype('int8')  # encode labels
+    return y, label_encoding
+
+def smote(X: pd.DataFrame, y: pd.Series, smote_amounts:dict[Any,int]) -> tuple[pd.DataFrame, pd.Series]:
+    print('Applying SMOTE...')
+    smote = SMOTE(5)
+    # {k:v for k, v in smote_amounts.items()}
+    return smote.fit_resample(X, y, amounts=smote_amounts)
+
+def split(data: pd.DataFrame, target: str='attack category') -> tuple[pd.DataFrame,pd.Series]:
+    y: pd.Series = data[target]
+    X: pd.DataFrame = data.drop(columns=['Label', 'attack name', 'attack category'])  # remove all label columns
+    return X, y
+
+def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    X, y = split(data, target)
+
+    X = preprocess_features(X)
+    y, label_encoding = preprocess_labels(y)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
-    print('Applying SMOTE...')
     if smote_amounts is not None:
-        smote = SMOTE(5)
-        X_train, y_train = smote.fit_resample(X_train, y_train, amounts={int(label_encoding[k]):v for k, v in smote_amounts.items()})
+        X_train, y_train = smote(X_train, y_train, {label_encoding[k]:v for k,v in smote_amounts.items()})
 
     return X_train, X_test, y_train, y_test
