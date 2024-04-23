@@ -77,7 +77,7 @@ def filter_dataset(dataset_dir: str, model: str) -> tuple[FilteredDataset, Filte
     att: str = Level.ATTACK.value
 
     df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train), name=cat), pd.Series(Y_train.ravel(), name=att, dtype=int)], axis=1)
-    train: FilteredDataset = FilteredDataset(df_train, cat, att)
+    train: FilteredDataset = FilteredDataset(df_train, cat, att) # TODO: specify benign encoding
     
     df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val), name=cat), pd.Series(Y_val.ravel(), name=att, dtype=int)], axis=1)
     val: FilteredDataset = FilteredDataset(df_val, cat, att)
