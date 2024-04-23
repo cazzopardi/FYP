@@ -12,7 +12,7 @@ def load_cic_ids_2018(meta_labelled=True, n_workers=None) -> dd.DataFrame:
 
     dataset_path: str = os.path.join('data', 'CSE-CIC-IDS-2018', 'meta_labelled_data', '*.part')
     data: dd.DataFrame = dd.read_csv(dataset_path, dtype=dtype_cic_ids2018)
-    data['Timestamp'] = dd.to_datetime(self.data['Timestamp'])
+    data['Timestamp'] = dd.to_datetime(data['Timestamp'])
     return data    
 
 def load_nsl_kdd() -> tuple[pd.DataFrame, pd.DataFrame]:
