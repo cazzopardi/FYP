@@ -50,16 +50,16 @@ dtype_cic_ids2018 = {
           'Src Port': 'float32',
           
           # explicit ints
-          'Dst Port': 'int16',
+          'Dst Port': 'uint16',
           'Flow Duration': 'int32',
           'Fwd Header Len': 'int32',
           'Fwd Seg Size Min': 'int32',
           'Init Fwd Win Byts': 'int32',
           'Protocol': 'int8',
           'Tot Fwd Pkts': 'int32',
+          'Tot Bwd Pkts': 'int32',
 
           # implicit ints (correctly inferred as int64 if excluded from dict)
-          'Tot Bwd Pkts': 'int8',
           'Fwd PSH Flags': 'int8',
           'Bwd PSH Flags': 'int8',
           'Fwd URG Flags': 'int8',
@@ -86,19 +86,18 @@ dtype_cic_ids2018 = {
           'Init Bwd Win Byts': 'int32',
           'Fwd Act Data Pkts': 'int32',
 
-          # explicit objects
-          'Src IP': 'object',
-          'Dst IP': 'object',
-          'Flow ID': 'object',
-
-          # 'attack category': 'object',  # after NaNs are removed this should become implicit
+          # explicit strings
+          'Src IP': 'str',
+          'Dst IP': 'str',
+          'Flow ID': 'str',
+          'Label': 'str',
      }
 
 dtype_nsl_kdd = {
      'duration': 'float32',
-     'protocol_type': 'object',
-     'service': 'object',
-     'flag': 'object',
+     'protocol_type': 'str',
+     'service': 'str',
+     'flag': 'str',
      'src_bytes': 'float32',
      'dst_bytes': 'float32',
      'land': 'int8',
@@ -136,6 +135,6 @@ dtype_nsl_kdd = {
      'dst_host_srv_serror_rate': 'float32',
      'dst_host_rerror_rate': 'float32',
      'dst_host_srv_rerror_rate': 'float32',
-     'class': 'object',
+     'class': 'str',
      'difficulty_level': 'int8',
 }
