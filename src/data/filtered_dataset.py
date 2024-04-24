@@ -26,6 +26,17 @@ class FilteredDataset:
         Mode.INC: lambda dataset_labels, label: (dataset_labels == label) + (dataset_labels == self.benign_encoding)
     }
 
+    def get_variant_index(self, level: Level, mode: Mode, label:Any) -> pd.Index:
+        labels_col_name: str = self.col_labels[level]
+        dataset_labels: pd.Series = self._dataset[labels_col_name]
+        mask = self.op[mode](dataset_labels, label)
+        return  self._dataset.index[mask]
+    
+    def get_variants_index(self, level: Level, mode: Mode) -> list[tuple[pd.Index, str]]:
+        labels_col_name: str = self.col_labels[level]
+        labels: np.ndarray = self._dataset[labels_col_name].unique()
+        return [(self.get_variant_index(level, mode, label), label) for label in labels if label != self.benign_encoding]
+
     def get_variant(self, level: Level, mode: Mode, label:Any) -> pd.DataFrame:
         labels_col_name: str = self.col_labels[level]
         dataset_labels: pd.Series = self._dataset[labels_col_name]
