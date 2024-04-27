@@ -24,18 +24,19 @@ if __name__ == '__main__':
     sampling_strategy = {'Benign': 2856035, 'Bot': 286191, 'Brute Force': 513, 'DoS': 1289544, 'Infiltration': 93063, 'Injection': 53}
     samples: list[dd.DataFrame] = []
     for label, count in sampling_strategy.items():
-        label_samples = dataset.loc[dataset['attack category'] == label].sample(frac=count/value_counts[label], random_state=342793284)
+        label_samples = dataset.loc[dataset['attack category'] == label].sample(frac=count/value_counts[label], random_state=4325452)
         samples.append(label_samples)
     
-    data: pd.DataFrame = dd.concat(samples).sample(frac=1, random_state=342793284).compute()  # shuffle and compute
+    data: pd.DataFrame = dd.concat(samples).sample(frac=1, random_state=4325452).compute()  # shuffle and compute
     print(data['attack category'].value_counts())
 
     print('Preprocessing...')
     X_train, X_test, y_train, y_test = preprocess(data, smote_amounts={'Brute Force': 286191-513, 'Infiltration': 286191-93063, 'Injection': 286191-53})
     pkl = (X_train, X_test, y_train, y_test)
-    # pickle.dump(pkl, open('temp/smoted_replication.pkl', 'wb'))
-    # X_train, X_test, y_train, y_test = pickle.load(open('temp/smoted.pkl', 'rb'))
-    algorithms = [random_forest, decision_tree, ada_boost, gradient_bosting, k_neighbours, linear_discriminant_analysis]
+    pickle.dump(pkl, open('temp/smoted_replication.pkl', 'wb'))
+    # X_train, X_test, y_train, y_test = pickle.load(open('temp/smoted_replication.pkl', 'rb'))
+    algorithms = [gradient_boosting, decision_tree, random_forest, k_neighbours, linear_discriminant_analysis]
+    # algorithms = [gradient_boosting]
     for algorithm_function in algorithms:
         model = algorithm_function()
         print('Fitting ', algorithm_function.__name__, '...')
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         print("Generating predictions...")
         y_pred = model.predict(X_test)
         print('Results of', algorithm_function.__name__, ':')
-        report = classification_report(y_test, y_pred)
+        report = classification_report(y_test.to_numpy(), y_pred)
         # Calculate per-class accuracy
         accs = {}
         for level in np.unique(y_test):
