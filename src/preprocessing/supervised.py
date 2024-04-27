@@ -30,7 +30,7 @@ class SMOTE:
         else:
             self.n_jobs = n_jobs
 
-    def fit_resample(self, X: pd.DataFrame, y: pd.Series, amounts: dict[Any, int]) -> tuple[pd.DataFrame, pd.Series]:
+    def fit_resample(self, X: pd.DataFrame, y: pd.Series, amounts: dict[Any, int]) -> tuple[pd.DataFrame, pd.Series, pd.Index]:
         """
         data: original dataset
         amounts: dict mapping minority class to number of samples to generate
@@ -44,7 +44,7 @@ class SMOTE:
             acc.append(df)
         data: pd.DataFrame = pd.concat([X,y.rename(self.label_col)], axis=1)
         resampled_data: pd.DataFrame = pd.concat([data, *acc], ignore_index=True).sample(frac=1, random_state=42)
-        return resampled_data.drop(columns=[self.label_col]), resampled_data[self.label_col]
+        return resampled_data.drop(columns=[self.label_col]), resampled_data[self.label_col], pd.RangeIndex(start=len(data), stop=len(resampled_data), step=1)
 
     def _fit(self, minority_samples: pd.DataFrame, N: int) -> np.ndarray:
         """
@@ -99,7 +99,7 @@ def reassign_xss(data: T) -> T:
     return data
 
 def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
-    X = X.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove string columns
+    X = X.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove dataset specific columns that are likely to misguide results
     X = X.fillna(0)  # change NaN values to 0
 
     data_numeric = X.select_dtypes(include='number')
@@ -139,7 +139,7 @@ def preprocess_labels(y: pd.Series, save_encoding=True) -> tuple[pd.Series, dict
     y = y.map(label_encoding).astype('int8')  # encode labels
     return y, label_encoding
 
-def smote(X: pd.DataFrame, y: pd.Series, smote_amounts:dict[Any,int]) -> tuple[pd.DataFrame, pd.Series]:
+def smote(X: pd.DataFrame, y: pd.Series, smote_amounts:dict[Any,int]) -> tuple[pd.DataFrame, pd.Series, pd.Index]:
     print('Applying SMOTE...')
     smote = SMOTE(5)
     # {k:v for k, v in smote_amounts.items()}
@@ -158,6 +158,6 @@ def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
     if smote_amounts is not None:
-        X_train, y_train = smote(X_train, y_train, {label_encoding[k]:v for k,v in smote_amounts.items()})
+        X_train, y_train, _ = smote(X_train, y_train, {label_encoding[k]:v for k,v in smote_amounts.items()})
 
     return X_train, X_test, y_train, y_test
