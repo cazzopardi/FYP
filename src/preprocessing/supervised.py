@@ -112,8 +112,8 @@ def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
     X = X.drop(columns=['Timestamp'])
 
     X['Init Fwd Win Byts Neg'] = (X['Init Fwd Win Byts'] < 0).astype('int8')  # add Negative columns
-    X['Init Bwd Win Byts Neg'] = (X['Init Bwd Win Byts'] < 0).astype('int8')  # TODO: this makes no sense surely they also invert
-
+    X['Init Bwd Win Byts Neg'] = (X['Init Bwd Win Byts'] < 0).astype('int8')
+    
     # TODO: consider replacing the above with this
     # get_neg_col_mask: Callable[[pd.DataFrame],pd.Series] = lambda df: (df < 0).any(axis=0)
     # feature_neg: pd.Series = get_neg_col_mask(X_train)|get_neg_col_mask(X_test)  # mask indicating which columns contain large values
@@ -151,6 +151,14 @@ def split(data: pd.DataFrame, target: str='attack category') -> tuple[pd.DataFra
     return X, y
 
 def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    # data cleaning
+    # the CICIDS2018 dataset contains samples dated 1970 that appear to be the result of overflow errors in multiple columns
+    # these are filtered out, using timestamp as the discriminant
+    data = data[data['Timestamp'].dt.strftime('%Y').astype(int) >= 2018]
+    # At least one instance also contains negative values in the Flow IAT Min and Fwd IAT Min fields which, doesn't make sense and causes issues later 
+    data = data[data['Fwd IAT Min'] >= 0]
+    data = data[data['Flow IAT Min'] >= 0]
+
     X, y = split(data, target)
 
     X = preprocess_features(X)
