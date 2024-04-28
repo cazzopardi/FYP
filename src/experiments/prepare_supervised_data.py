@@ -39,12 +39,10 @@ if __name__ == '__main__':
     min_percentage = {Level.CATEGORY: 0.05, Level.ATTACK: 0.01}
     for level in Level:
         n = len(X)
-        # vc = y[level].value_counts()
-        # min_amount = min_percentage[level] * n  # set min_amount as number of samples in the smallest class above 5% of the dataset
-        # # min_amount = 0.0256 * n  # note: 0.0256 is the fraction of the dataset the third most frequent class constitutes
-        # smote_amounts = {label: int(min_amount - len(X[y[level] == label])) for label in np.unique(y[level]) if len(X[y[level] == label]) < min_amount}
-        # sampled_X, sampled_y, index = smote(X, y[level], smote_amounts)
-        # print("SMOTE complete")
-        sampled_X, sampled_y, _ = pickle.load(open(f'/mnt/d/Calvin/FYP/SMOTE/cicids2018_smote_{level.value}.pkl','rb'))
-        tot = len(sampled_X)
-        pickle.dump((sampled_X,sampled_y,pd.RangeIndex(start=n,stop=tot,step=1)), open(f'/mnt/d/Calvin/FYP/SMOTE/cicids2018_smote_{level.value}.pkl','wb'))
+        vc = y[level].value_counts()
+        min_amount = min_percentage[level] * n  # set min_amount as number of samples in the smallest class above 5% of the dataset
+        # min_amount = 0.0256 * n  # note: 0.0256 is the fraction of the dataset the third most frequent class constitutes
+        smote_amounts = {label: int(min_amount - len(X[y[level] == label])) for label in np.unique(y[level]) if len(X[y[level] == label]) < min_amount}
+        sampled_X, sampled_y, index = smote(X, y[level], smote_amounts)
+        print("SMOTE complete")
+        pickle.dump((sampled_X,sampled_y,index), open(f'/mnt/d/Calvin/FYP/SMOTE/cicids2018_smote_{level.value}.pkl','wb'))

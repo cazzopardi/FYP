@@ -15,8 +15,7 @@ from models.supervised import *
 from data.filtered_dataset import FilteredDataset, Level, Mode
 
 def run_experiment(X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Series, y_test: pd.Series, label:str, level: Level, mode: Mode):
-    algorithms = [gradient_boosting, decision_tree]
-    # algorithms = [decision_tree]
+    algorithms = [gradient_boosting, decision_tree, random_forest]
     for algorithm_function in algorithms:
         model = algorithm_function()
         print('Fitting ', algorithm_function.__name__, '...')
@@ -64,20 +63,20 @@ if __name__ == '__main__':
     # y = {'train': {}, 'test': {}}
     # X_train, X_test, y['train'][Level.ATTACK], y['test'][Level.ATTACK] = train_test_split(X, y_att, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
     # _, _, y['train'][Level.CATEGORY], y['test'][Level.CATEGORY] = train_test_split(X, y_cat, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
-    # # smote_amounts = {'Brute Force': 286191-513, 'Infiltration': 286191-93063, 'Injection': 286191-53}
+    # smote_amounts = {'Brute Force': 286191-513, 'Infiltration': 286191-93063, 'Injection': 286191-53}
 
-    TEMP_DATA = 'interim_data.pkl'
+    # TEMP_DATA = 'interim_data.pkl'
     # pickle.dump((X_train, X_test, y, label_encodings), open(TEMP_DATA, 'wb'))
-    _, X_test, y, label_encodings = pickle.load(open(TEMP_DATA, 'rb'))
+    # _, X_test, y, label_encodings = pickle.load(open(TEMP_DATA, 'rb'))
     # print(sampled_data['attack category'].value_counts())
 
-    for level in [Level.ATTACK]:
+    for level in Level:
         # n = len(X_train)
         # vc = y['train'][level].value_counts()
         # min_amount = min([v for k,v in vc.items() if v/n > 0.05])  # set min_amount as number of samples in the smallest class above 5% of the dataset
-        # min_amount = 0.0256 * n  # note: 0.0256 is the fraction of the dataset the third most frequent class constitutes
+        # # min_amount = 0.0256 * n  # note: 0.0256 is the fraction of the dataset the third most frequent class constitutes
         # smote_amounts = {label: int(min_amount - len(X_train[y['train'][level] == label])) for label in np.unique(y['train'][level]) if len(X_train[y['train'][level] == label]) < min_amount}
-        # X_train, y_train = smote(X_train, y['train'][level], smote_amounts)
+        # X_train, y_train, index = smote(X_train, y['train'][level], smote_amounts)
         # print("SMOTE complete")
         # pickle.dump((X_train,y_train), open('smoted_super_experiment.pkl','wb'))
         X, y, index = pickle.load(open(f'/mnt/d/Calvin/FYP/SMOTE/cicids2018_SMOTE_{level.value}.pkl','rb'))
