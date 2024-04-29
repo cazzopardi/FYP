@@ -150,14 +150,17 @@ def split(data: pd.DataFrame, target: str='attack category') -> tuple[pd.DataFra
     X: pd.DataFrame = data.drop(columns=['Label', 'attack name', 'attack category'])  # remove all label columns
     return X, y
 
-def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    # data cleaning
+def clean(data: pd.DataFrame):
     # the CICIDS2018 dataset contains samples dated 1970 that appear to be the result of overflow errors in multiple columns
     # these are filtered out, using timestamp as the discriminant
     data = data[data['Timestamp'].dt.strftime('%Y').astype(int) >= 2018]
     # At least one instance also contains negative values in the Flow IAT Min and Fwd IAT Min fields which, doesn't make sense and causes issues later 
     data = data[data['Fwd IAT Min'] >= 0]
     data = data[data['Flow IAT Min'] >= 0]
+    return data
+
+def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    data = clean(data)
 
     X, y = split(data, target)
 
