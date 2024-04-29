@@ -1,6 +1,11 @@
-from typing import Literal
+import pickle
+from typing import Callable, Literal
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MaxAbsScaler, OneHotEncoder
+
+from preprocessing.supervised import preprocess
 
 # Methodology proposed by Cao et al. in doi.org/10.1109/TCYB.2018.2838668
 # Implementation retrieved from https://github.com/vanloicao/SAEDVAE/tree/master
@@ -165,7 +170,7 @@ def encode_NSLKDD(raw_train: np.ndarray, raw_test: np.ndarray, encoder_type: Lit
     raw_train = raw_train[:,0:-1]
     raw_test  = raw_test[:,0:-1]
     #list of the categorical features
-    "1 - protocol_type","2 - service","3 - flag"
+    # "1 - protocol_type","2 - service","3 - flag"
     list_features = [3,2,1] 
     
     "1 - duration: continuous"
@@ -200,28 +205,29 @@ def encode_NSLKDD(raw_train: np.ndarray, raw_test: np.ndarray, encoder_type: Lit
     # np.savetxt("Data/NSLKDD/NSLKDD_Test.csv",  pro_test   ,delimiter=",", fmt="%s")
     return pro_train.astype(float), pro_test.astype(float)
 
-def preprocess(train_path: str, test_path: str, encoding:Literal['real_value', 'one_hot']='one_hot'):
+
+def preprocess_nsl_kdd(train_path: str, test_path: str, encoding:Literal['real_value', 'one_hot']='one_hot'):
     raw_train = np.genfromtxt(train_path, delimiter=",", dtype='str')
     raw_test = np.genfromtxt(test_path, delimiter=",", dtype='str')   
     train_data, test_data = encode_NSLKDD(raw_train, raw_test, encoder_type=encoding)
 
     y_train = train_data[:,-1]                #Select label column
-    x_train = train_data[y_train == 0]        #Select only normal data for training  
-    x_train = x_train[:,0:-1]                 #Remove label column
-    print("Normal training data: ", x_train.shape[0]) 
-    np.random.shuffle(x_train)
-    x_train = x_train[:6734]                  #Sample 5000 connections for training 
+    X_train = train_data[y_train == 0]        #Select only normal data for training  
+    X_train = X_train[:,0:-1]                 #Remove label column
+    print("Normal training data: ", X_train.shape[0]) 
+    np.random.shuffle(X_train)
+    X_train = X_train[:6734]                  #Sample 5000 connections for training 
 
 
     y_test = test_data[:,-1]                  #Select label column  
-    x_test = test_data[:,0:-1]                #Select data except label column
+    X_test = test_data[:,0:-1]                #Select data except label column
 
-    test_X0 = x_test[y_test == 0]             #Normal test
-    test_X1 = x_test[y_test > 0]              #Anomaly test 
+    test_X0 = X_test[y_test == 0]             #Normal test
+    test_X1 = X_test[y_test > 0]              #Anomaly test 
     print("Normal testing data: ", test_X0.shape[0])
     print("Anomaly testing data: ", test_X1.shape[0])
 
-    x_test = np.concatenate((test_X0, test_X1))
+    X_test = np.concatenate((test_X0, test_X1))
 
     test_y0 = np.full((len(test_X0)), True, dtype=bool)
     test_y1 = np.full((len(test_X1)), False,  dtype=bool)
@@ -232,7 +238,51 @@ def preprocess(train_path: str, test_path: str, encoding:Literal['real_value', '
 
     #scaler = MinMaxScaler()
     scaler = MaxAbsScaler()
-    scaler.fit(x_train)
-    x_train = scaler.transform(x_train)
-    x_test  = scaler.transform(x_test)
-    return x_train, x_test, y_train, y_test
+    scaler.fit(X_train)
+    X_train = scaler.transform(X_train)
+    X_test  = scaler.transform(X_test)
+    return X_train, X_test, y_train, y_test
+
+def preprocess_cic_ids(data: pd.DataFrame, target:str='attack category', encoding:Literal['real_value', 'one_hot']='one_hot') -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    # TODO: consider one-hot encoding
+    # if (encoding == "real_value"):
+    #     pro_train, pro_test = real_value_encode_KDD(raw_train, raw_test, list_features)
+    # elif (encoding == "one_hot"):
+    #     pro_train, pro_test = one_hot_encode_KDD(raw_train, raw_test, list_features)
+    # else:
+    #     raise ValueError('Encoding must be specified')
+    
+    X_train, X_test, y_train, y_test = preprocess(data)
+
+    # pickle.dump((X_train, X_test, y_train, y_test), open('uns_dl_sampled_data.pkl','wb'))
+    # X_train, X_test, y_train, y_test = pickle.load(open('uns_dl_sampled_data.pkl','rb'))
+
+    # np.savetxt("Data/NSLKDD/NSLKDD_Train.csv", pro_train  ,delimiter=",", fmt="%s")
+    # np.savetxt("Data/NSLKDD/NSLKDD_Test.csv",  pro_test   ,delimiter=",", fmt="%s")
+
+    # y_train = train[target]
+    # y_test = test[target]
+    # adjust -1s to remain -1s following log operation
+    X_train['Init Fwd Win Byts'] = X_train['Init Fwd Win Byts'].astype('float64').replace(-1, -0.5)
+    X_train['Init Bwd Win Byts'] = X_train['Init Bwd Win Byts'].astype('float64').replace(-1, -0.5)
+    X_test['Init Fwd Win Byts'] = X_test['Init Fwd Win Byts'].astype('float64').replace(-1, -0.5)
+    X_test['Init Bwd Win Byts'] = X_test['Init Bwd Win Byts'].astype('float64').replace(-1, -0.5)
+
+    X_train: pd.DataFrame = X_train[y_train == 0]        #Select only normal data for training  
+    X_train = X_train.iloc[:6734]                  #Sample 5000 connections for training 
+    y_train = y_train.iloc[:6734]
+
+    "convert extremely large values features into small values by log2 function"
+    get_large_col_mask: Callable[[pd.DataFrame],pd.Series] = lambda df: (df > 10000).any(axis=0)
+    feature_log: pd.Series = get_large_col_mask(X_train)|get_large_col_mask(X_test)  # mask indicating which columns contain large values
+    X_train.loc[:,feature_log] = np.log2(X_train.loc[:,feature_log].astype('float64') + 1).astype('float64')
+    X_test.loc[:,feature_log] = np.log2(X_test.loc[:,feature_log].astype('float64') + 1).astype('float64')
+
+    #scaler = MinMaxScaler()
+    scaler = MaxAbsScaler()
+    scaler.fit(X_train)
+    scaled_data: np.ndarray = scaler.transform(X_train)
+    X_train = pd.DataFrame(scaled_data, index=X_train.index, columns=X_train.columns)
+    scaled_data = scaler.transform(X_test)
+    X_test = pd.DataFrame(scaled_data, index=X_test.index, columns=X_test.columns)
+    return X_train, X_test, y_train, y_test
