@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.metrics import auc, roc_curve
-from preprocessing.unsupervised_dl import preprocess
+from preprocessing.unsupervised_dl import preprocess_nsl_kdd
 from models.unsupervised_dl import SAE_OCSVM
 
 # Methodology proposed by Cao et al. in doi.org/10.1109/TCYB.2018.2838668
@@ -18,15 +18,15 @@ from models.unsupervised_dl import SAE_OCSVM
 #     auc_svm = auc(FPR, TPR)
 
 if __name__ == '__main__':
-    X_train, X_test, y_train, y_test = preprocess('data/NSL-KDD/KDDTrain+.txt', 'data/NSL-KDD/KDDTest+.txt')
+    X_train, X_test, y_train, y_test = preprocess_nsl_kdd('data/NSL-KDD/KDDTrain+.txt', 'data/NSL-KDD/KDDTest+.txt')
 
     model = SAE_OCSVM(0.01, X_train.shape[1], 85, 49, 12, 0.5)  # hyperparameters from original author
-    model.train(X_train)
-    y_pred = model.predict(X_test)
+    model.train(X_train, epochs=100, batch_size=250)
+    y_pred = model.infer_dissimilarity(X_test)
     FPR, TPR, thresholds = roc_curve(y_test, y_pred)
     auc_svm = auc(FPR, TPR)
-    print(auc_svm)
-
+    print('AUC:',auc_svm)
+# Step 420: Minibatch Loss: 0.0218 - AUC_AE 0.923 - AUC_SVM:0.958 - AUC_CEN:0.959
 
 # callbacks
 # def AUC_AE(x_test, y_test):    
