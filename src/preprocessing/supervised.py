@@ -98,7 +98,7 @@ def reassign_xss(data: T) -> T:
         data.loc[data['Label'] == 'Brute Force -XSS', 'attack category'] = 'Brute Force'
     return data
 
-def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
+def preprocess_features(X: pd.DataFrame, keep_timestamp=False) -> pd.DataFrame:
     X = X.drop(columns=['Src IP', 'Dst IP', 'Flow ID'])  # remove dataset specific columns that are likely to misguide results
     X = X.fillna(0)  # change NaN values to 0
 
@@ -107,8 +107,9 @@ def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
     replace_dict = {col: {np.inf: max_vals[col]} for col in data_numeric.columns}
     X = X.replace(replace_dict)
 
-    X['Date'] = X['Timestamp'].dt.strftime('%Y%m%d').astype(int)  # split datetime column
-    X['Time'] = X['Timestamp'].dt.strftime('%H%M%S').astype(int)
+    if keep_timestamp:
+        X['Date'] = X['Timestamp'].dt.strftime('%Y%m%d').astype(int)  # split datetime column
+        X['Time'] = X['Timestamp'].dt.strftime('%H%M%S').astype(int)
     X = X.drop(columns=['Timestamp'])
 
     X['Init Fwd Win Byts Neg'] = (X['Init Fwd Win Byts'] < 0).astype('int8')  # add Negative columns
@@ -157,14 +158,16 @@ def clean(data: pd.DataFrame):
     # At least one instance also contains negative values in the Flow IAT Min and Fwd IAT Min fields which, doesn't make sense and causes issues later 
     data = data[data['Fwd IAT Min'] >= 0]
     data = data[data['Flow IAT Min'] >= 0]
+
+    data = data[data['attack name'] != 'Unknown']  # remove ambiguous samples that cannot be matched with an attack with certainty
     return data
 
-def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+def preprocess(data: pd.DataFrame, target: str='attack category', smote_amounts:dict[str,int]|None=None, keep_timestamp=False) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     data = clean(data)
 
     X, y = split(data, target)
 
-    X = preprocess_features(X)
+    X = preprocess_features(X, keep_timestamp)
     y, label_encoding = preprocess_labels(y)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
