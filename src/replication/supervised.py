@@ -31,7 +31,7 @@ if __name__ == '__main__':
     print(data['attack category'].value_counts())
 
     print('Preprocessing...')
-    X_train, X_test, y_train, y_test = preprocess(data, smote_amounts={'Brute Force': 286191-513, 'Infiltration': 286191-93063, 'Injection': 286191-53})
+    X_train, X_test, y_train, y_test = preprocess(data, smote_amounts={'Brute Force': 286191-513, 'Infiltration': 286191-93063, 'Injection': 286191-53}, keep_timestamp=True)
     pkl = (X_train, X_test, y_train, y_test)
     pickle.dump(pkl, open('temp/smoted_replication.pkl', 'wb'))
     # X_train, X_test, y_train, y_test = pickle.load(open('temp/smoted_replication.pkl', 'rb'))
