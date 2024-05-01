@@ -6,7 +6,7 @@ from dask import dataframe as dd
 
 from data.loading import load_cic_ids_2018
 from data.filtered_dataset import Level
-from preprocessing.supervised import split, preprocess_features, preprocess_labels, smote
+from preprocessing.supervised import clean, split, preprocess_features, preprocess_labels, smote
 
 if __name__ == '__main__':
     print('Loading dataset...')
@@ -19,6 +19,7 @@ if __name__ == '__main__':
     sampled_data: pd.DataFrame = dataset.sample(frac=0.28, random_state=386453456).compute()
 
     print('Preprocessing...')
+    sampled_data = clean(sampled_data)
     X, y_att = split(sampled_data, target='attack name')
     _, y_cat = split(sampled_data)
     X = preprocess_features(X)
