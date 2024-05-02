@@ -58,16 +58,12 @@ if __name__ == '__main__':
                     dat.drop(columns=['sort'], inplace=True)
                 dat = dat.astype('float32')
 
-                if level == Level.ATTACK:
-                    plt.figure(figsize=(14,14))
-                else:
-                    plt.figure(figsize=(8,8))
                 seaborn.heatmap(dat,annot=level==Level.CATEGORY)
                 mode_s = 'Trained' if mode == Mode.INC else 'Omitted'
                 level_s = 'Attacks' if level == Level.ATTACK else 'Attack Categories'
                 plt.gca().set_xlabel(f'Classified {level_s}')
                 plt.gca().set_ylabel(f'{mode_s} {level_s}')
-                # plt.yticks(fontsize=6)
-                # plt.xticks(fontsize=6)
-                plt.savefig(f'results/heatmaps/{algo}_{mode.value}_{level.value}.jpg')
+                plt.tight_layout()
+                plt.title(algo.upper())
+                plt.savefig(f'results/heatmaps/{algo}_{mode.value}_{level.value}.pdf')
                 plt.clf()
