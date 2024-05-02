@@ -21,35 +21,35 @@ if __name__ == '__main__':
     CAT = Level.CATEGORY
     ATT = Level.ATTACK
 
-    # print('Loading dataset...')
-    # dataset: dd.DataFrame = load_cic_ids_2018()
-    # print('Sampling dataset...')
-    # data: pd.DataFrame = dataset.sample(frac=0.28, random_state=386453456).compute()
-    # data.reset_index(drop=True, inplace=True)
-    # # pickle.dump(data, open('temp/uns_dl_data_np.pkl','wb'))
-    # # data = pickle.load(open('temp/uns_dl_data_np.pkl','rb'))
+    print('Loading dataset...')
+    dataset: dd.DataFrame = load_cic_ids_2018()
+    print('Sampling dataset...')
+    data: pd.DataFrame = dataset.sample(frac=0.28, random_state=386453456).compute()
+    data.reset_index(drop=True, inplace=True)
+    # pickle.dump(data, open('temp/uns_dl_data_np.pkl','wb'))
+    # data = pickle.load(open('temp/uns_dl_data_np.pkl','rb'))
 
-    # print('Preprocessing...')
-    # y = {}
-    # X_train, X_test, y['train', CAT],  y['test',CAT] = preprocess_cic_ids(data)
-    # _, y_att = split(data, target='attack name')
-    # y_att, label_encoding = preprocess_labels(y_att)
-    # y['train', ATT] = y_att[X_train.index]
-    # y['test',ATT] = y_att[X_test.index]
+    print('Preprocessing...')
+    y = {}
+    X_train, X_test, y['train', CAT],  y['test',CAT] = preprocess_cic_ids(data)
+    _, y_att = split(data, target='attack name')
+    y_att, label_encoding = preprocess_labels(y_att)
+    y['train', ATT] = y_att[X_train.index]
+    y['test',ATT] = y_att[X_test.index]
 
-    # pickle.dump((X_train, X_test, y), open('temp/uns_dl_sampled_data.pkl','wb'))
-    X_train, X_test, y = pickle.load(open('temp/uns_dl_sampled_data.pkl','rb'))
+    pickle.dump((X_train, X_test, y), open('temp/uns_dl_sampled_data.pkl','wb'))
+    # X_train, X_test, y = pickle.load(open('temp/uns_dl_sampled_data.pkl','rb'))
 
-    # model: SAE_OCSVM = SAE_OCSVM(0.01, X_train.shape[1], 85, 49, 12, 0.5, ocsvm_gpu=1)  # hyperparameters from original author
-    # print('Training...')
-    # model.train(X_train.to_numpy(), epochs=100)
-    # model.save('dl_model')
-    # # model.load('dl_model')
-    # model.clf = OneClassSVM(nu=0.5, kernel="rbf", gamma=0.1, gpu_id=0)
-    # model.clf.load_from_file('dl_model.sk')
-    # similarities = model.infer_similarity(X_test.to_numpy())
-    # pickle.dump(similarities, open('uns_dl_y_pred.pkl','wb'))
-    similarities = pickle.load(open('uns_dl_y_pred.pkl','rb'))
+    model: SAE_OCSVM = SAE_OCSVM(0.01, X_train.shape[1], 85, 49, 12, 0.5, ocsvm_gpu=1)  # hyperparameters from original author
+    print('Training...')
+    model.train(X_train.to_numpy(), epochs=100)
+    model.save('dl_model')
+    # model.load('dl_model')
+    model.clf = OneClassSVM(nu=0.5, kernel="rbf", gamma=0.1, gpu_id=0)
+    model.clf.load_from_file('dl_model.sk')
+    similarities = model.infer_similarity(X_test.to_numpy())
+    pickle.dump(similarities, open('results/uns_dl_sim.pkl','wb'))
+    # similarities = pickle.load(open('uns_dl_sim.pkl','rb'))
 
     for level in Level:
         # calculate threshold
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         # plt.plot(FPR, TPR)
         # plt.savefig('temp/uns_dl_roc.png')
         
-        f = open('Karatas_results.txt', 'a')
+        f = open('Cao_results.txt', 'a')
         # stdout
         print(f'Results UNS DL - Level: {level}')
         print(pd.Series(accs))
