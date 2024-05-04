@@ -222,18 +222,20 @@ def preprocess_nsl_kdd(train_path: str, test_path: str, encoding:Literal['real_v
     y_test = test_data[:,-1]                  #Select label column  
     X_test = test_data[:,0:-1]                #Select data except label column
 
-    test_X0 = X_test[y_test == 0]             #Normal test
-    test_X1 = X_test[y_test > 0]              #Anomaly test 
-    print("Normal testing data: ", test_X0.shape[0])
-    print("Anomaly testing data: ", test_X1.shape[0])
+    # test_X0 = X_test[y_test == 0]             #Normal test
+    # test_X1 = X_test[y_test > 0]              #Anomaly test 
+    n_benign = (y_test == 0).sum()
+    # print("Normal testing data: ", test_X0.shape[0])
+    # print("Anomaly testing data: ", test_X1.shape[0])
+    print("Normal testing data: ", n_benign)
+    print("Anomaly testing data: ", len(y_test)-n_benign)
 
-    X_test = np.concatenate((test_X0, test_X1))
+    # X_test = np.concatenate((test_X0, test_X1))
 
-    test_y0 = np.full((len(test_X0)), True, dtype=bool)
-    test_y1 = np.full((len(test_X1)), False,  dtype=bool)
-    y_test =  np.concatenate((test_y0, test_y1))
-
-    #create binary label (1-normal, 0-anomaly) for compute AUC later
+    # test_y0 = np.full((len(test_X0)), True, dtype=bool)
+    # test_y1 = np.full((len(test_X1)), False,  dtype=bool)
+    # y_test =  np.concatenate((test_y0, test_y1))
+    
     y_test = (y_test).astype(np.int8)
 
     #scaler = MinMaxScaler()
