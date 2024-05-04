@@ -1,5 +1,6 @@
+import pickle
 import numpy as np
-from sklearn.metrics import auc, roc_curve
+from sklearn.metrics import auc, roc_curve, roc_auc_score
 from preprocessing.unsupervised_dl import preprocess_nsl_kdd
 from models.unsupervised_dl import SAE_OCSVM
 
@@ -21,11 +22,16 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = preprocess_nsl_kdd('data/NSL-KDD/KDDTrain+.txt', 'data/NSL-KDD/KDDTest+.txt')
 
     model = SAE_OCSVM(0.01, X_train.shape[1], 85, 49, 12, 0.5)  # hyperparameters from original author
-    model.train(X_train, epochs=100, batch_size=250)
-    y_pred = model.infer_dissimilarity(X_test)
-    FPR, TPR, thresholds = roc_curve(y_test, y_pred)
+    model.train(X_train, epochs=420, batch_size=250)
+    y_pred = model.infer_similarity(X_test)
+    pickle.dump(y_pred, open('results/replication/sae_pred.pkl','wb'))
+    FPR, TPR, thresholds = roc_curve(y_test == 0, y_pred)
     auc_svm = auc(FPR, TPR)
-    print('AUC:',auc_svm)
+    print('Total AUC:',auc_svm)
+    for level in np.unique(y_test):
+        if level == 0: continue
+        mask = np.logical_or(y_test == level, y_test == 0)
+        print(f'AUC {level}:',roc_auc_score(y_test[mask] == 0,y_pred[mask]))
 # Step 420: Minibatch Loss: 0.0218 - AUC_AE 0.923 - AUC_SVM:0.958 - AUC_CEN:0.959
 
 # callbacks
