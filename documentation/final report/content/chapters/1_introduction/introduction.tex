@@ -19,8 +19,8 @@ deviations from normal, non-malicious traffic~\cite{survey1}.
 
 Designing \gls{nids} suitable for the ever-evolving cyberthreat landscape is no
 trivial task.\ \gls{nids} deployed practically are likely to face attacks not
-known at the time of development, referred to as unknown attacks throughout this
-paper. These could take the form of new deviations of known attacks, new
+known at the time of development, referred to as unknown attacks throughout
+this paper. These could take the form of new deviations of known attacks, new
 attacks based on known vulnerabilities or zero-day attacks, which are
 cyberattacks executed on the basis of an unknown exploit. Due to their nature,
 \gls{sids} are ineffective in detecting unknown attacks, as by definition, they
@@ -44,7 +44,8 @@ results indicating a higher false alarm rate when compared to supervised
 techniques~\cite{Zoppi}.\ \gls{ml} techniques can also be categorised into
 traditional algorithms and \gls{dl} techniques. The literature explores both
 branches of \gls{ml}. Numerous studies focused on supervised techniques have
-found traditional algorithms to be more effective in the field of \gls{nids}. % citation required
+found traditional algorithms to be more effective in the field of
+\gls{nids}~\cite{Liu, Zoppi}.
 % Make some comment on unsupervised trad vs dl
 
 Some researchers have brought into question the notion that supervised
@@ -119,7 +120,15 @@ generalise to these attacks without explicit presence in the training set.
 These similarities will be explored in this study.
 
 To the best of our knowledge, this study is the first to include deep
-unsupervised techniques in a comparative analysis and the first to investigate
-individual attack generalisation on unsupervised techniques.
+unsupervised techniques in a comparative analysis considering unknown attacks.
 
-% TODO: sign post
+The remainder of the paper is divided into four chapters. First, in
+Chapter~\ref{chp:background}, we will explore the field of \gls{ml}-based
+\gls{nids}, introduce important concepts in the field and discuss similar works
+in the literature. Secondly, in Chapter~\ref{chp:evaluation} we will explain in
+detail the experiments proposed in this study to evaluate our objectives and
+the implementation of these experiments. Next, in Chapter~\ref{chp:results},
+we will present the results of our experiments and discuss the interpretations
+and significance of these results, as well as threats to their validity.
+Finally, we will summarise and propose potential future research directions in
+the field.

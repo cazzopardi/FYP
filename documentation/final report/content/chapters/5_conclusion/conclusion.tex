@@ -1,0 +1,77 @@
+\chapter{Conclusion}%
+\label{chp:conclusion}
+
+In conclusion, cybersecurity is an ever-evolving landscape with new threats
+constantly being developed.\ \gls{nids} are a crucial component to the defence
+of any information system, analysing data and identifying attacks in real time.
+Unknown attacks are a vital consideration when developing \gls{nids} as most
+systems will encounter these attacks in practice and failure to detect such
+attacks could lead to a security breach.\ \gls{ml} techniques offer tremendous
+potential in this field due to their unique ability to identify complex
+patterns unknown to the developer. This offers the potential to learn patterns
+allowing for the detection of unknown attacks before these attacks are
+discovered or perhaps even developed.
+
+This potential has not gone unnoticed in the research community with numerous
+papers proposing and exploring \gls{ml} techniques for \gls{nids}. Some of
+these papers have achieved remarkable results demonstrating the efficacy of
+\gls{ml} in this field. However, most of these works do not consider the impact
+of unknown attacks when evaluating their models, creating a false sense of
+security that may leave information systems vulnerable. In this study, we have
+replicated four \gls{ml} models from two state-of-the-art works and evaluated
+them using the methodology proposed by the work of Kus et al.~\cite{Kus}, which
+has also been replicated.
+
+This analysis has addressed our three primary objectives. We have analysed the
+efficacy of current state-of-the-art techniques and discovered that they are
+extremely effective on known attacks and on certain categories of unknown
+attacks, however, some categories require prior knowledge to be classified
+effectively. We have also compared the efficacies of supervised and
+unsupervised techniques and discovered that supervised techniques are more
+effective on known attacks overall as they do not struggle with any categories
+unlike unsupervised techniques, which are ineffective against certain
+categories. Unsupervised techniques, however, are unaffected by the prior
+knowledge, or lack thereof, available on attacks. Supervised techniques, in
+contrast, suffer a considerable decrease in efficacy without prior knowledge of
+the attack. Finally, we have explored the relationships present between
+individual attacks and attack categories in regard to generalisation. This
+analysis has revealed an alarmingly low level of generalisation in supervised
+models, even within attack categories in certain cases. This indicates these
+supervised models may be more accurately placed in the category of \gls{sids}
+than \gls{aids}. However, it should be noted that some level of generalisation
+does take place, potentially offering an advantage over traditional \gls{sids}.
+Furthermore, the specific algorithm employed has a significant effect on the
+level of generalisation achieved.
+
+Overall, these results should help to shed light on the efficacy and behaviour
+of a variety of \gls{ml} techniques in the ever-evolving cyberthreat landscape
+we face.
+
+\section{Future Work}%
+\label{sec:future}
+
+Moving forward, work on integrating the benefits of both supervised and
+unsupervised techniques could reveal new opportunities within the field. A
+variety of techniques could be explored to combine the predictions generated
+from both supervised and unsupervised classifiers which may be able to reap the
+benefits of both approaches.
+
+Additionally, other less conventional and novel techniques could be explored.
+The models introduced at the end of Section~\ref{sec:literature}, for instance,
+would serve as excellent candidates for a comparative analysis similar to this
+one. These were not considered in this work due to time limitations and due to
+the fact some of them were not published at the time of model selection.
+
+Another important consideration is the feature set used. Most of the works
+reviewed during the literature review, as well as this work itself use the
+feature set provided by the original authors of the CSE-CIC-IDS2018 dataset.
+The authors also made available the raw data captured during dataset
+generation. Further research into extracting different features from this raw
+data may unlock new opportunities within the field.
+
+Finally, all the models considered in this work treat samples individually,
+without considering neighbouring samples. Models that consider time series data
+may be able to learn patterns present across several network flows originating
+from the same attack, which may improve model performance. Future work could
+consider such time series models in comparison to single sample models such as
+those analysed in this work.

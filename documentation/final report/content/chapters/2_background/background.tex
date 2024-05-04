@@ -6,15 +6,17 @@
 
 \gls{nids} play a crucial role in the realm of network defence, complementing
 other techniques such as firewalls and encryption. These sophisticated software
-systems analyse network traffic to detect malicious behaviour in real time~\cite{survey2}.
+systems analyse network traffic to detect malicious behaviour in real
+time~\cite{survey2}.
 \gls{nids} can be broadly divided into two categories distinguished by the
 method of identification employed~\cite{survey1}.
 
 \gls{sids} function by identifying specific attack signatures. They typically
-require access to a signature database recognising previously documented
-attacks by correlating sequences of commands or actions to entires on the
+require access to a signature database, recognising previously documented
+attacks by correlating sequences of commands or actions to entries on the
 database. This is highly effective on known threats present in the database,
-however their efficacy wanes considerably against unknown attacks~\cite{survey1, survey2}.
+however their efficacy wanes considerably against unknown
+attacks~\cite{survey1, survey2}.
 
 \gls{aids}, in contrast, discern attacks by profiling non-malicious behaviour
 and recognising deviations. This strategy relies on the assumption that
@@ -26,7 +28,7 @@ the approach is not without disadvantages, most notably the high susceptibility
 to false alarms as any deviation from the expected profile, malicious or not,
 will be flagged~\cite{survey1, survey2}.
 
-Numerous methodologies can be employed in the implemention of \gls{aids},
+Numerous methodologies can be employed in the implementation of \gls{aids},
 including statistics-based, knowledge-based and \gls{ml}-based approaches.
 Statistics-based \gls{ids} relies on statistical models and tests to isolate
 outliers from normal data, which are then flagged as potential threats.
@@ -35,15 +37,18 @@ flag behaviour that may be malicious.\ \gls{ml}-based \gls{ids} employs machine
 learning models trained to differentiate normal and malicious traffic
 patterns~\cite{survey1}.
 
-\section{Machine Learning in Network Intrusion Detection}%
+\section{Machine Learning in Network Intrusion
+  Detection}%
 \label{sec:ml_nids}
 
 \gls{ml} exhibits incredible potential in the field owing to its capacity to
-model complex patterns directly from data without developer knowledge~\cite{ml}.
+model complex patterns directly from data without developer
+knowledge~\cite{ml}.
 This could simplify the process of creating \gls{nids} and improve the ability
-of these sytems to detect unknown attacks. The realm of \gls{ml} encompasses a
+of these systems to detect unknown attacks. The realm of \gls{ml} encompasses a
 diverse array of methodologies and algorithms, broadly classified into
-supervised, unsupervised, and reinforcement learning paradigms~\cite{ml_taxonomy}.
+supervised, unsupervised, and reinforcement learning
+paradigms~\cite{ml_taxonomy}.
 
 This study will consider supervised and unsupervised techniques. Supervised
 techniques rely on labelled data and generate predictions by learning to map
@@ -57,24 +62,25 @@ patterns can subsequently be used to inform predictions~\cite{unsupervised_ml,
 These families can be further divided into traditional techniques and \gls{dl}
 techniques. Traditional techniques typically leverage feature engineering and
 statistical methods to extract meaningful information from datasets enabling
-predictions or decisions based on the derived
-infromation.~\cite{Najafabadi2015, useful_ml} In contrast, \gls{dl} techniques
-consists of numerous layers of interconnected neurons which each take the sum
-of their inputs, multiply by their weight and apply an activation function to
-the output. This is then passed either to the neurons of the next layer or to
-the final output layer~\cite{dl}.
+predictions or decisions based on the derived information~\cite{Najafabadi2015,
+    useful_ml}. In contrast, \gls{dl} techniques consists of numerous layers of
+interconnected neurons which each take the sum of their inputs, multiply by
+their weight and apply an activation function to the output. This is then
+passed either to the neurons of the next layer or to the final output
+layer~\cite{dl}.
 
 % try fit some open closed set stuff here
 
 Supervised techniques tend to be affected negatively by imbalanced datasets,
 where they may exhibit a bias towards predicting the majority class, leading to
-less accurate predictions for minority classes~\cite{imbalance_prob, survey_cicids}.
-One approach to address this issue, which has been employed extensively in the
-literature, is \gls{smote}~\cite{smote, smote_survey, Karatas, Jiang}.\
-\gls{smote} generates synthetic minority class samples to reduce imbalance by
-interpolating data from other nearby points. These points are selected using
-the \gls{knn} algorithm. By increasing the number of minority class samples in
-the dataset, the effects of class imbalance can be alleviated~\cite{smote}.
+less accurate predictions for minority classes~\cite{imbalance_prob,
+    survey_cicids}. One approach to address this issue, which has been employed
+extensively in the literature, is \gls{smote}~\cite{smote, smote_survey,
+    Karatas, Jiang}.\ \gls{smote} generates synthetic minority class samples to
+reduce imbalance by interpolating data from other nearby points. These points
+are selected using the \gls{knn} algorithm~\cite{knn}. By increasing the number
+of minority class samples in the dataset, the effects of class imbalance can be
+alleviated~\cite{smote}.
 
 \section{Evaluation Methods}%
 \label{sec:eval}
@@ -88,7 +94,7 @@ predictions made during testing~\cite{metrics}.
 Accuracy represents the proportion of correct predictions and is the most
 common metric used. It can, however, be misleading in datasets with significant
 class imbalance as if the model performs well on the majority class, it will
-achieve a high accuracy regardless of the performance on the minorty class. In
+achieve a high accuracy regardless of the performance on the minority class. In
 tasks like intrusion detection, where detecting minority classes is crucial,
 this skewed accuracy can be misleading. It is defined as:
 
@@ -105,30 +111,52 @@ Precision represents the likelihood a positive prediction made by the model is
 correct, an important metric in intrusion detection as a low precision
 indicates a high false alarm rate. It is defined as:
 
-\[ \text{Precision} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fp}}} \]
+\[ \text{Precision} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fp}}}
+\]
 
 The f1-measure serves as a unified metric that considers both recall and
 precision. It is less susceptible to the effects of class imbalance when
-comapred to accuracy. It is defined as:
-\[ \text{F1-measure} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \]
+compared to accuracy. It is defined as:
+\[ \text{F1-measure} = 2 \times \frac{\text{Precision} \times
+        \text{Recall}}{\text{Precision} + \text{Recall}} \]
 
 The \gls{roc} curve is also a common tool used for evaluating models, with the
 area under the curve serving as a valuable metric. The curve consists of the
 \gls{fpr} rate on the x-axis plotted against the recall on the y-axis, where
 \gls{fpr} is defined as:
-\[ \text{\gls{fpr}} = \frac{\text{\gls{fp}}}{\text{\gls{fp}} + \text{\gls{tn}}} \]
+\[ \text{\gls{fpr}} = \frac{\text{\gls{fp}}}{\text{\gls{fp}} + \text{\gls{tn}}}
+\]
 
 K-fold cross-validation is a robust evaluation strategy widely employed in
 machine learning. The dataset is divided into k partitions, or folds, and the
 model is trained k times each time using a different fold as the test set
 whilst all other partitions constitute the training set. The metrics calculated
-in each fold are then aggregated yielding the final results. This enahnces the
+in each fold are then aggregated yielding the final results. This enhances the
 reliability of the evaluation by decreasing variance in the metrics caused by
 stochasticity in the train-test splitting of the dataset~\cite{kfoldcv}.
 
-\section{Feature Engineering}%
+\section{Feature Selection}%
 \label{sec:feat_eng}
-% TODO: actually write this
+Feature selection is among the most important components of preprocessing.
+The aim of feature selection is to simplify the set of features in a dataset and
+increase the efficacy of the model by selecting the most relevant features and
+discarding unnecessary features~\cite{feat-sel}. Features may be relevant,
+redundant, or irrelevant. Relevant features are those that offer valuable
+information about the target variable and are vital to enable the model to
+learn patterns present in the dataset. Redundant features refer to features
+that also offer valuable information to the model however are superseded by
+other features that contain the same or more information. Hence, their
+inclusion will increase the model complexity without any significant
+improvement to model efficacy. Irrelevant features refer to those that do not
+contain any information about the target variable. These become a source of
+noise to the model and should be removed to maximise efficacy and reduce excess
+model complexity.
+
+Feature selection techniques, similarly to machine learning techniques, can be
+categorised based on their label requirements. Supervised feature selection
+techniques require labels and are typically employed for classification and
+regression tasks, whereas, unsupervised techniques do not require labels and
+are typically employed for clustering tasks~\cite{feat-sel}.
 
 \section{Literature Review}%
 \label{sec:literature}
@@ -138,15 +166,14 @@ There exists countless works in the literature focused on the field of
 some significant works in the field.
 
 In 2020, Karatas et al.~\cite{Karatas} proposed six \gls{ml}-based \gls{ids},
-employing the techniques of K Nearest Neighbours, Random Forest, Gradient
-Boosting, Adaboost, Decision Tree and Linear Discriminant Analysis. They
-evaluated their models on the CSE-CIC-IDS 2018 dataset. Due to the class
-imbalance present in this dataset, the authors applied the \gls{smote}. The
-results indicate the proposed models are very effective with accuracies on the
-sampled data ranging from 91.18\% to 99.35\%. The Random Forest algorithm had
-the highest accuracy on the sampled dataset, however the Adaboost algorithm had
-the highest precision and F1 score which may be more significant given the
-class imbalance present in the dataset.
+employing the techniques of \gls{knn}, \gls{rf}, \gls{gb}, AdaBoost, \gls{dt}
+and \gls{lda}. They evaluated their models on the CSE-CIC-IDS 2018 dataset. Due
+to the class imbalance present in this dataset, the authors applied
+\gls{smote}. The results indicate the proposed models are very effective with
+accuracies on the sampled data ranging from 91.18\% to 99.35\%. The \gls{rf}
+algorithm had the highest accuracy on the sampled dataset, however the AdaBoost
+algorithm had the highest precision and F1 score which may be more significant
+given the class imbalance present in the dataset.
 
 Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
 propose a \gls{cnn} to extract spatial features, which are then processed
@@ -189,7 +216,7 @@ alarmingly low ability to recognise unseen attacks, with detection rates
 dropping to between 3.2\% and 14.7\% for some types of attacks. The authors
 conclude that the models they tested only learn signatures of attacks and are
 not performing true anomaly-based intrusion detection. The study focuses
-pr`ima'rily on industrial intrusion detection and does not attempt to make any
+primarily on industrial intrusion detection and does not attempt to make any
 generalisations to other domains of intrusion detection.
 
 A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day} reviews
@@ -206,7 +233,7 @@ Evidence Accumulation, \gls{dbscan} and K-means clustering. The results
 indicated the proposed model outperformed the other models.
 
 Cao et al.~\cite{Cao} take an unsupervised deep learning approach, proposing
-new regularisers to classical and variational autoencoders to map normal
+new regularisers to classical and variational auto-encoders to map normal
 network samples towards the origin. One class classification models can then be
 used to detect malicious samples which will be mapped further from the origin.
 They evaluated this approach on 14 datasets, including, CTU13\-09, CTU13\-13,
@@ -216,20 +243,31 @@ dimensional and sparse network data.
 In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
 machine learning algorithms on 11 different network intrusion datasets. The
 study includes supervised, unsupervised, deep learning and meta-learning
-algorithms. The methodology, like that of Kus et al., involves creating
-variants of each dataset excluding specific categories in order to simulate the
-occurrence of unknown attacks. They conclude that supervised classifiers yield
-a higher accuracy, however, this is significantly degraded in the face of
-unknown attacks. Unsupervised learners on the other hand are less accurate but
-experience a less dramatic decline in the face of unknown attacks. They also
-conclude meta-learners outperform their non-meta-learning counterparts.
+algorithms. The methodology, like that of Kus et al.~\cite{Kus}, involves
+creating variants of each dataset excluding specific categories in order to
+simulate the occurrence of unknown attacks. They conclude that supervised
+classifiers yield a higher accuracy, however, this is significantly degraded in
+the face of unknown attacks. Unsupervised learners on the other hand are less
+accurate but experience a less dramatic decline in the face of unknown attacks.
+They also conclude meta-learners outperform their non-meta-learning
+counterparts.
+
+Other, less conventional approaches have also been employed in the literature,
+with some novel approaches having been proposed since this literature review
+was first carried out. For instance, OpenMax is an extension of the softmax
+activation function commonly used in \gls{dl} which has seen application to
+\gls{nids}~\cite{openmax}. Another possibility that has been explored in a
+different domain is \gls{gan} dataset enhancement which essentially involves
+using \gls{dl} to generate realistic attack samples in the dataset without
+prior knowledge of the attacks~\cite{gan_enhancement}. Biologically inspired
+algorithms may also offer an interesting approach to the field~\cite{AIm}.
 
 \section{Conclusion}%
 \label{sec:conclusion}
 From the above works, we observe that the research community has achieved
 very impressive results in the field of intrusion detection. However, as Kus et
-al.\ have discovered, these laboratory results may not accurately reflect
-reality.
+al.~\cite{Kus} have discovered, these laboratory results may not accurately
+reflect reality.
 
 The supervised learning approaches explored above do not consider the
 possibility of unknown attacks and hence may be ineffective in practical
