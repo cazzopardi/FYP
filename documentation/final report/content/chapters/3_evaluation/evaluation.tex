@@ -187,13 +187,32 @@ were carried out prior to all experiments.
             negative values and a zero for positive values in the corresponding column.
       \item The label column was encoded into numeric values. This was done for both the
             `attack category' and `attack name' columns for the purposes of this study.
-      \item The dataset was shuffled.
-      \item Lastly, \gls{smote} was employed to reduce the class imbalance present in the
-            dataset. % TODO: give parametrs and sampling strategy
+      \item The dataset was split into training and testing sets using an 80/20 split and
+            then shuffled.
+      \item Lastly, \gls{smote} was employed on the training set to reduce the class
+            imbalance present in the dataset. Minority classes were increased to at least
+            5\% of the data when considering categories, and at least 1\% when considering
+            individual attacks.
 \end{enumerate}
 
-The following additional steps were carried out following the steps mentioned
-above, based on the methodology of Cao et al.~\cite{Cao}.
+Following these preprocessing steps, the unsupervised models had additional
+preprocessing carried out, based on the work of the original authors. Note, the
+\gls{smote} step was excluded when processing for unsupervised models as they
+do not consider minority samples when training.
+
+The following additional steps were applied to the data processed by the
+\gls{ssc}-\gls{ocsvm} model, based on the methodology of Pu et al.~\cite{Cao}.
+\begin{enumerate}
+      \item The `Protocol' feature, which is the only categorical feature with more than
+            two levels, was converted to one-hot encoding representation.
+      \item F-test feature selection was employed, selecting the best 50 features based on
+            the ANOVA F-value~\cite{f_test} of each feature.
+      \item All features were then standardised.
+      \item Finally, malicious samples were removed from the training set.
+\end{enumerate}
+
+The following additional steps were applied to the data processed by the
+\gls{sae}-\gls{ocsvm} model, based on the methodology of Cao et al.~\cite{Cao}.
 \begin{enumerate}
       \item The negative one values present in the columns `Init Fwd Win Byts' and `Init
             Bwd Win Byts' were replaced by -0.5 values. This is so that they scale back to
@@ -202,9 +221,10 @@ above, based on the methodology of Cao et al.~\cite{Cao}.
             set was reduced to 6734 samples. This number was selected as it was the number
             used by the original authors, and our experimentation with different sample
             sizes failed to yield better results.
-      \item Next, columns containing large values had one added to them followed by the
-            logarithm operation base two.
-      \item Finally, each feature was scaled by its maximum absolute value.
+      \item Next, columns containing large values (larger than 10,000) had one added to
+            them followed by the logarithm operation base two.
+      \item Each feature was then scaled by its maximum absolute value.
+      \item Finally, malicious samples were removed from the training set.
 \end{enumerate}
 
 \section{Training Variants}%
@@ -262,7 +282,9 @@ or malicious.
 % be explored to reduce the size of the dataset without decreasing the quality of
 % the results.
 
-All hyperparameters are specified in Table~\ref{tab:hyperparameters}.
+All hyperparameters are specified in Table~\ref{tab:hyperparameters}. All
+source code used in the implementation can be found at
+https://github.com/calvinA21/FYP/.
 
 \begin{table}
       \caption{Hyperparamters\label{tab:hyperparameters}}
