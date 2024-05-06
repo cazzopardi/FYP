@@ -9,14 +9,12 @@
 As mentioned in Section~\ref{sec:implementation}, each model considered was
 evaluated on a dataset used by the original authors to verify it was replicated
 correctly. As noted in Section~\ref{sec:datasets} the supervised models were
-evaluated on the CSE-CIC-IDS2018 dataset itself whilst the unsupervised models
-were evaluated on the NSL-KDD dataset. Tables~\ref{tab:karatas_rep_agg}
-and~\ref{tab:karatas_rep_acc} display the results of the replication of the
-work of Karatas et al.~\cite{Karatas}. Table~\ref{tab:cao_rep} shows the
-results of the replication of the work of Cao et al.~\cite{Cao}. Both tables
-show metrics presented by the original authors, that were considered in order
-to verify the models were replicated correctly.
-
+evaluated on the CSE-CIC-IDS2018 dataset whilst the unsupervised models were
+evaluated on the NSL-KDD dataset. The evaluation methodology was also evaluated
+on the models and dataset originally used by Kus et al.~\cite{Kus}.
+Tables~\ref{tab:karatas_rep_agg} and~\ref{tab:karatas_rep_acc} display the
+results of the replication of the work of Karatas et al.~\cite{Karatas}.
+%
 \begin{table}
     \caption{Karatas et al.~\cite{Karatas} replication aggregate results\label{tab:karatas_rep_agg}}
     \centering
@@ -38,7 +36,7 @@ to verify the models were replicated correctly.
         \hline
     \end{tblr}
 \end{table}
-
+%
 \begin{table}
     \caption{Karatas et al.~\cite{Karatas} replication accuracy per class\label{tab:karatas_rep_acc}}
     \centering
@@ -53,7 +51,7 @@ to verify the models were replicated correctly.
         \gls{rf}           & 0.991                & 1.000              & 1.000
                            & 1.000                & 0.747              & 0.917 \\
         \gls{gb}           & 0.991                & 1.000              & 1.000
-                           & 1.000                & 0.987              & 1.000
+                           & 1.000                & 0.987              & 1.000 \\
         \gls{knn}          & -                    & -                  & -
                            & -                    & -                  & -     \\
         \gls{lda}          & -                    & -                  & -
@@ -61,7 +59,10 @@ to verify the models were replicated correctly.
         \hline
     \end{tblr}
 \end{table}
-
+%
+Table~\ref{tab:cao_rep} shows the results of the replication of the work of Cao
+et al.~\cite{Cao}.
+%
 \begin{table}
     \caption{Cao et al.~\cite{Cao} replication \gls{auc} per class\label{tab:cao_rep}}
     \centering
@@ -79,6 +80,34 @@ to verify the models were replicated correctly.
         \hline
     \end{tblr}
 \end{table}
+%
+Figures~\ref{fig:kus_rep_exc} and~\ref{fig:kus_rep_inc} show the results of the
+replication of the work of Kus et al.~\cite{Kus}. The results present metrics
+employed by the original authors, that were considered in order to verify the
+works were replicated correctly. Note, the label encodings used by our
+replication of the work of Kus et al.~\cite{Kus} is different to that of the
+original authors, hence, the columns of the heatmaps appear to be shuffled. The
+encoding zero represents the benign class in both our replication and the
+original work.
+%
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=180pt,keepaspectratio]{kus_rf_exc_category}
+    \includegraphics[width=180pt,keepaspectratio]{kus_svm_exc_category}
+    \includegraphics[width=200pt,keepaspectratio]{kus_rf_exc_attack}
+    \includegraphics[width=200pt,keepaspectratio]{kus_svm_exc_attack}
+    \caption[Kus et al.~\cite{Kus} Replication Class Omission Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per class against omitted class\label{fig:kus_rep_exc}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=180pt,keepaspectratio]{kus_rf_inc_category}
+    \includegraphics[width=180pt,keepaspectratio]{kus_svm_inc_category}
+    \includegraphics[width=200pt,keepaspectratio]{kus_rf_inc_attack}
+    \includegraphics[width=200pt,keepaspectratio]{kus_svm_inc_attack}
+    \caption[Kus et al.~\cite{Kus} Replication Single Class Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per class against trained class\label{fig:kus_rep_inc}}
+\end{figure}
+% 
 
 \section{Aggregate Results Omitting Categories}%
 \label{sec:agg_res_cat}
@@ -144,7 +173,7 @@ Table~\ref{tab:results_cat_agg}, the \gls{sae}-\gls{ocsvm} model does not
 demonstrate a high efficacy in network intrusion detection, only successfully
 identifying 64\% of attacks.
 
-From these observations, we can begin to address \hyperlink{obj1}{Objective 1}.
+From these observations, we can begin to address \hyperlink{obj}{Objective 1}.
 The state-of-the-art supervised models considered demonstrate impressive
 efficacy in detecting known network intrusions, however, their efficacy
 diminishes to an alarming degree when faced with unknown attacks. Hence, their
@@ -153,7 +182,7 @@ face, and the dataset available for training. The state-of-the-art unsupervised
 model considered exhibits a far lower efficacy, however, experiences negligible
 decline against unknown attacks. This may offer an invaluable tool in flagging
 potentially malicious behaviour however, may not be suitable if a high degree
-of confidence in predictions is required. Regarding \hyperlink{obj2}{Objective
+of confidence in predictions is required. Regarding \hyperlink{obj}{Objective
     2}, it is clear to see that the supervised models considered are more effective
 overall, performing better in all metrics except for recall-unk. However,
 unsupervised models are significantly more effective in detecting unknown
@@ -300,7 +329,7 @@ that of the unsupervised model.
 
 In this section, we will present and discuss heatmaps showing the recall values
 on each category for each variant considered. This data will allow us to
-address \hyperlink[obj3]{Objective 3}, revealing the exact relationships each
+address \hyperlink{obj}{Objective 3}, revealing the exact relationships each
 model forms between the presence of attacks or attack categories in the
 training set, and the predictions of each class.
 
@@ -399,17 +428,17 @@ highest generalisation ability, followed by \gls{dt} and finally \gls{rf}.
 \section{Threats to Validity}%
 \label{sec:threats}
 % TODO, citations would take this up a notch
-It should be noted from the results that the unsupervised model considered
-performs much better on the NSL-KDD dataset than the CSE-CIC-IDS2018 dataset.
-This highlights the issue of generalisation across datasets. The unsupervised
-models considered were selected as they were the most highly cited and best
-performing models within the domain that provide a clear methodology from the
-models found during the literature review. This implicitly assumes that the
-high efficacy demonstrated on the NSL-KDD dataset and the other datasets they
-were evaluated on, generalises well to the CSE-CIC-IDS2018 dataset, which may
-not always be the case. Hence, it is possible these models are not the best
-performing models on the dataset considered for this study, resulting in an
-unfair comparison with the supervised models.
+It should be noted from the results, that the \gls{sae}-\gls{ocsvm} model
+performs much better on the NSL-KDD dataset than the CSE-CIC-IDS2018
+dataset. This highlights the issue of generalisation across datasets. The
+unsupervised models considered were selected as they were the most highly cited
+and best performing models within the domain that provide a clear methodology
+from the models found during the literature review. This implicitly assumes
+that the high efficacy demonstrated on the NSL-KDD dataset and the other
+datasets they were evaluated on, generalises well to the CSE-CIC-IDS2018
+dataset, which may not always be the case. Hence, it is possible these models
+are not the best performing models on the dataset considered for this study,
+resulting in an unfair comparison with the supervised models.
 
 Furthermore, the issue of cross-dataset generalisation also brings into
 question how well these results will truly generalise outside the lab

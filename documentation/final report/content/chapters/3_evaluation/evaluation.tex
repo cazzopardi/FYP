@@ -8,7 +8,7 @@ principles.
 Models are evaluated using the methodology of Kus et al.~\cite{Kus} as this is
 a superset of the methodology applied by Zoppi et al.~\cite{Zoppi}.
 Additionally, Kus et al.~\cite{Kus} consider individual attacks, which will
-provide valuable insights to address \hyperlink{obj3}{Objective 3}.
+provide valuable insights to address \hyperlink{obj}{Objective 3}.
 
 The methodology can be divided into the five following steps:
 \begin{enumerate}
@@ -113,7 +113,7 @@ categorised as `Bot' attacks.
 \begin{table}
       \centering
       \caption{Attack Categorisation\label{tab:categories}}
-      \begin{tblr}{|Q[m,0.2\textwidth]|Q[m,0.2\textwidth]|}
+      \begin{tblr}{|Q[m,0.15\textwidth]|Q[m,0.4\textwidth]|}
             \hline
             Category                     & Original Label           \\
             \hline
@@ -243,13 +243,15 @@ was replaced with a ThunderSVM~\cite{ThunderSVM} model to reduce execution
 time.
 
 The results of each original study were replicated on one of the datasets used
-by the original authors to verify the models were replicated correctly. Once,
-matching results were achieved, the models were trained on the variants to
-produce the results of this study. The unsupervised models considered expect
-only normal, or benign, data in their training sets. Hence, these were only
-trained once as all variants are rendered identical when malicious samples are
-omitted. Each model was trained as a binary classification model, classifying
-each sample as benign or malicious.
+by the original authors to verify the models were replicated correctly. The
+methodology was also replicated on the models and dataset used by Kus et
+al.~\cite{Kus} to ensure it was replicated correctly. Once, matching results
+were achieved, the models were trained on the variants to produce the results
+of this study. The unsupervised models considered expect only normal, or
+benign, data in their training sets. Hence, these were only trained once as all
+variants are rendered identical when malicious samples are omitted. Each model
+was trained as a binary classification model, classifying each sample as benign
+or malicious.
 
 % In the ideal case, the evaluation metrics of 
 % each dataset variant would be calculated using 5-fold cross validation.
@@ -260,27 +262,22 @@ each sample as benign or malicious.
 % be explored to reduce the size of the dataset without decreasing the quality of
 % the results.
 
-\section{Hyperparameters}%
-\label{sec:hyperparameters}
-
-Table~\ref{tab:hyperparameters} specifies the hyperparameters used for each
-model in this study.
+All hyperparameters are specified in Table~\ref{tab:hyperparameters}.
 
 \begin{table}
-      \caption{Aggregate results when excluding specific
-            attacks\label{tab:hyperparameters}}
+      \caption{Hyperparamters\label{tab:hyperparameters}}
       \centering
-      \begin{tblr}{|c|c|c|c|c|c|c|}
+      \begin{tblr}{|Q[m,0.15\textwidth]|Q[m,0.8\textwidth]|}
             \hline
-            \textbf{Model}        & \textbf{Hyperparameters}                                                                                                  \\
+            \textbf{Model}        & \textbf{Hyperparameters}                                                                  \\
             \hline
-            \gls{dt}              & splitter=`best' criterion=`Gini' min_samples_split=2 min_samples_leaf=1                                                   \\
-            \gls{rf}              & n_estimators=100 min_samples_split=2 min_samples_leaf=1 criterion=`Gini                                                   \\
-            \gls{gb}              & loss=`log_loss' learning_rate=1 n_estimators=100 max_depth=3 validation_fraction=0.1                                      \\
-            \gls{knn}             & n_neighbours=5 weights=`uniform' metric=`Minkowski'                                                                       \\
-            \gls{lda}             & solver=`svd'                                                                                                              \\
-            \gls{ssc}-\gls{ocsvm} &                                                                                                                           \\
-            \gls{sae}-\gls{ocsvm} & lambda=10 learning_rate=0.01 n_neurons_layer_1=85 n_neurons_layer_2=49 n_neurons_layer_3=12 nu=0.5 kernel=`rbf' gamma=0.1 \\
+            \gls{dt}              & splitter=`best' criterion=`Gini' min\_samples\_split=2 min\_samples\_leaf=1               \\
+            \gls{rf}              & n\_estimators=100 min\_samples\_split=2 min\_samples\_leaf=1 criterion=`Gini              \\
+            \gls{gb}              & loss=`log\_loss' learning\_rate=1 n\_estimators=100 max\_depth=3 validation\_fraction=0.1 \\
+            \gls{knn}             & n\_neighbours=5 weights=`uniform' metric=`Minkowski'                                      \\
+            \gls{lda}             & solver=`svd'                                                                              \\
+            \gls{ssc}-\gls{ocsvm} & -                                                                                         \\
+            \gls{sae}-\gls{ocsvm} & lambda=10 learning\_rate=0.01 n\_neurons=(95,49,12) nu=0.5 kernel=`rbf' gamma=0.1         \\
             \hline
       \end{tblr}
 \end{table}
