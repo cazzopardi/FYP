@@ -250,17 +250,20 @@ into five categories. Hence, 52 dataset variants were generated.
 \section{Implementation and Execution}%
 \label{sec:implementation}
 
-The evaluation of this study is written in Python 3.11. The models employed by
-Karatas et al.~\cite{Karatas} were implemented using the scikit-learn
-library~\cite{scikit-learn} as was done by the original authors. The work of Pu
-et al.~\cite{Pu} was replicated using ThunderSVM~\cite{ThunderSVM}, a
-GPU-accelerated library that offers an \gls{ocsvm} implementation. Cao et
-al.~\cite{Cao} provide the source code of their implementation on
-GitHub~\cite{cao_git}. This implementation employs Tensorflow~\cite{tensorflow}
-for the \gls{sae} and sci-kit learn for the \gls{ocsvm} model. The \gls{sae}
-implementation was updated to work with Tensorflow 2 and the \gls{ocsvm} model
-was replaced with a ThunderSVM~\cite{ThunderSVM} model to reduce execution
-time.
+The evaluation of this study is written in Python 3.11. The \gls{dt}, \gls{rf}
+and \gls{lda} models were implemented using the scikit-learn
+library~\cite{scikit-learn} as was done by the original authors. The \gls{gb}
+model was implemented using the XGBoost library~\cite{xgboost} and the
+\gls{knn} model was implemented using cuML library~\cite{cuml}. These libraries
+were used to increase the execution time beyond what is possible with
+scikit-learn. The work of Pu et al.~\cite{Pu} was replicated using
+ThunderSVM~\cite{ThunderSVM}, a GPU-accelerated library that offers an
+\gls{ocsvm} implementation. Cao et al.~\cite{Cao} provide the source code of
+their implementation on GitHub~\cite{cao_git}. This implementation employs
+Tensorflow~\cite{tensorflow} for the \gls{sae} and scikit-learn for the
+\gls{ocsvm} model. The \gls{sae} implementation was updated to work with
+Tensorflow 2 and the \gls{ocsvm} model was replaced with a
+ThunderSVM~\cite{ThunderSVM} model to reduce execution time.
 
 The results of each original study were replicated on one of the datasets used
 by the original authors to verify the models were replicated correctly. The
