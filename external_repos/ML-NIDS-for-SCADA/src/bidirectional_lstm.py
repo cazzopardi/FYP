@@ -68,12 +68,7 @@ def lstm_model(input_dim, output_dim, seq_len, hidden=128, dropout=0.0, lr=0.1):
   model.summary()
   return model
 
-if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description='Run LSTM on a preprocessed dataset')
-  parser.add_argument('-d', '--dataset', required=True, type=str, help='Dataset directory')
-  parser.add_argument('-i', '--iters', default=20, type=int, help='Number of random search samples')
-  flags = parser.parse_args()
-
+def main(flags):
   dataset_dir = flags.dataset
   dataset_filenames = [
     'Xs_train.npy', 'Xs_val.npy', 'Xs_test.npy', 'Xs_train_val.npy','Xs_train_test.npy',
@@ -139,6 +134,7 @@ if __name__ == '__main__':
     if not os.path.exists(output_dir):
       os.makedirs(output_dir)
 
+    global model
     model = lstm_model(input_dim, label_dim, sl, \
       hidden=hls, dropout=dr, lr=lr)
 
@@ -182,3 +178,10 @@ if __name__ == '__main__':
       )
       for k,v in h.history.items():
         f.write(k + ':' + ','.join(map(str, v)) + '\n')
+
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser(description='Run LSTM on a preprocessed dataset')
+  parser.add_argument('-d', '--dataset', required=True, type=str, help='Dataset directory')
+  parser.add_argument('-i', '--iters', default=20, type=int, help='Number of random search samples')
+  flags = parser.parse_args()
+  main(flags)

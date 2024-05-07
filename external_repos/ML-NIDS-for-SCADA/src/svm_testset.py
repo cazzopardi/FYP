@@ -55,8 +55,8 @@ if __name__ == '__main__':
     print(Xs_train_val.shape,Ys_train_val.shape)
     print(Xs_train_test.shape,Ys_train_test.shape)
 
-    C=536.672
-    gamma = 0.7150
+    C=346.219
+    gamma = 0.3975
     print('Selected C: {:.3f}'.format(C))
     print('Selected gamma: {:.4f}'.format(gamma))
 
@@ -74,7 +74,7 @@ if __name__ == '__main__':
         svr = OneVsRestClassifier(svm.SVC(kernel="rbf", gamma=gamma, C=C, class_weight = 'balanced'))
              
       start_time = time.time()
-      svr.fit(Xs_train_val, Ys_train_val.ravel())
+      svr.fit(Xs_train_val, Ys_train_val.ravel()!=0)
       end_time = time.time()
 
       predictions_train = svr.predict(Xs_train_val)  
@@ -82,8 +82,9 @@ if __name__ == '__main__':
 
       predictions_test = svr.predict(Xs_train_test)  
 
-      # convert predictions into binary predictions whilst preserving the category labels in the output
-      true_mask = np.logical_and(predictions_test != 0, Ys_train_test.ravel() != 0)
+      # convert binary predictions back to category labels in the output
+      true_mask = np.logical_and(predictions_test, Ys_train_test.ravel() != 0)
+      predictions_test = predictions_test.astype('int8')
       predictions_test[true_mask == 1] = Ys_train_test.ravel()[true_mask == 1]
       
       acc_test         = accuracy_score(Ys_train_test,predictions_test)
