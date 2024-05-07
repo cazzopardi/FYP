@@ -1,6 +1,8 @@
 import subprocess
 import argparse
 import os
+# import sys  # uncomment to use a specific GPU for BLSTM model
+# sys.path.append('external_repos/ML-NIDS-for-SCADA/src')
 import platform
 from typing import Callable
 is_unix =  platform.system() in ['Linux', 'Darwin']
@@ -9,8 +11,10 @@ if not is_unix:
 
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 from data.filtered_dataset import FilteredDataset, Level, Mode
+# from bidirectional_lstm import main  # uncomment to use a specific GPU for BLSTM model
 
 def _infer_category(attack_id: int) -> int:
     if attack_id < 0 or attack_id > 35:
@@ -76,13 +80,13 @@ def filter_dataset(dataset_dir: str, model: str) -> tuple[FilteredDataset, Filte
     cat: str = Level.CATEGORY.value
     att: str = Level.ATTACK.value
 
-    df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train), name=cat), pd.Series(Y_train.ravel(), name=att, dtype=int)], axis=1)
+    df_train: pd.DataFrame = pd.concat([pd.DataFrame(X_train), pd.Series(infer_categories(Y_train.ravel()), name=cat), pd.Series(Y_train.ravel(), name=att, dtype=int)], axis=1)
     train: FilteredDataset = FilteredDataset(df_train, cat, att) # TODO: specify benign encoding
     
-    df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val), name=cat), pd.Series(Y_val.ravel(), name=att, dtype=int)], axis=1)
+    df_val: pd.DataFrame = pd.concat([pd.DataFrame(X_val), pd.Series(infer_categories(Y_val.ravel()), name=cat), pd.Series(Y_val.ravel(), name=att, dtype=int)], axis=1)
     val: FilteredDataset = FilteredDataset(df_val, cat, att)
     
-    df_train_val = pd.concat([pd.DataFrame(X_train_val), pd.Series(infer_categories(Y_train_val), name=cat), pd.Series(Y_train_val.ravel(), name=att, dtype=int)], axis=1)
+    df_train_val = pd.concat([pd.DataFrame(X_train_val), pd.Series(infer_categories(Y_train_val.ravel()), name=cat), pd.Series(Y_train_val.ravel(), name=att, dtype=int)], axis=1)
     train_val = FilteredDataset(df_train_val, cat, att)
 
     return train, val, train_val
@@ -126,20 +130,18 @@ if __name__ == '__main__':
     output_dir = 'output'
 
     # Run model command
-    model_cmd = {'svm':'svm_testset', 'rf': 'random_forest_testset', 'blstm':'bidirectional-lstm'}
+    model_cmd = {'svm':'svm_testset', 'rf': 'random_forest_testset', 'blstm':'bidirectional_lstm'}
     payload = {'svm':'--payload-keep-value-imputed', 'rf': '--payload-keep-value-imputed', 'blstm':'--payload-indicator-imputed'}
 
     for model in ('rf', 'svm', 'blstm'):
-        # debug
-        if model != 'blstm': 
-            continue
+        # if model != 'blstm':  # uncommne tot use specific GPU for BLSTM model
+        #     continue
         # setup data folder
         model_dir = os.path.join(output_dir, model)
         data_path = os.path.join(model_dir, 'data')
         os.makedirs(data_path, exist_ok=True)
         
         # preprocess dataset for model
-        # TODO: deal with payload
         setup_cmd: str = PRE_PROCESS_CMD(f'{REPOSITORY_ROOT}/data/IanArffDataset.arff', model, f'{payload[model]} -o {data_path}')
         subprocess.run(setup_cmd.split())
 
@@ -147,15 +149,17 @@ if __name__ == '__main__':
         
         # run model on whole dataset as baseline
         # subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {data_path} -i 1'.split())
+        # exit(0)
         
         # run model on all variants
         for exp_class_train, (level, mode) in train.get_all_variants():
             for experiment, label in exp_class_train:
-                if label == '0': continue
+                if label == 0: continue
                 if level == Level.CATEGORY: continue
                 # working directory setup
-                cwd = '-'.join((level.value, mode.value, label))
+                cwd = '-'.join((level.value, mode.value, str(label)))
                 cwd = os.path.join(model_dir, cwd)
+                if os.path.exists(cwd): continue
                 os.makedirs(cwd, exist_ok=True)
                 
                 # write experiment-specfic dataset
@@ -164,5 +168,7 @@ if __name__ == '__main__':
                 exp_train_val = train_val.get_variant(level, mode, label)
                 write_dataset(cwd, experiment, exp_val, exp_train_val, level)  # overwrite training data with data from variant
                 
-                subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
-    
+                # uncomment to use specific GPU for BLSTM model
+                # subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
+                # with tf.device('/gpu:1'):
+                #     main(argparse.Namespace(**{'dataset':cwd, 'iters':1}))
