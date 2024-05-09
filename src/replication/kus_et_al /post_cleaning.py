@@ -5,8 +5,8 @@ def clean(dir: str, suffix: str):
     for file_name in os.listdir(dir):
         file = os.path.join(dir, file_name)
         if os.path.isdir(file):
-            clean_interim_data(file)
-        elif file_name[-4:] == suffix:
+            clean(file, suffix)
+        elif file_name[-len(suffix):] == suffix:
             os.remove(file)
 
 def clean_interim_data(dir:str):
