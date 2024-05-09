@@ -13,6 +13,8 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
+from clean_interim_data import clean
+
 from data.filtered_dataset import FilteredDataset, Level, Mode
 # from bidirectional_lstm import main  # uncomment to use a specific GPU for BLSTM model
 
@@ -168,7 +170,8 @@ if __name__ == '__main__':
                 exp_train_val = train_val.get_variant(level, mode, label)
                 write_dataset(cwd, experiment, exp_val, exp_train_val, level)  # overwrite training data with data from variant
                 
-                # uncomment to use specific GPU for BLSTM model
-                # subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
+                subprocess.run(f'python {REPOSITORY_ROOT}/src/{model_cmd[model]}.py -d {cwd} -i 1'.split())
+                # comment aove and uncomment below to use specific GPU for BLSTM model
                 # with tf.device('/gpu:1'):
                 #     main(argparse.Namespace(**{'dataset':cwd, 'iters':1}))
+                clean(cwd)
