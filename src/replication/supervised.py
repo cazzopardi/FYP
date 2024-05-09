@@ -40,9 +40,10 @@ if __name__ == '__main__':
     for algorithm_function in algorithms:
         model = algorithm_function()
         print('Fitting ', algorithm_function.__name__, '...')
-        model.fit(X_train, y_train)
+        model.fit(X_train, y_train.to_numpy())
         print("Generating predictions...")
         y_pred = model.predict(X_test)
+        pickle.dump(y_pred, open(f'results/replication/{algorithm_function.__name__}_pred.pkl', 'wb'))
         print('Results of', algorithm_function.__name__, ':')
         report = classification_report(y_test.to_numpy(), y_pred)
         # Calculate per-class accuracy
