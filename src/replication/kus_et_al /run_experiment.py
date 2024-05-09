@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from clean_interim_data import clean
+from post_cleaning import clean_interim_data, clean_weights
 
 from data.filtered_dataset import FilteredDataset, Level, Mode
 # from bidirectional_lstm import main  # uncomment to use a specific GPU for BLSTM model
@@ -174,4 +174,5 @@ if __name__ == '__main__':
                 # comment aove and uncomment below to use specific GPU for BLSTM model
                 # with tf.device('/gpu:1'):
                 #     main(argparse.Namespace(**{'dataset':cwd, 'iters':1}))
-                clean(cwd)
+                clean_interim_data(cwd)
+                clean_weights(cwd)
