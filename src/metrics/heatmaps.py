@@ -29,6 +29,7 @@ if __name__ == '__main__':
             lda_files = [file for file in result_files if 'linear_discriminant_analysis' in file and (str(level) in file) and (str(mode) in file  or 'baseline' in file)]
 
             for algo, model_files in zip(['dt','rf','gb', 'lda'], [dt_files, rf_files, gb_files, lda_files]):
+                if algo != 'lda': continue
                 acc: list[list] = []
                 for file in model_files:
                     y_pred = pickle.load(open(f'results/supervised/{file}', 'rb'))
@@ -64,6 +65,8 @@ if __name__ == '__main__':
                 level_s = 'Attacks' if level == Level.ATTACK else 'Attack Categories'
                 plt.gca().set_xlabel(f'Classified {level_s}')
                 plt.gca().set_ylabel(f'{mode_s} {level_s}')
+                plt.xticks(rotation=90)
+                plt.yticks(rotation=0)
                 plt.tight_layout()
                 plt.title(algo.upper())
                 plt.savefig(f'results/heatmaps/{algo}_{mode.value}_{level.value}.pdf')
