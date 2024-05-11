@@ -22,40 +22,40 @@ if __name__ == '__main__':
         # else:
         #     label_decoding = {1: 'Bot2', 2: 'Bot1', 3: 'DoS-SlowHTTPTest', 4: 'DoS-Hulk', 5: 'Brute Force -Web2', 6: 'Brute Force -XSS2', 7: 'SQL Injection2', 8: 'Infiltration4', 9: 'Infiltration3', 10: 'DoS-GoldenEye', 11: 'DoS-Slowloris', 12: 'Brute Force -Web1', 13: 'Brute Force -XSS1', 14: 'SQL Injection1', 15: 'FTP-BruteForce', 16: 'SSH-BruteForce', 17: 'DDoS-HOIC', 18: 'DDoS-LOIC-UDP', 19: 'Infiltration1', 20: 'Infiltration2', 21: 'DDoS-LOIC-HTTP', 0: 'Benign'}
         for mode in Mode:
-            algo = 'svm'
-            PATH = f'output/{algo}/'
-            result_files = [folder+'/' for folder in os.listdir(PATH) if level.value in folder and (mode.value in folder or 'baseline' in folder)]
-            acc: list[list] = []
-            for folder in result_files:
-                folder2 = os.listdir(PATH+folder)[0]+'/'
-                file = os.listdir(PATH+folder+folder2)[0]
-                output_string = open(PATH+folder+folder2+file, 'r').read()
+            for algo in ['svm', 'rf']:
+                PATH = f'output/{algo}/'
+                result_files = [folder+'/' for folder in os.listdir(PATH) if level.value in folder and (mode.value in folder or 'baseline' in folder)]
+                acc: list[list] = []
+                for folder in result_files:
+                    folder2 = os.listdir(PATH+folder)[0]+'/'
+                    file = os.listdir(PATH+folder+folder2)[0]
+                    output_string = open(PATH+folder+folder2+file, 'r').read()
+                    
+                    lbl = int(re.findall(r'\d+', folder)[0])
+                    recalls: list[int|str] = [int(lbl)]
+                    for line in output_string.split(sep='\n'):
+                        data = line.split()
+                        if len(data) > 0 and data[0].replace('.','').isnumeric():
+                            recalls.append(data[2])
+                    acc.append(recalls)
+                cols = ['idx', *range(len(recalls)-1)]
                 
-                lbl = int(re.findall(r'\d+', folder)[0])
-                recalls: list[int|str] = [int(lbl)]
-                for line in output_string.split(sep='\n'):
-                    data = line.split()
-                    if len(data) > 0 and data[0].replace('.','').isnumeric():
-                        recalls.append(data[2])
-                acc.append(recalls)
-            cols = ['idx', *range(len(recalls)-1)]
-            
-            dat = pd.DataFrame(acc, columns=cols)
-            dat.sort_values(by='idx', inplace=True)
-            dat.set_index('idx',inplace=True,drop=True)
-            # dat.drop(columns=['sort'], inplace=True)
-            # else:
-            #     dat.sort_values(by='sort', inplace=True)
-            #     dat.set_index('idx', inplace=True, drop=True)
-            #     dat.drop(columns=['sort'], inplace=True)
-            dat = dat.astype('float32')
+                dat = pd.DataFrame(acc, columns=cols)
+                dat.sort_values(by='idx', inplace=True)
+                dat.set_index('idx',inplace=True,drop=True)
+                # dat.drop(columns=['sort'], inplace=True)
+                # else:
+                #     dat.sort_values(by='sort', inplace=True)
+                #     dat.set_index('idx', inplace=True, drop=True)
+                #     dat.drop(columns=['sort'], inplace=True)
+                dat = dat.astype('float32')
 
-            seaborn.heatmap(dat,annot=level==Level.CATEGORY, fmt='.2f')
-            mode_s = 'Trained' if mode == Mode.INC else 'Omitted'
-            level_s = 'Attacks' if level == Level.ATTACK else 'Attack Categories'
-            plt.gca().set_xlabel(f'Classified {level_s}')
-            plt.gca().set_ylabel(f'{mode_s} {level_s}')
-            plt.tight_layout()
-            plt.title('SVM')
-            plt.savefig(f'output/heatmaps/{algo}_{mode.value}_{level.value}.pdf')
-            plt.clf()
+                seaborn.heatmap(dat,annot=level==Level.CATEGORY, fmt='.2f')
+                mode_s = 'Trained' if mode == Mode.INC else 'Omitted'
+                level_s = 'Attacks' if level == Level.ATTACK else 'Attack Categories'
+                plt.gca().set_xlabel(f'Classified {level_s}')
+                plt.gca().set_ylabel(f'{mode_s} {level_s}')
+                plt.title(algo.upper())
+                plt.tight_layout()
+                plt.savefig(f'output/heatmaps/{algo}_{mode.value}_{level.value}.pdf')
+                plt.clf()
