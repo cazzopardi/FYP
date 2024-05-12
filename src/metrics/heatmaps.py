@@ -27,9 +27,9 @@ if __name__ == '__main__':
             dt_files = [file for file in result_files if 'decision_tree' in file and (str(level) in file) and (str(mode) in file  or 'baseline' in file)]
             gb_files = [file for file in result_files if 'gradient_boosting' in file and (str(level) in file) and (str(mode) in file  or 'baseline' in file)]
             lda_files = [file for file in result_files if 'linear_discriminant_analysis' in file and (str(level) in file) and (str(mode) in file  or 'baseline' in file)]
+            knn_files = [file for file in result_files if 'k_neighbours' in file and (str(level) in file) and (str(mode) in file  or 'baseline' in file)]
 
-            for algo, model_files in zip(['dt','rf','gb', 'lda'], [dt_files, rf_files, gb_files, lda_files]):
-                if algo != 'lda': continue
+            for algo, model_files in zip(['dt','rf','gb', 'lda', 'knn'], [dt_files, rf_files, gb_files, lda_files, knn_files]):
                 acc: list[list] = []
                 for file in model_files:
                     y_pred = pickle.load(open(f'results/supervised/{file}', 'rb'))

@@ -15,7 +15,7 @@ from models.supervised import *
 from data.filtered_dataset import FilteredDataset, Level, Mode
 
 def run_experiment(X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Series, y_test: pd.Series, label:str, level: Level, mode: Mode):
-    algorithms = [gradient_boosting, decision_tree, random_forest]
+    algorithms = [gradient_boosting, decision_tree, random_forest, k_neighbours]
     for algorithm_function in algorithms:
         model = algorithm_function()
         print('Fitting ', algorithm_function.__name__, '...')

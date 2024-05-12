@@ -4,8 +4,6 @@ from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier, Ran
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.neighbors import KNeighborsClassifier
-# from cuml.neighbors.kneighbors_classifier import KNeighborsClassifier
-# from cuml import RandomForestClassifier
 from xgboost import XGBClassifier
 
 # Replication of the methodology proposed by Karatas et al. in doi.org/10.1109/ACCESS

@@ -26,7 +26,8 @@ if __name__ == '__main__':
         dt_files = [file for file in result_files if 'decision_tree' in file and (str(level) in file) and (str(Mode.EXC) in file)]
         gb_files = [file for file in result_files if 'gradient_boosting' in file and (str(level) in file) and (str(Mode.EXC) in file)]
         lda_files = [file for file in result_files if 'linear_discriminant_analysis' in file and (str(level) in file) and (str(Mode.EXC) in file)]
-        for model_files in [lda_files, dt_files, rf_files, gb_files]:
+        knn_files = [file for file in result_files if 'k_neighbours' in file and (str(level) in file) and (str(Mode.EXC) in file)]
+        for model_files in [dt_files, rf_files, gb_files, lda_files, knn_files]:
             accs: dict[str,float] = {lbl:0.0 for lbl in np.unique(y_test)}  # accuracy accumulator
             f1s: dict[str,float] = {lbl:0.0 for lbl in np.unique(y_test)}
             agg_acc = 0
