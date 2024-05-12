@@ -6,6 +6,8 @@ from sklearn.feature_selection import SelectKBest, f_classif, f_regression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
+from preprocessing.supervised import clean, preprocess, preprocess_features, preprocess_labels, split
+
 # Replication of the methodology proposed by Pu et al. in doi.org/10.26599/TST.2019.9010051
 
 # label encoding maps
@@ -21,7 +23,7 @@ def _one_hot_encode(data: pd.DataFrame, feature: str) -> pd.DataFrame:
 
     return data
 
-def preprocess(data: pd.DataFrame, target: str='category') -> dict[str, tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]]:
+def preprocess_nsl_kdd(data: pd.DataFrame, target: str='category') -> dict[str, tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]]:
     # one-hot encoding
     non_numeric_features = ['protocol_type', 'service', 'flag']
     for non_numeric_feature in non_numeric_features:
@@ -58,9 +60,51 @@ def preprocess(data: pd.DataFrame, target: str='category') -> dict[str, tuple[pd
         if label == 0:
             continue
         mask: pd.Series = (y == label) | (y == 0)
+        
         X_train, X_test, y_train, y_test = train_test_split(X[mask], y[mask], test_size=0.2, random_state=42, shuffle=True, stratify=y[mask])
+        # only train on normal data
+        X_train = X_train[y_train == 0]
+        y_train = y_train[y_train == 0]
         subsets[output_decoding[target][label]] = X_train, X_test, y_train, y_test
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
+    # only train on normal data
+    X_train = X_train[y_train == 0]
+    y_train = y_train[y_train == 0]
     subsets['mixed'] = X_train, X_test, y_train, y_test
     
     return subsets
+
+def preprocess_cic_ids(data: pd.DataFrame, target='attack category', k_features=50):
+    data = clean(data)
+
+    X, y = split(data, target)
+
+    X = preprocess_features(X)
+    y, label_encoding = preprocess_labels(y)
+
+    # one-hot encoding
+    non_numeric_features = ['Protocol']
+    for non_numeric_feature in non_numeric_features:
+        data = _one_hot_encode(data, non_numeric_feature)
+    data = data.drop(columns=non_numeric_features)
+
+    # feature selection
+    selector = SelectKBest(score_func=f_classif, k=k_features)
+    selector.fit(X, y)
+    # Get indices of selected features
+    feature_mask: np.ndarray = selector.get_support()
+
+
+    # Get selected feature names
+    X = X.loc[:, feature_mask]
+
+    # standardisation
+    scaler = StandardScaler()
+    X = pd.DataFrame(scaler.fit_transform(X), index=X.index)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
+    # only train on normal data
+    X_train = X_train[y_train == 0]
+    y_train = y_train[y_train == 0]
+    
+    return X_train, X_test, y_train, y_test
