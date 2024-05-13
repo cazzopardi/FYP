@@ -23,16 +23,16 @@ results of the replication of the work of Karatas et al.~\cite{Karatas}.
         \textbf{Algorithm} & \textbf{Accuracy}  & \textbf{Recall}
                            & \textbf{Precision} & \textbf{F1-Measure} \\
         \hline
-        \gls{dt}           & 0.990              & 0.970
-                           & 0.940              & 0.950               \\
-        \gls{rf}           & 0.990              & 0.940
-                           & 0.950              & 0.950               \\
-        \gls{gb}           & 0.990              & 1.000
-                           & 0.960              & 0.980               \\
-        \gls{knn}          & -                  & -
-                           & -                  & -                   \\
-        \gls{lda}          & 0.880              & 0.890
-                           & 0.520              & 0.570               \\
+        \gls{dt}           & 0.99               & 0.97
+                           & 0.94               & 0.95                \\
+        \gls{rf}           & 0.99               & 0.94
+                           & 0.95               & 0.95                \\
+        \gls{gb}           & 0.99               & 1.00
+                           & 0.96               & 0.98                \\
+        \gls{knn}          & 0.97               & 0.91
+                           & 0.71               & 0.76                \\
+        \gls{lda}          & 0.88               & 0.89
+                           & 0.52               & 0.57                \\
         \hline
     \end{tblr}
 \end{table}
@@ -52,8 +52,8 @@ results of the replication of the work of Karatas et al.~\cite{Karatas}.
                            & 1.000                & 0.747              & 0.917 \\
         \gls{gb}           & 0.991                & 1.000              & 1.000
                            & 1.000                & 0.987              & 1.000 \\
-        \gls{knn}          & -                    & -                  & -
-                           & -                    & -                  & -     \\
+        \gls{knn}          & 0.970                & 1.000              & 1.000
+                           & 1.000                & 0.490              & 1.000 \\
         \gls{lda}          & 0.840                & 1.000              & 1.000
                            & 0.961                & 0.626              & 0.917 \\
         \hline
@@ -90,19 +90,45 @@ original work.
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=180pt,keepaspectratio]{kus_rf_exc_category}
-    \includegraphics[width=180pt,keepaspectratio]{kus_svm_exc_category}
-    \includegraphics[width=200pt,keepaspectratio]{kus_rf_exc_attack}
-    \includegraphics[width=200pt,keepaspectratio]{kus_svm_exc_attack}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_exc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_category}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_exc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_attack}
+    \end{minipage}
     \caption[Kus et al.~\cite{Kus} Replication Class Omission Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per class against omitted class\label{fig:kus_rep_exc}}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=180pt,keepaspectratio]{kus_rf_inc_category}
-    \includegraphics[width=180pt,keepaspectratio]{kus_svm_inc_category}
-    \includegraphics[width=200pt,keepaspectratio]{kus_rf_inc_attack}
-    \includegraphics[width=200pt,keepaspectratio]{kus_svm_inc_attack}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_category}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack}
+    \end{minipage}
     \caption[Kus et al.~\cite{Kus} Replication Single Class Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per class against trained class\label{fig:kus_rep_inc}}
 \end{figure}
 % 
@@ -139,8 +165,8 @@ account only the excluded category.
                               & 0.910              & 0.848                       \\
         \gls{gb}              & 0.948              & 0.804               & 0.118
                               & 0.872              & 0.800                       \\
-        \gls{knn}             & -                  & -                   & -
-                              & -                  & -                           \\
+        \gls{knn}             & 0.958              & 0.800               & 0.248
+                              & 0.900              & 0.796                       \\
         \gls{lda}             & 0.914              & 0.766               & 0.564
                               & 0.850              & 0.718                       \\
         \gls{ssc}-\gls{ocsvm} & 0.760              & 0.590               & 0.554
@@ -202,10 +228,10 @@ attacks.
                               & 0.902                & 0.862              & 0.448 \\
         \gls{gb}              & 0.989                & 0.741              & 0.622
                               & 0.751                & 0.754              & 0.240 \\
-        \gls{knn}             & -                    & -                  & -
-                              & -                    & -                  & -     \\
+        \gls{knn}             & 0.985                & 0.801              & 0.831
+                              & 0.920                & 0.892              & 0.388 \\
         \gls{lda}             & 0.940                & 0.773              & 0.805
-                              & 0.951                & 0.954              & 0.162     \\
+                              & 0.951                & 0.954              & 0.162 \\
         \gls{ssc}-\gls{ocsvm} & 0.772                & 0.006              & 0.778
                               & 0.999                & 0.667              & 0.313 \\
         \gls{sae}-\gls{ocsvm} & 0.818                & 0.496              & 0.734
@@ -233,12 +259,15 @@ attacks.
         \gls{gb}              & 0.962                & 0.508              & 0.644
                               & 0.772                & 0.774              & 0.368
         \\
-        \gls{knn}             & -                    & -                  & -
-                              & -                    & -                  & -     \\
+        \gls{knn}             & 0.974                & 0.554              & 0.856
+                              & 0.950                & 0.926              & 0.522
+        \\
         \gls{lda}             & 0.948                & 0.252              & 0.892
-                              & 0.972                & 0.974              & 0.276     \\
-        \gls{ssc}-\gls{ocsvm} & 0.850                & 0.000              & 0.880  
-                              & 1.000                & 0.800              & 0.480 \\
+                              & 0.972                & 0.974              & 0.276
+        \\
+        \gls{ssc}-\gls{ocsvm} & 0.850                & 0.000              & 0.880
+                              & 1.000                & 0.800              & 0.480
+        \\
         \gls{sae}-\gls{ocsvm} & 0.870                & 0.070              & 0.850
                               & 1.000                & 0.560              & 0.560
         \\
@@ -296,14 +325,14 @@ would require further experimentation to confirm or deny concretely.
                               & 0.977              & 0.895                       \\
         \gls{gb}              & 0.980              & 0.830               & 0.546
                               & 0.966              & 0.842                       \\
-        \gls{knn}             & -                  & -                   & -
-                              & -                  & -                           \\
+        \gls{knn}             & 0.975              & 0.851               & 0.500
+                              & 0.970              & 0.860                       \\
         \gls{lda}             & 0.918              & 0.758               & 0.610
                               & 0.958              & 0.767                       \\
         \gls{ssc}-\gls{ocsvm} & 0.760              & 0.630               & 0.566
                               & 0.900              & 0.690                       \\
         \gls{sae}-\gls{ocsvm} & 0.800              & 0.640               & 0.600
-                              & 0.830              & 0.650                       \\ % & 0.825 (AUC)
+                              & 0.830              & 0.650                       \\
         \hline
     \end{tblr}
 \end{table}
@@ -334,9 +363,27 @@ training set, and the predictions of each class.
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=250pt,keepaspectratio]{dt_exc_category}
-    \includegraphics[width=250pt,keepaspectratio]{rf_exc_category}
-    \includegraphics[width=250pt,keepaspectratio]{gb_exc_category}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{dt_exc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{rf_exc_category}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{gb_exc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_category}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{lda_exc_category}
+    \end{minipage}
     \caption[Category Omission Results]{Recall values per class when trained on variants omitting a single category.\label{fig:exc_cat}}
 \end{figure}
 % 
@@ -356,9 +403,27 @@ algorithm also exhibits the lowest infiltration recall of the models.
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=250pt,keepaspectratio]{dt_inc_category}
-    \includegraphics[width=250pt,keepaspectratio]{rf_inc_category}
-    \includegraphics[width=250pt,keepaspectratio]{gb_inc_category}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{dt_inc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{rf_inc_category}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{gb_inc_category}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{knn_inc_category}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{lda_inc_category}
+    \end{minipage}
     \caption[Single Category Results]{Recall values per class when trained on a single category.\label{fig:inc_cat}}
 \end{figure}
 % 
@@ -384,9 +449,27 @@ categories.
 %
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=250pt,keepaspectratio]{dt_exc_attack}
-    \includegraphics[width=250pt,keepaspectratio]{rf_exc_attack}
-    \includegraphics[width=250pt,keepaspectratio]{gb_exc_attack}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{dt_exc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{rf_exc_attack}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{gb_exc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_attack}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{lda_exc_attack}
+    \end{minipage}
     \caption[Individual Attack Omission Results.]{Recall values per class when trained on variants omitting a single attack.\label{fig:exc_att}}
 \end{figure}
 %
@@ -407,9 +490,27 @@ models.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=250pt,keepaspectratio]{dt_inc_attack}
-    \includegraphics[width=250pt,keepaspectratio]{rf_inc_attack}
-    \includegraphics[width=250pt,keepaspectratio]{gb_inc_attack}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{dt_inc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{rf_inc_attack}
+    \end{minipage}
+    %
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{gb_inc_attack}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{knn_inc_attack}
+    \end{minipage}
+    \begin{minipage}[h]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth,keepaspectratio]{lda_inc_attack}
+    \end{minipage}
     \caption[Single Individual Attack Results]{Recall values per class when trained on a single attack.\label{fig:inc_att}}
 \end{figure}
 %
@@ -427,16 +528,16 @@ highest generalisation ability, followed by \gls{dt} and finally \gls{rf}.
 \label{sec:threats}
 % TODO, citations would take this up a notch
 It should be noted from the results, that the \gls{sae}-\gls{ocsvm} model
-performs much better on the NSL-KDD dataset than the CSE-CIC-IDS2018
-dataset. This highlights the issue of generalisation across datasets. The
-unsupervised models considered were selected as they were the most highly cited
-and best performing models within the domain that provide a clear methodology
-from the models found during the literature review. This implicitly assumes
-that the high efficacy demonstrated on the NSL-KDD dataset and the other
-datasets they were evaluated on, generalises well to the CSE-CIC-IDS2018
-dataset, which may not always be the case. Hence, it is possible these models
-are not the best performing models on the dataset considered for this study,
-resulting in an unfair comparison with the supervised models.
+performs much better on the NSL-KDD dataset than the CSE-CIC-IDS2018 dataset.
+This highlights the issue of generalisation across datasets. The unsupervised
+models considered were selected as they were the most highly cited and best
+performing models within the domain that provide a clear methodology from the
+models found during the literature review. This implicitly assumes that the
+high efficacy demonstrated on the NSL-KDD dataset and the other datasets they
+were evaluated on, generalises well to the CSE-CIC-IDS2018 dataset, which may
+not always be the case. Hence, it is possible these models are not the best
+performing models on the dataset considered for this study, resulting in an
+unfair comparison with the supervised models.
 
 Furthermore, the issue of cross-dataset generalisation also brings into
 question how well these results will truly generalise outside the lab
