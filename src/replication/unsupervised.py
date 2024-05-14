@@ -9,11 +9,12 @@ from preprocessing.unsupervised import preprocess_nsl_kdd
 
 # Replication of the methodology proposed by Pu et al. in doi.org/10.26599/TST.2019.9010051
 
+SUBSET = 'mixed'  # can be DoS, probe, r2l, u2r or mixed
+
 train, test = load_nsl_kdd()
 print('Loaded dataset')
 datasets = preprocess_nsl_kdd(pd.concat([train, test]))
-probe_X_train, probe_X_test, probe_y_train, probe_y_test = datasets['DoS']
-# probe_X_train, probe_X_test, probe_y_train, probe_y_test = datasets['probe']
+probe_X_train, probe_X_test, probe_y_train, probe_y_test = datasets[SUBSET]
 print('Preprocessing complete')
 
 model = SSC_OCSVM(gpus=[0, 1])
@@ -29,6 +30,6 @@ plt.plot(fpr, tpr)
 plt.xticks(np.arange(0, 1.1, 0.1))
 plt.yticks(np.arange(0, 1.1, 0.1)) 
 plt.grid(True)
-plt.savefig('ROC_SSC_OCSVM_fitting method.png')
+plt.savefig(f'results/replication/unsupervised/{SUBSET}_roc.png')
 
 # print(classification_report(probe_y_test != 0, y_pred))
