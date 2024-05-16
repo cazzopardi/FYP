@@ -15,7 +15,7 @@ from models.supervised import *
 from data.filtered_dataset import FilteredDataset, Level, Mode
 
 def run_experiment(X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Series, y_test: pd.Series, label:str, level: Level, mode: Mode):
-    algorithms = [gradient_boosting, decision_tree, random_forest, k_neighbours]
+    algorithms = [gradient_boosting, decision_tree, random_forest, k_neighbours, linear_discriminant_analysis]
     for algorithm_function in algorithms:
         model = algorithm_function()
         print('Fitting ', algorithm_function.__name__, '...')
@@ -45,7 +45,6 @@ def run_experiment(X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Seri
 
 if __name__ == '__main__':
     for level in Level:
-
         X, y, index = pickle.load(open(f'/mnt/d/Calvin/FYP/SMOTE/cicids2018_SMOTE_{level.value}.pkl','rb'))
         print('loaded pickle')
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)  # shuffle and split
@@ -64,6 +63,8 @@ if __name__ == '__main__':
             done_dict = pickle.load(open('done_dict.pkl', 'rb'))
         else:
             done_dict: dict[tuple[str,Mode,Level],bool] = {}
+
+        run_experiment(train.drop(columns=[level.value]), X_test, train[level.value], y_test, '0', level, Mode.EXC)
         for mode in Mode:
             exp_class: list[tuple[pd.Index, str]] = variants.get_variants_index(level, mode)
             # with Pool(4) as p:
