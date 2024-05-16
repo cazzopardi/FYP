@@ -28,10 +28,11 @@ cannot exist on any attack signature database~\cite{survey1}.
 
 AIDS exhibits promise through its ability to identify unknown
 attacks~\cite{aids-unknown}, particularly with the advent of \gls{ml}
-techniques.\ \gls{ml} techniques offer enormous potential in anomaly detection
-as they have the ability to model complex patterns which may not be known to
-the researcher in advance. These capabilities hold the promise of developing
-more accurate and effective \gls{aids}.
+techniques.\ \gls{ml} techniques, typically considered a branch of
+\gls{aids}~\cite{survey1}, offer enormous potential in anomaly detection as
+they have the ability to model complex patterns which may not be known to the
+researcher in advance. These capabilities hold the promise of developing more
+accurate and effective \gls{aids}.
 
 In the literature, there is no absence of works investigating the use of
 \gls{ml} in \gls{nids}~\cite{Karatas, Jiang, Mighan, Pu, Cao, Atefinia}. This
@@ -46,7 +47,7 @@ traditional algorithms and \gls{dl} techniques. The literature explores both
 branches of \gls{ml}. Numerous studies focused on supervised techniques have
 found traditional algorithms to be more effective in the field of
 \gls{nids}~\cite{Liu, Zoppi}.
-% Make some comment on unsupervised trad vs dl
+% TODO (Maybe): Make some comment on unsupervised trad vs dl
 
 Some researchers have brought into question the notion that supervised
 techniques can generalise to unknown attacks~\cite{Kus, Zoppi}. These studies
@@ -79,10 +80,15 @@ makes supervised approaches more appealing. Little research exists evaluating
 the supervised approaches proposed in the literature in the context of an
 open-set classification problem. Furthermore, the comparative studies found
 during the literature review do not consider unsupervised deep learning
-approaches~\cite{Kus, Zoppi}, which may offer an alternative approach. The
-principal aim of this study will be to investigate the efficacy of various
-techniques proposed in the literature against both known and unknown attacks,
-comparing the trade-offs between different techniques.
+approaches~\cite{Kus, Zoppi}, which may offer an alternative approach.
+
+\section{Aims and Objectives}%
+\label{sec:aims}
+
+The principal aim of this study will be to investigate the efficacy of
+supervised and unsupervised techniques proposed in the literature against both
+known and unknown attacks, comparing the trade-offs between different
+techniques.
 
 This will take the form of three objectives:
 
@@ -125,10 +131,10 @@ unsupervised techniques in a comparative analysis considering unknown attacks.
 The remainder of the paper is divided into four chapters. First, in
 Chapter~\ref{chp:background}, we will explore the field of \gls{ml}-based
 \gls{nids}, introduce important concepts in the field and discuss similar works
-in the literature. Secondly, in Chapter~\ref{chp:evaluation} we will explain in
+in the literature. Secondly, in Chapter~\ref{chp:methodology} we will explain in
 detail the experiments proposed in this study to evaluate our objectives and
-the implementation of these experiments. Next, in Chapter~\ref{chp:results},
-we will present the results of our experiments and discuss the interpretations
-and significance of these results, as well as threats to their validity.
-Finally, we will summarise and propose future potential research directions in
-the field.
+the implementation of these experiments. Next, in Chapter~\ref{chp:results}, we
+will present the results of our experiments and discuss the interpretations and
+significance of these results, as well as threats to their validity. Finally,
+we will summarise and propose future potential research directions in the
+field.
