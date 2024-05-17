@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 import pandas as pd
 from sklearn.metrics import classification_report, roc_curve
@@ -24,12 +25,16 @@ print('Training...')
 model.fit(probe_X_train, probe_y_train)
 print('Generating predictions...')
 similarity = model.decision_function(probe_X_test)
+pickle.dump(similarity, open('/mnt/d/Calvin/FYP/temp/uns_rep_sim.pkl', 'wb'))
 print('Complete')
 fpr, tpr, _ = roc_curve(probe_y_test == 0, similarity)
 plt.plot(fpr, tpr)
+plt.xlabel('FAR')
+plt.ylabel('DR')
+plt.title('SSC-OCSVM ROC Curve on NSL-KDD Dataset')
 plt.xticks(np.arange(0, 1.1, 0.1))
 plt.yticks(np.arange(0, 1.1, 0.1)) 
 plt.grid(True)
 plt.savefig(f'results/replication/unsupervised/{SUBSET}_roc.png')
-
+# TODO: refactor graph code into seperate file
 # print(classification_report(probe_y_test != 0, y_pred))
