@@ -79,53 +79,50 @@ CAIDA-DDOS2007~\cite{caida}, ISCX2012~\cite{iscx12}, UNSW-NB15~\cite{unsw15},
 CIC-IDS2017~\cite{cic2017}, CSE-CIC-IDS2018~\cite{cic2018} and
 IoT-botnet2020~\cite{iot_botnet20} datasets.
 
-The CSE-CIC-IDS2018~\cite{cic2018} dataset is, to the best of our knowledge,
-the most up-to-date, general purpose network intrusion dataset publicly
-available today. It offers a large volume of data containing diverse attack
-scenarios and a realistic network environment. It is for these reasons that it
-has been identified as the most suitable dataset to evaluate and compare the
-models of this study.
+The CSE-CIC-IDS2018 dataset is, to the best of our knowledge, the most
+up-to-date, general purpose network intrusion dataset publicly available today.
+It offers a large volume of data containing diverse attack scenarios and a
+realistic network environment. It is for these reasons that it has been
+identified as the most suitable dataset to evaluate and compare the models of
+this study.
 
-The CSE-CIC-IDS2018~\cite{cic2018} dataset is a collaborative effort between
-the Communications Security Establishment and the Canadian Institute of
-Cybersecurity, and serves as a successor to the CIC-IDS2017~\cite{cic2017}
-dataset which is a smaller, less diverse counterpart. The aim of the project
-was to produce an up to date, realistic dataset for the evaluation of
-\gls{nids}. The dataset was generated on infrastructure consisting of a victim
-network with 420 machines and 30 servers, and an attack network consisting of
-50 machines. The machines were divided into departments mimicking a typical
-corporate network. A typical network environment was simulated using
-B-profiles, which describe user behaviour through statistical and \gls{ml}
-techniques, allowing it to be accurately replicated. The dataset includes a
-variety of modern attack categories, namely, \gls{dos} attacks, brute force
-attacks, code injection, botnet attacks, and infiltration attacks which involve
-using an exploit on a host inside the network to attack the network. The
-resulting dataset contains 80 features and approximately 16,000,000
-instances~\cite{cic2018, cic2018data}.
+The CSE-CIC-IDS2018 dataset is a collaborative effort between the
+Communications Security Establishment and the Canadian Institute of
+Cybersecurity, and serves as a successor to the CIC-IDS2017 dataset which is a
+smaller, less diverse counterpart. The aim of the project was to produce an up
+to date, realistic dataset for the evaluation of \gls{nids}. The dataset was
+generated on infrastructure consisting of a victim network with 420 machines
+and 30 servers, and an attack network consisting of 50 machines. The machines
+were divided into departments mimicking a typical corporate network. A typical
+network environment was simulated using B-profiles, which describe user
+behaviour through statistical and \gls{ml} techniques, allowing it to be
+accurately replicated. The dataset includes a variety of modern attack
+categories, namely, \gls{dos} attacks, brute force attacks, code injection,
+botnet attacks, and infiltration attacks which involve using an exploit on a
+host inside the network to attack the network. The resulting dataset contains
+80 features and approximately 16,000,000 instances~\cite{cic2018, cic2018data}.
 
-Karatas et al.~\cite{Karatas} evaluate their models on the
-CSE-CIC-IDS2018~\cite{cic2018} dataset. Hence, this dataset can be used to
-verify the replication of these models in addition to being used as the
-experimental dataset. In contrast, the dataset is not considered by Pu et
-al.~\cite{Pu} and Cao et al.~\cite{Cao}, therefore, another dataset is required
-to verify the replication of these models. The work of Pu et al.~\cite{Pu} is
-evaluated only on the NSL-KDD~\cite{nsl} dataset. This dataset is also one of
-the datasets on which the models proposed by Cao et al.~\cite{Cao} are
-evaluated. Hence, this dataset is used to verify the correct replication of
-both these works.
+Karatas et al.~\cite{Karatas} evaluate their models on the CSE-CIC-IDS2018
+dataset. Hence, this dataset can be used to verify the replication of these
+models in addition to being used as the experimental dataset. In contrast, the
+dataset is not considered by Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao},
+therefore, another dataset is required to verify the replication of these
+models. The work of Pu et al.~\cite{Pu} is evaluated only on the NSL-KDD
+dataset. This dataset is also one of the datasets on which the models proposed
+by Cao et al.~\cite{Cao} are evaluated. Hence, this dataset is used to verify
+the correct replication of both these works.
 
-The NSL-KDD~\cite{nsl} dataset is an improvement over its predecessor, the
-KDD99~\cite{kdd99} dataset. It was created as a benchmark for intrusion
-detection systems and offers a more balanced class distribution than its
-predecessor. The dataset has been used extensively in the field of intrusion
-detection, however, the underlying network data dates back to 1998. Due to its
-age, the results may not generalise well to the modern cyber threat landscapes
-and hence, results on this dataset cannot be considered when addressing the
-aims of this study. However, this issue does not apply when comparing our
-results with values generated from the same dataset, rendering this dataset
-suitable for comparison with the work of the original authors of the
-unsupervised models selected. This comparison allows us to verify our
-replications are correct and accurate.
+The NSL-KDD dataset is an improvement over its predecessor, the KDD99 dataset.
+It was created as a benchmark for intrusion detection systems and offers a more
+balanced class distribution than its predecessor. The dataset has been used
+extensively in the field of intrusion detection, however, the underlying
+network data dates back to 1998~\cite{nsl}. Due to its age, the results may not
+generalise well to the modern cyber threat landscapes and hence, results on
+this dataset cannot be considered when addressing the aims of this study.
+However, this issue does not apply when comparing our results with values
+generated from the same dataset, rendering this dataset suitable for comparison
+with the work of the original authors of the unsupervised models selected. This
+comparison allows us to verify our replications are correct and accurate.
 
 Finally, we require the Gas Pipeline dataset~\cite{gas_pipeline_dataset} used
 by Kus et al.~\cite{Kus} in their original proposal of their methodology. The
@@ -138,12 +135,12 @@ methodology of Kus et al.~\cite{Kus}.
 
 The methodology of Kus et al.~\cite{Kus}, employed in this study, requires each
 instance in the dataset to be labelled with both the specific attack name and
-the attack category. The labels provided in the CSE-CIC-IDS2018~\cite{cic2018}
-dataset can be described as an attack category, however, some labels are not
-broad enough to be defined as categories for the purpose of this study. An
-instance of this are the \gls{dos} attacks which are labelled according to the
-specific tool used. Hence, the dataset has an `attack name' column appended to
-it. The values of this column were filled according to Table 2 on the dataset's
+the attack category. The labels provided in the CSE-CIC-IDS2018 dataset can be
+described as an attack category, however, some labels are not broad enough to
+be defined as categories for the purpose of this study. An instance of this are
+the \gls{dos} attacks which are labelled according to the specific tool used.
+Hence, the dataset has an `attack name' column appended to it. The values of
+this column were filled according to Table 2 on the dataset's
 website~\cite{cic2018}, using the `Timestamp' and `Label' columns to determine
 the attack each instance belongs to.
 
@@ -351,8 +348,8 @@ performance of the model on unknown classes.
 % the results.
 
 The hyperparameters used are specified in Table~\ref{tab:hyperparameters}. All
-source code used in the implementation can be found at
-https://github.com/calvinA21/FYP/.
+source code used in the implementation can be found in this project's
+repository on GitHub~\cite{repo}.
 
 \begin{table}
       \caption{Hyperparamters\label{tab:hyperparameters}}
