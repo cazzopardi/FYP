@@ -14,19 +14,13 @@ compromising the confidentiality, integrity, or availability of information
 systems. Cyberthreats can have far-reaching consequences, ranging from the
 exposure of private information to financial losses to the disruption of
 critical systems. For instance, the 2015--2016 SWIFT banking hack resulted in
-the theft of millions of dollars~\cite{swift_attack1, swift_attack2}. Attackers
-were able to exploit the systems of member banks to gain legitimate SWIFT
-credentials which they then used to send fund transfer requests to other banks.
-The requests appeared legitimate, hence leading to the transfer of the funds to
-accounts controlled by the attackers~\cite{swift_attack1}. Another example is
-the ransomware attack on CommonSpirit Health, which operates 140 hospitals and
-2000 patient care sites. The attack led to the disruption of health services
-and the theft of personal data, and in some cases sensitive health data, of
-623,774 patients~\cite{commonspirit1, commonspirit2, commonspirit3}. These
-examples clearly illustrate the importance of detecting and preventing these
-cyberthreats, an endeavour that could save millions of dollars, increase the
-reliability of vital services and protect the confidentiality of sensitive
-data.
+the theft of millions of dollars~\cite{swift_attack1, swift_attack2} from SWIFT
+member banks. Another example is the ransomware attack on CommonSpirit Health,
+which operates 140 hospitals and 2000 patient care sites. The attack led to the
+disruption of health services and the theft of personal data, and in some cases
+sensitive health data, of 623,774 patients~\cite{commonspirit1, commonspirit2,
+    commonspirit3}. These examples clearly illustrate the importance of detecting
+and preventing these cyberthreats.
 
 There are numerous defence options available to help mitigate these threats,
 prominent among them are \gls{nids}.\ \gls{nids} are a crucial part of any
@@ -42,14 +36,14 @@ false alarms~\cite{anomaly}.
 Designing \gls{nids} suitable for the ever-evolving cyberthreat landscape is no
 trivial task.\ \gls{nids} deployed practically are likely to face attacks not
 known at the time of development, referred to as unknown attacks throughout
-this study. These could take the form of new deviations of known attacks,
-new attacks based on known vulnerabilities or zero-day attacks. Zero-day
-attacks are cyberattacks executed on the basis of an exploit that is not known
+this study. These could take the form of new deviations of known attacks, new
+attacks based on known vulnerabilities or zero-day attacks. Zero-day attacks
+are cyberattacks executed on the basis of an exploit that is not known
 publicly, and are particularly challenging to detect~\cite{zero-day-def}. Due
 to their nature, \gls{sids} are ineffective in detecting unknown attacks, as by
 definition, they cannot exist on any attack signature database~\cite{survey1}.
 
-AIDS exhibits promise through its ability to identify unknown
+\gls{aids} exhibits promise through its ability to identify unknown
 attacks~\cite{aids-unknown}, particularly with the advent of \gls{ml}
 techniques.\ \gls{ml} techniques, typically considered a branch of
 \gls{aids}~\cite{survey1}, offer enormous potential in anomaly detection as
@@ -71,7 +65,6 @@ categorised into traditional techniques and \gls{dl} techniques. The literature
 explores both branches of \gls{ml}. Numerous studies focused on supervised
 techniques have found traditional algorithms to be more effective in the field
 of \gls{nids}~\cite{Liu, Zoppi}.
-% TODO (Maybe): Make some comment on unsupervised trad vs dl
 
 Some researchers have brought into question the notion that supervised
 techniques can generalise to unknown attacks~\cite{Kus, Zoppi}. These studies

@@ -233,9 +233,10 @@ require no encoding.
 
 The CSE-CIC-IDS2018 dataset contains approximately 16,000,000 instances, an
 enormous number that introduces complexities as it is not feasible to keep the
-full dataset in memory during processing on the 32 GB of RAM that were available
-for this project. Hence, the dataset was sampled to 4,519,553 instances. The
-sampling strategy adopted was random sampling of 28\% of the data.
+full dataset in memory during processing on the 32 GB of RAM that were
+available for this project. Hence, the dataset was sampled to 4,519,553
+instances. The sampling strategy adopted was random sampling of 28\% of the
+data.
 
 Once the sampled, fully labelled dataset was generated, individual
 preprocessing pipelines of each replicated study were applied based on the work
@@ -250,66 +251,65 @@ were carried out prior to all experiments.
 \begin{enumerate}
       \item The CSE-CIC-IDS2018 dataset contains data points dated 1970 with illogical
             values in certain columns, likely caused by overflow errors during dataset
-            generation. All instances of such data points were removed from the sample.
-            Additionally, instances with an `Unknown' attack type were also removed.
-      \item Missing values were replaced with zero
-      \item Infinity values were replaced with the maximum value in the column
-      \item During replication, the `Timestamp' column was separated into date and time
-            columns to eliminate non-numeric values. The column was then removed for the
+            generation. All instances of such data points are removed from the sample.
+            Additionally, instances with an `Unknown' attack type are also removed.
+      \item Missing values are replaced with zero
+      \item Infinity values are replaced with the maximum value in the column
+      \item During replication, the `Timestamp' column is separated into date and time
+            columns to eliminate non-numeric values. The column is then removed for the
             experiments as none of the models replicated analyse time series data. Hence,
             any information present in this column will be valid only under the specific
             conditions of the attacks present in the dataset, diminishing the realism of
             the experiments.
       \item The columns `Src IP', `Dst IP' and `Flow ID' similarly contain information
             specific to the attack configuration employed in the generation of the dataset.
-            Hence, these have also been removed.
+            Hence, these are also removed.
       \item Two columns contain negative values, `Init Fwd Win Byts' and `Init Bwd Win
-            Byts'. Two additional categorical columns were added, containing a one for
+            Byts'. Two additional categorical columns are added, containing a one for
             negative values and a zero for positive values in the corresponding column.
-      \item The label column was encoded into numeric values. This was done for both the
-            `attack category' and `attack name' columns for the purposes of this study. For
-            convenience, the zero value was set to represent the benign class whereas all
-            other classes were numbered according to the order in which they appear. The
-            encodings were saved to disk for later use in decoding.
-      \item The dataset was split into training and testing sets using an 80/20 split and
+      \item The `attack category' and `attack name' columns are encoded into numeric
+            values. For convenience, the zero value is set to represent the benign class
+            whereas all other classes were numbered according to the order in which they
+            appear.
+      \item The dataset is split into training and testing sets using an 80/20 split and
             then shuffled.
-      \item Lastly, \gls{smote} was employed on the training set to reduce the class
-            imbalance present in the dataset. Minority classes were increased to at least
+      \item Lastly, \gls{smote} is employed on the training set to reduce the class
+            imbalance present in the dataset. Minority classes are increased to at least
             5\% of the data when considering categories, and at least 1\% when considering
             individual attacks.
 \end{enumerate}
 
-Following these preprocessing steps, the unsupervised models had additional
+Following these preprocessing steps, the unsupervised models have additional
 preprocessing carried out, based on the work of their original authors. Note,
-the \gls{smote} step was excluded when processing for unsupervised models as
+the \gls{smote} step is excluded when processing for unsupervised models as
 they do not consider minority samples during training.
 
-The following additional steps were applied to the data processed by the
+The following additional steps are applied to the data processed by the
 \gls{ssc}-\gls{ocsvm} model, based on the methodology of Pu et al.~\cite{Cao}.
 \begin{enumerate}
       \item The `Protocol' feature, which is the only categorical feature with more than
-            two levels, was converted to one-hot encoding representation.
-      \item F-test feature selection was employed, selecting the k best features based on
+            two levels, is converted to one-hot encoding representation.
+      \item F-test feature selection is employed, selecting the k best features based on
             the ANOVA F-value~\cite{f_test} of each feature, where k is a hyperparameter.
-      \item All features were then normalised using z-score standardisation.
-      \item Finally, malicious samples were removed from the training set, and the training
+      \item All features are then normalised using z-score standardisation.
+      \item Finally, malicious samples are removed from the training set, and the training
             set was reduced to 200,000 samples. This number was selected by progressively
             increasing the sample size until the performance did not improve any further.
 \end{enumerate}
 
-The following additional steps were applied to the data processed by the
+The following additional steps are applied to the data processed by the
 \gls{sae}-\gls{ocsvm} model, based on the methodology of Cao et al.~\cite{Cao}.
 \begin{enumerate}
       \item The negative one values present in the columns `Init Fwd Win Byts' and `Init
-            Bwd Win Byts' were replaced by -0.5 values. This is so that they scale back to
+            Bwd Win Byts' are replaced by -0.5 values. This is so that they scale back to
             their original negative one value following the log operation.
-      \item All malicious samples were filtered out of the training set, and the training
+      \item All malicious samples are filtered out of the training set, and the training
             set was reduced to 6734 random samples. This number was selected as it was the
             number used by the original authors, and our experimentation with different
             sample sizes failed to yield better results.
-      \item Next, columns containing large values (larger than 10,000) had one added to
+      \item Next, columns containing large values (larger than 10,000) have one added to
             them followed by the logarithm operation base two.
-      \item Finally, each feature was scaled by its maximum absolute value.
+      \item Finally, each feature is scaled by its maximum absolute value.
 \end{enumerate}
 
 \section{Training Variants}%
@@ -370,15 +370,8 @@ ensure per class metrics are calculated correctly.
 
 The results of each original study are replicated by evaluating each model on
 one of the datasets used by the original authors to verify the models are
-correct. The methodology is also evaluated on two of the models and the dataset
+correct. The methodology is also evaluated on the models and dataset
 used by Kus et al.~\cite{Kus} to ensure it is replicated correctly.
-Specifically, we replicate the results of the \gls{rf} and \gls{svm} models
-presented in the original work. Kus et al.~\cite{Kus} also evaluate and present
-a \gls{bilstm} model, however, we have opted to exclude this from our
-replication as it is not necessary to meet our aims and has a significantly
-longer execution time. We aim to confirm the validity of the evaluation
-methodology, which is consistent across all models. Hence, the replication of
-two models is sufficient to meet out goals.
 
 Once, matching results are achieved, the models are trained on the variants
 generated to produce the results of this study. The unsupervised models
@@ -386,17 +379,13 @@ considered expect only normal, or benign, data in their training sets. Hence,
 these are only trained once as all variants are rendered identical when
 malicious samples are omitted.
 
-Metrics are then calculated based on the predictions obtained during execution.
-The scikit-learn~\cite{scikit-learn} classification report and accuracy score
-functions were used to compute the metrics.
-
 Hyperparameters are input values required by \gls{ml} models that are not
 altered during training. The hyperparameters used in this study are specified
 in Table~\ref{tab:hyperparameters}. All of these hyperparameters were set based
 on the work of the original authors of the models~\cite{Karatas, Pu, Cao}.
 
 \begin{table}
-      \caption{Hyperparamaters\label{tab:hyperparameters}}
+      \caption{Hyperparameters\label{tab:hyperparameters}}
       \centering
       \begin{tblr}{|Q[m,0.15\textwidth]|Q[m,0.8\textwidth]|}
             \hline

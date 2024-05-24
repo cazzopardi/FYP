@@ -144,42 +144,6 @@ conclude the model was successfully replicated.
 
 \begin{figure}[htbp]
     \centering
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{DoS_roc}
-    % \end{minipage}\hfill
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_category}
-    % \end{minipage}
-    % %
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{probe_roc}
-    % \end{minipage}\hfill
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_category}
-    % \end{minipage}
-    % %
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{r2l_roc}
-    % \end{minipage}\hfill
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_category}
-    % \end{minipage}
-    % %
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{u2r_roc}
-    % \end{minipage}\hfill
-    % \begin{minipage}[h]{0.5\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth,keepaspectratio]{knn_exc_category}
-    % \end{minipage}
-    %
     \begin{minipage}[h]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth,keepaspectratio]{mixed_roc}
@@ -224,21 +188,27 @@ process. Hence, we conclude the model was successfully replicated.
     \end{tblr}
 \end{table}
 
-Figures~\ref{fig:kus_rep_exc_cat} to~\ref{fig:kus_rep_inc_att} show the results
-of the replication of the work of Kus et al.~\cite{Kus} alongside those of the
-original authors. These are heatmaps indicating the per class recall values of
-each training variant. Each row represents the per class recall values of a
-particular variant whereas each column represents the recall values of each
-variant on the instances of a particular class. The top heatmaps, which are
-presented in a black to red colour scheme are the results or our replication,
-whereas the bottom heatmaps, presented in a yellow to blue colour scheme are
-the results of the original authors. Note, the label encodings used by our
-replication is different to that of the original authors, hence, the columns of
-the heatmaps appear to be shuffled. The encoding zero represents the benign
-class in both our replication and the original work. Analysing the heatmaps, we
-observe near identical patterns in out replication when compared to the
-original results. Hence, we can conclude our implementation accurately
-replicates the methodology proposed by Kus et al.~\cite{Kus}.
+Figures~\ref{fig:kus_rep_cat} and~\ref{fig:kus_rep_att} show the results of the
+replication of the work of Kus et al.~\cite{Kus}. Note, only the \gls{rf} model
+results are presented. The \gls{svm} and \gls{bilstm} models were also
+replicated, however these results are not presented due to space constraints.
+The methodology of Kus et al.~\cite{Kus} is consistent across all models and
+hence, these results are sufficient to confirm the validity of the replication.
+These figures represent heatmaps indicating the per class recall values of each training
+variant. Each row represents the per class recall values of a particular
+variant whereas each column represents the recall values of each variant on the
+instances of a particular class. The heatmaps presented are those of our
+replication. Unlike the previous replications, we cannot present the results of
+Kus et al.~\cite{Kus} here due to space limitations, however these can be found
+in the original paper. 
+
+Note, the label encodings used by our replication is
+different to that of the original authors, hence, the columns of the heatmaps
+appear to be shuffled. The encoding zero represents the benign class in both
+our replication and the original work. Analysing the heatmaps, we observe near
+identical patterns in our replication when compared to the original results.
+Hence, we can conclude our implementation accurately replicates the methodology
+proposed by Kus et al.~\cite{Kus}.
 %
 \begin{figure}[htbp]
     \centering
@@ -248,17 +218,9 @@ replicates the methodology proposed by Kus et al.~\cite{Kus}.
     \end{minipage}\hfill
     \begin{minipage}[h]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_category}
+        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category}
     \end{minipage}
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_exc_category_original}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_category_original}
-    \end{minipage}
-    \caption[Kus et al.~\cite{Kus} Replication Category Omission Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per category against omitted category\label{fig:kus_rep_exc_cat}}
+    \caption[Kus et al.~\cite{Kus} Replication Category Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per category on each training variant\label{fig:kus_rep_cat}}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -269,60 +231,52 @@ replicates the methodology proposed by Kus et al.~\cite{Kus}.
     \end{minipage}\hfill
     \begin{minipage}[h]{0.5\textwidth}
         \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_attack}
-    \end{minipage}
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_exc_attack_original}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_exc_attack_original}
-    \end{minipage}
-    \caption[Kus et al.~\cite{Kus} Replication Attack Omission Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per attack against omitted attack\label{fig:kus_rep_exc_att}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_category}
-    \end{minipage}
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category_original}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_category_original}
-    \end{minipage}
-    \caption[Kus et al.~\cite{Kus} Replication Single Category Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per category against trained category\label{fig:kus_rep_inc_cat}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
         \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack}
     \end{minipage}
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack_original}
-    \end{minipage}\hfill
-    \begin{minipage}[h]{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack_original}
-    \end{minipage}
-    \caption[Kus et al.~\cite{Kus} Replication Single Attack Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per attack against trained attack\label{fig:kus_rep_inc_att}}
+    \caption[Kus et al.~\cite{Kus} Replication Individual Attack Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall for each individual attack on each training variant\label{fig:kus_rep_att}}
 \end{figure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{minipage}[h]{0.5\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category}
+%     \end{minipage}\hfill
+%     \begin{minipage}[h]{0.5\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_category}
+%     \end{minipage}
+% \begin{minipage}[h]{0.3\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_category_original}
+% \end{minipage}\hfill
+% \begin{minipage}[h]{0.3\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_category_original}
+% \end{minipage}
+%     \caption[Kus et al.~\cite{Kus} Replication Single Category Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per category against trained category\label{fig:kus_rep_inc_cat}}
+% \end{figure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{minipage}[h]{0.5\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack}
+%     \end{minipage}\hfill
+%     \begin{minipage}[h]{0.5\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack}
+%     \end{minipage}
+% \begin{minipage}[h]{0.3\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack_original}
+% \end{minipage}\hfill
+% \begin{minipage}[h]{0.3\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack_original}
+% \end{minipage}
+%     \caption[Kus et al.~\cite{Kus} Replication Single Attack Heatmaps]{Kus et al.~\cite{Kus} replication heatmaps illustrating recall per attack against trained attack\label{fig:kus_rep_inc_att}}
+% \end{figure}
 % 
 
 \section{Aggregate Results Omitting Categories}%
@@ -479,10 +433,10 @@ difficult to predict than others. For instance, the `Infiltration' category
 exhibits lower accuracy across all models. A potential explanation for this is
 that `Infiltration' is a broad category involving the exploitation of software
 that can take a wide variety of forms. Hence, `Infiltration' attacks may differ
-significantly among themselves making it more difficult for the model to
-learn common patterns. Additionally, the dataset only contains five attacks
-under this category, with a relatively small number of instances compared to
-most other categories, potentially aggravating the issue. Another potential
+significantly among themselves making it more difficult for the model to learn
+common patterns. Additionally, the dataset only contains five attacks under
+this category, with a relatively small number of instances compared to most
+other categories, potentially aggravating the issue. Another potential
 explanation may be that `Infiltration' attacks resemble benign traffic more
 closely than other categories, rendering themselves difficult to distinguish
 from normal traffic.
@@ -774,7 +728,6 @@ between attack categories and individual attacks that allow the different
 
 \section{Threats to Validity}%
 \label{sec:threats}
-% TODO, citations would take this up a notch
 It should be noted from the results, that the unsupervised models perform much
 better on the NSL-KDD dataset than the CSE-CIC-IDS2018 dataset. This highlights
 the issue of generalisation across datasets. The unsupervised models considered
@@ -803,19 +756,6 @@ most logical approach, may lead to the mislabelling of certain samples.
 Measuring the likelihood of this or mitigating the issues is difficult without
 more information on the source of the ambiguous samples, which does not appear
 to be available in the resources documenting the dataset.
-
-As mentioned in Chapter~\ref{chp:methodology}, the preprocessing took place
-prior to the generation of dataset variants. The primary motivation for this
-decision was the reduction of training time, which was necessary due to the
-time constraints for this project. This means the preprocessing pipeline had
-access to all the data, including the omitted samples. This has no effect
-during most steps of preprocessing as most only consider values within the same
-instance. The only exception to this is the handling of infinity values, which
-involves taking the maximum value in the column and adding one. If the max
-value belongs to an instance that will later be filtered out, it is possible
-for omitted instances to influence instances that are not omitted during the
-experiment. This effect is likely to be negligible, however still represents a
-threat to validity.
 
 Finally, all pragmatic cyberthreat defence systems present vulnerabilities of
 their own which should be kept in mind when considering results. The
