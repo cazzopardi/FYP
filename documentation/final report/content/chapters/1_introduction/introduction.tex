@@ -3,35 +3,58 @@
 
 % establish field
 
-The ever-evolving landscape of cyber threats poses a pervasive danger to all
+The ever-evolving landscape of cyberthreats poses a pervasive danger to all
 facets of society, ranging from commercial enterprises to individuals and
 government entities. As technology relentlessly advances and more aspects of
 our lives become digitised, the risks posed by these threats continue to
-escalate~\cite{ENISA}. There are numerous defence options available to help
-mitigate these threats, prominent among them are \gls{nids}.
+escalate~\cite{ENISA}.
 
-\gls{nids} are a crucial part of any information system's defence that aims to
-identify and mitigate network threats in real time. Two major classifications
-exist that characterise the function of intrusion detection systems.\ \gls{sids}
-detect attacks by matching sequences of code or commands with those of known
-attacks.\ \gls{aids} on the other hand, detect threats by recognising
-deviations from normal, non-malicious traffic~\cite{survey1}.
+Cyberthreats refer to malicious acts carried out with the intention of
+compromising the confidentiality, integrity, or availability of information
+systems. Cyberthreats can have far-reaching consequences, ranging from the
+exposure of private information to financial losses to the disruption of
+critical systems. For instance, the 2015--2016 SWIFT banking hack resulted in
+the theft of millions of dollars~\cite{swift_attack1, swift_attack2}. Attackers
+were able to exploit the systems of member banks to gain legitimate SWIFT
+credentials which they then used to send fund transfer requests to other banks.
+The requests appeared legitimate, hence leading to the transfer of the funds to
+accounts controlled by the attackers~\cite{swift_attack1}. Another example is
+the ransomware attack on CommonSpirit Health, which operates 140 hospitals and
+2000 patient care sites. The attack led to the disruption of health services
+and the theft of personal data, and in some cases sensitive health data, of
+623,774 patients~\cite{commonspirit1, commonspirit2, commonspirit3}. These
+examples clearly illustrate the importance of detecting and preventing these
+cyberthreats, an endeavour that could save millions of dollars, increase the
+reliability of vital services and protect the confidentiality of sensitive
+data.
+
+There are numerous defence options available to help mitigate these threats,
+prominent among them are \gls{nids}.\ \gls{nids} are a crucial part of any
+information system's defence that aims to identify and mitigate network threats
+in real time. Two major classifications exist that characterise the function of
+intrusion detection systems~\cite{survey1}.\ \gls{sids} detect attacks by
+matching sequences of code or commands with those of known attacks.\ \gls{aids}
+on the other hand, detect threats by recognising deviations from normal,
+non-malicious traffic~\cite{survey1}. These deviations will be referred to as
+anomalies and typically represent intrusions, however may sometimes represent
+false alarms~\cite{anomaly}.
 
 Designing \gls{nids} suitable for the ever-evolving cyberthreat landscape is no
 trivial task.\ \gls{nids} deployed practically are likely to face attacks not
 known at the time of development, referred to as unknown attacks throughout
-this paper. These could take the form of new deviations of known attacks, new
-attacks based on known vulnerabilities or zero-day attacks, which are
-cyberattacks executed on the basis of an unknown exploit. Due to their nature,
-\gls{sids} are ineffective in detecting unknown attacks, as by definition, they
-cannot exist on any attack signature database~\cite{survey1}.
+this study. These could take the form of new deviations of known attacks,
+new attacks based on known vulnerabilities or zero-day attacks. Zero-day
+attacks are cyberattacks executed on the basis of an exploit that is not known
+publicly, and are particularly challenging to detect~\cite{zero-day-def}. Due
+to their nature, \gls{sids} are ineffective in detecting unknown attacks, as by
+definition, they cannot exist on any attack signature database~\cite{survey1}.
 
 AIDS exhibits promise through its ability to identify unknown
 attacks~\cite{aids-unknown}, particularly with the advent of \gls{ml}
 techniques.\ \gls{ml} techniques, typically considered a branch of
 \gls{aids}~\cite{survey1}, offer enormous potential in anomaly detection as
 they have the ability to model complex patterns which may not be known to the
-researcher in advance. These capabilities hold the promise of developing more
+developer in advance. These capabilities hold the promise of developing more
 accurate and effective \gls{aids}.
 
 In the literature, there is no absence of works investigating the use of
@@ -40,13 +63,14 @@ work explores various different approaches including supervised and
 unsupervised techniques. The works of~\cite{Karatas, Jiang, Mighan, Atefinia}
 explore supervised techniques and demonstrate remarkable accuracies as high as
 100\%. These results offer great promise, with near perfect recall and very low
-false alarm rate. Unsupervised techniques have also been researched with
-results indicating a higher false alarm rate when compared to supervised
-techniques~\cite{Zoppi}.\ \gls{ml} techniques can also be categorised into
-traditional algorithms and \gls{dl} techniques. The literature explores both
-branches of \gls{ml}. Numerous studies focused on supervised techniques have
-found traditional algorithms to be more effective in the field of
-\gls{nids}~\cite{Liu, Zoppi}.
+false alarm rate, indicating the model detects almost all attacks and seldom
+flags benign traffic as an attack. Unsupervised techniques have also been
+researched with results indicating a higher false alarm rate when compared to
+supervised techniques~\cite{Zoppi}.\ \gls{ml} techniques can also be
+categorised into traditional techniques and \gls{dl} techniques. The literature
+explores both branches of \gls{ml}. Numerous studies focused on supervised
+techniques have found traditional algorithms to be more effective in the field
+of \gls{nids}~\cite{Liu, Zoppi}.
 % TODO (Maybe): Make some comment on unsupervised trad vs dl
 
 Some researchers have brought into question the notion that supervised
@@ -79,7 +103,7 @@ rates~\cite{Zoppi}, which hinders their efficacy in practical applications and
 makes supervised approaches more appealing. Little research exists evaluating
 the supervised approaches proposed in the literature in the context of an
 open-set classification problem. Furthermore, the comparative studies found
-during the literature review do not consider unsupervised deep learning
+during the literature review do not consider unsupervised \gls{dl}
 approaches~\cite{Kus, Zoppi}, which may offer an alternative approach.
 
 \section{Aims and Objectives}%
@@ -104,6 +128,11 @@ This information is vital to measure the pragmatic performance of these models
 as \gls{nids} deployed in practical circumstances will face a wide variety of
 attacks, including unknown attacks.
 
+% It should be noted that for the purposes of
+% this study, we define state-of-the-art as any recently proposed model that
+% demonstrates impressive efficacy and is highly cited, indicating widespread
+% acceptance in the research community.
+
 \begin{center}
     \fbox{\parbox{0.8\linewidth}{\textbf{Objective 2:} To investigate the extent to which unsupervised techniques are
             more or less effective against both known and unknown attacks compared to supervised
@@ -125,14 +154,14 @@ Certain attacks share similarities that may serve as the basis for models to
 generalise to these attacks without explicit presence in the training set.
 These similarities will be explored in this study.
 
-To the best of our knowledge, this study is the first to include deep
+To the best of our knowledge, this study is the first to include \gls{dl}
 unsupervised techniques in a comparative analysis considering unknown attacks.
 
-The remainder of the paper is divided into four chapters. First, in
+The remainder of this document is divided into four chapters. First, in
 Chapter~\ref{chp:background}, we will explore the field of \gls{ml}-based
 \gls{nids}, introduce important concepts in the field and discuss similar works
-in the literature. Secondly, in Chapter~\ref{chp:methodology} we will explain in
-detail the experiments proposed in this study to evaluate our objectives and
+in the literature. Secondly, in Chapter~\ref{chp:methodology} we will explain
+in detail the experiments proposed in this study to evaluate our objectives and
 the implementation of these experiments. Next, in Chapter~\ref{chp:results}, we
 will present the results of our experiments and discuss the interpretations and
 significance of these results, as well as threats to their validity. Finally,

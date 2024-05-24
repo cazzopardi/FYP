@@ -12,14 +12,14 @@ similarities in the figures, confirming successful replication. The remainder
 of the sections in the chapter present the results of the experiments carried
 out as part of the methodology proposed in the previous chapter.
 Section~\ref{sec:agg_res_cat} presents the metrics discussed in
-Section~\ref{sec:eval} aggregated over all the variants and classes in the
-third and fourth phases specified in Section~\ref{sec:variants}, which take
+Section~\ref{sec:metrics} aggregated over all the variants and classes in the
+first and second phases specified in Section~\ref{sec:variants}, which take
 attack categories as the target label. Section~\ref{sec:agg_res_att} presents
-the same information, considering instead the first and second phases defined
+the same information, considering instead the third and fourth phases defined
 in Section~\ref{sec:variants}, which take the individual attack name as the
 target label. More information about the methods of aggregation applied is
-specified in these sections. Section~\ref{sec:res_var} presents heatmaps that
-indicate the recall values of each variant disucssed in
+specified in these sections. Section~\ref{sec:res_var_cat} presents heatmaps
+that indicate the recall values of each variant in the discussed in
 Section~\ref{sec:variants} on each label class. The predictions of each
 combination of model and variant are available in pickle format in the
 `results' folder on this project's GitHub repository~\cite{repo}.
@@ -31,14 +31,22 @@ As discussed in the previous chapter, each model considered is evaluated on a
 dataset used by the original authors to verify it was replicated correctly.
 More specifically, the supervised models are evaluated on the CSE-CIC-IDS2018
 dataset whilst the unsupervised models are evaluated on the NSL-KDD dataset.
-The evaluation methodology is also applied to the models and dataset originally
-used by Kus et al.~\cite{Kus}, to verify its correct replication. All the
-models we set out to replicate were successfully replicated with the exeption
-of the AdaBoost model. Our attempts to replicate this model yielded poor
-results that did not compare to those of Karatas et al.~\cite{Karatas}.
+The evaluation methodology is also applied to two of the models and the dataset
+originally used by Kus et al.~\cite{Kus}, to verify its correct replication.
+All the models we set out to replicate were successfully replicated with the
+exception of the AdaBoost model. Our attempts to replicate this model yielded
+poor results that did not compare to those of Karatas et al.~\cite{Karatas}.
 
 Tables~\ref{tab:karatas_rep_agg} and~\ref{tab:karatas_rep_acc} display the
-results of the replication of the work of Karatas et al.~\cite{Karatas}.
+results of the replication of the work of Karatas et al.~\cite{Karatas}. These
+are the metrics used by the original authors calculated from the predictions of
+the models trained on the CSE-CIC-IDS2018 dataset. A stratified sample of the
+dataset with no omitted attacks was employed during training and testing to
+match the original work as closely as possible. In the same tables are the
+results presented in the original work. Analysing these results, we can
+conclude that the differences are negligible and can be amounted to the
+stochasticity of the training and testing process. Therefore, we conclude that
+the five supervised models presented were replicated successfully.
 %
 \begin{table}
     \caption{Karatas et al.~\cite{Karatas} replication aggregate results\label{tab:karatas_rep_agg}}
@@ -122,11 +130,17 @@ results of the replication of the work of Karatas et al.~\cite{Karatas}.
         \hline
     \end{tblr}
 \end{table}
-%
+
 Figure~\ref{fig:pu_rep} shows the results of the replication of the work of Pu
 et al.~\cite{Pu} in the form of the \gls{roc} curve of the replicated model.
-This curve can be compared to the curve presented by the original authors to
-verify the replication of the model.
+This model was trained and tested on the complete NSL-KDD dataset preprocessed
+according to the methodology of the original authors. This curve can be
+compared to the curve presented by the original authors to verify the
+replication of the model. The right image in the figure is the image presented
+by the original authors, with the red line representing the proposed model,
+\gls{ssc}-\gls{ocsvm}. Comparing the two curves, the performance of our
+replicated model is similar to that of the original authors, and hence we
+conclude the model was successfully replicated.
 
 \begin{figure}[htbp]
     \centering
@@ -174,12 +188,18 @@ verify the replication of the model.
         \centering
         \includegraphics[width=\textwidth,keepaspectratio]{mixed_roc_original}
     \end{minipage}
-    \caption[Pu et al.\ replication ROC curve]{The ROC curve of our replicated SSC-OCSVM model (left) compared to that of the original author (right).\label{fig:pu_rep}}
+    \caption[Pu et al.\ replication ROC curve]{The ROC curve of our replicated \gls{ssc}-\gls{ocsvm} model (left) compared to that of the original author (right).\label{fig:pu_rep}}
 \end{figure}
 
 Table~\ref{tab:cao_rep} shows the results of the replication of the work of Cao
-et al.~\cite{Cao}.
-%
+et al.~\cite{Cao}. These figures represent the \gls{auc-roc} per class
+calculated from the predictions of the model when trained on the complete
+NSL-KDD dataset. The preprocessing pipeline applied consists of the same steps
+proposed by Cao et al.~\cite{Cao}. Comparing the \gls{auc-roc} scores of our
+replicated model with the original work, we observe negligible differences
+which can be attributed to the stochasticity of the training and testing
+process. Hence, we conclude the model was successfully replicated.
+%m
 \begin{table}
     \caption{Cao et al.~\cite{Cao} replication \gls{auc-roc} per class\label{tab:cao_rep}}
     \centering
@@ -203,16 +223,22 @@ et al.~\cite{Cao}.
         \hline
     \end{tblr}
 \end{table}
-%
+
 Figures~\ref{fig:kus_rep_exc_cat} to~\ref{fig:kus_rep_inc_att} show the results
-of the replication of the work of Kus et al.~\cite{Kus} along side those of the
-original authors. The top heatmaps, which are presented in a black to red
-colour scheme are the results or our replication, whereas the bottom heatmaps,
-presented in a yellow to blue colour scheme are the results of the original
-authors. Note, the label encodings used by our replication is different to that
-of the original authors, hence, the columns of the heatmaps appear to be
-shuffled. The encoding zero represents the benign class in both our replication
-and the original work.
+of the replication of the work of Kus et al.~\cite{Kus} alongside those of the
+original authors. These are heatmaps indicating the per class recall values of
+each training variant. Each row represents the per class recall values of a
+particular variant whereas each column represents the recall values of each
+variant on the instances of a particular class. The top heatmaps, which are
+presented in a black to red colour scheme are the results or our replication,
+whereas the bottom heatmaps, presented in a yellow to blue colour scheme are
+the results of the original authors. Note, the label encodings used by our
+replication is different to that of the original authors, hence, the columns of
+the heatmaps appear to be shuffled. The encoding zero represents the benign
+class in both our replication and the original work. Analysing the heatmaps, we
+observe near identical patterns in out replication when compared to the
+original results. Hence, we can conclude our implementation accurately
+replicates the methodology proposed by Kus et al.~\cite{Kus}.
 %
 \begin{figure}[htbp]
     \centering
@@ -286,7 +312,7 @@ and the original work.
     \begin{minipage}[h]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth,keepaspectratio]{kus_svm_inc_attack}
-    \end{minipage}    
+    \end{minipage}
     \begin{minipage}[h]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth,keepaspectratio]{kus_rf_inc_attack_original}
@@ -302,26 +328,25 @@ and the original work.
 \section{Aggregate Results Omitting Categories}%
 \label{sec:agg_res_cat}
 
-% TODO: add unsupervised heatmaps
-
 The aggregate results of all the experiments are shown in
 Table~\ref{tab:results_cat_agg}.
 
 The methodology described in the previous chapter yields these metrics for each
-variant and class. To better interpret the overall perfomrance of each model
+variant and class. To better interpret the overall performance of each model
 and address \hyperlink{obj}{Objective 1} we present the average of all these
-metrics, considering only variants of Phase 3 discussed in
+metrics, considering only variants of Phase 1 discussed in
 Section~\ref{sec:variants}, which exclude attack categories. These variants
 were selected to generate the aggregate results as they offer the most
 realistic simulation of a practical scenario whereby an unknown attack is
 deployed on a model trained on several categories of known attacks.
 
 The unsupervised models were trained on only one variant as all variants are
-rendered identical following their preprocessing pipelines. Hence, the above
-discussed averaging does not apply to these models. Both supervised and
-unsupervised models, however, generate metrics per label class. The
-macro-average, which is a non-weighted average, is presented when aggregating
-across classes to reduce the impact of class imbalance.
+rendered identical following their preprocessing pipelines, which involve
+removing all malicious samples. Hence, the above discussed averaging does not
+apply to these models. Both supervised and unsupervised models, however,
+generate metrics per label class. The macro-average, which is a non-weighted
+average, is presented when aggregating across classes to reduce the impact of
+class imbalance.
 
 % category
 \begin{table}
@@ -353,15 +378,15 @@ across classes to reduce the impact of class imbalance.
 
 The results of the supervised models are generally high indicating a good
 ability to detect known attacks from network data, with the \gls{dt} and
-\gls{rf} models performing slightly better than the other models.
-However, this degrades significantly in the face of unknown attacks. This is
-indicated by the low values in the Recall-Unk column for all models except for
-\gls{lda}. This indicates a very low ability to generalise to unknown attack
-categories in these models. The \gls{lda} model stands out from the other
-supervised models, exhibiting a significantly higher Recall-Unk value,
-comparable to those of the unsupervised models. The value is still
-significantly lower than those of known attacks, however is an impressive value
-nonetheless due to the inherent difficulty in detecting unknown attacks.
+\gls{rf} models performing slightly better than the other models. However, this
+degrades significantly in the face of unknown attacks. This is indicated by the
+low values in the Recall-Unk column for all models except for \gls{lda}. This
+indicates a very low ability to generalise to unknown attack categories in
+these models. The \gls{lda} model stands out from the other supervised models,
+exhibiting a significantly higher Recall-Unk value, comparable to those of the
+unsupervised models. The value is still significantly lower than those of known
+attacks, however is an impressive value nonetheless due to the inherent
+difficulty in detecting unknown attacks.
 
 The unsupervised models on the other hand exhibit a less significant difference
 between their recall and Recall-Unk values, however have a lower recall value
@@ -377,7 +402,7 @@ significant number of attacks.
 
 Comparing the \gls{ssc}-\gls{ocsvm} model to the \gls{sae}-\gls{ocsvm} model,
 the performance figures are quite similar, indicating \gls{dl} may not suffer
-the same inefficacy discovered by Zoppi et al.~\cite{Zoppi}, when considering
+the same inefficacy discovered by Zoppi et al.~\cite{Zoppi} when considering
 unsupervised models.
 
 \begin{table}
@@ -449,28 +474,28 @@ attack category is omitted. Table~\ref{tab:results_cat_f1} contains the per
 class F1-scores averaged across the same variants.
 
 Analysing the results of these tables, we can further investigate the behaviour
-of the models. Firstly, we note that some attack categories appear to be harder
-to predict than others. The Infiltration category for instance exhibits lower
-accuracy across all models. A potential explanation for this is that
-infiltration is a broad category involving the exploitation of software that
-can take a wide variety of forms. Hence, infiltration attacks may differ
-significantly among themselves making it harder for the model to learn common
-patterns. Additionally, the dataset only contains five attacks under this
-category, with a relatively small number of instances compared to most other
-categories, potentially aggravating the issue. Another potential explanation
-may be that infiltration attacks resemble benign traffic more closely than
-other categories, rendering themselves difficult to distinguish from normal
-traffic.
+of the models. Firstly, we note that some attack categories appear to be more
+difficult to predict than others. For instance, the `Infiltration' category
+exhibits lower accuracy across all models. A potential explanation for this is
+that `Infiltration' is a broad category involving the exploitation of software
+that can take a wide variety of forms. Hence, `Infiltration' attacks may differ
+significantly among themselves making it more difficult for the model to
+learn common patterns. Additionally, the dataset only contains five attacks
+under this category, with a relatively small number of instances compared to
+most other categories, potentially aggravating the issue. Another potential
+explanation may be that `Infiltration' attacks resemble benign traffic more
+closely than other categories, rendering themselves difficult to distinguish
+from normal traffic.
 
 The comparison of the unsupervised model with the supervised models in
 Table~\ref{tab:results_cat_acc} and Table~\ref{tab:results_cat_f1} reveals an
 interesting phenomenon. Whilst the unsupervised models perform far worse
 overall, they seem to perform very similarly to the supervised models on
-certain categories. The models exhibit low efficacy on the Bot, Injection and
-Infiltration categories specifically, weighing down its averages in the overall
-results. It should be noted, however that the supervised models also
-performed poorly on the Infiltration category, rendering performance on the Bot
-and Injection categories the primary difference. This is an interesting
+certain categories. The models exhibit low efficacy on the `Bot', `Injection'
+and `Infiltration' categories specifically, weighing down their averages in the
+overall results. It should be noted, however that the supervised models also
+perform poorly on the `Infiltration' category, rendering performance on the
+`Bot' and `Injection' categories the primary difference. This is an interesting
 observation as this means unsupervised models could serve as very effective
 tool against both known and unknown attacks of specific categories, against
 which it is known to be effective. Additionally, this finding brings into
@@ -480,9 +505,11 @@ making it difficult to recognise them as anomalies, however, this hypothesis
 would require further experimentation to confirm or deny concretely.
 
 Comparing the per class metrics of the \gls{ssc}-\gls{ocsvm} model with that of
-the \gls{sae}-\gls{ocsvm} model also yields an interesting finding that the
-former outperforms the latter on the Injection category but performs worse on
-the Bot category, forming a tradeoff between the two.
+the \gls{sae}-\gls{ocsvm} model also yields an interesting finding. The former
+outperforms the latter on the `Injection' category but performs worse on the
+`Bot' category, forming a trade-off between the two. The exact nature of this
+trade-off and the internal mechanics causing it would need further
+experimentation to uncover.
 
 \section{Aggregate Results Omitting Specific Attacks}%
 \label{sec:agg_res_att}
@@ -514,7 +541,7 @@ the Bot category, forming a tradeoff between the two.
     \end{tblr}
 \end{table}
 
-Table~\ref{tab:results_att_agg} displays the aggregate metrics from the first
+Table~\ref{tab:results_att_agg} displays the aggregate metrics from the third
 phase discussed in Section~\ref{sec:variants}, which involves excluding
 individual attacks to generate variants. Similarly to
 Table~\ref{tab:results_cat_agg}, the macro-average is taken across classes to
@@ -529,8 +556,8 @@ attacks in the same category are present in the dataset. However, as previously
 discussed, this generalisation ability is limited and still fails to supersede
 that of the unsupervised model.
 
-\section{Per Variant Results}%
-\label{sec:res_var}
+\section{Per Variant Results Omitting Categories}%
+\label{sec:res_var_cat}
 
 In this section, we present and discuss heatmaps showing the recall values on
 each category for each variant considered. This data allows us to address
@@ -573,16 +600,16 @@ the category that was omitted.
 The results in these heatmaps further confirm the observations made earlier on
 the high efficacy of supervised models on known attacks and reduced efficacy on
 unknown attacks, indicated by the lower diagonal values. The \gls{dt}, \gls{rf}
-and \gls{knn} models seem to behave similarly, performing excellently on
-known attacks but more poorly on unknown attacks, with \gls{dt} demonstrating
+and \gls{knn} models seem to behave similarly, performing excellently on known
+attacks but more poorly on unknown attacks, with \gls{dt} demonstrating
 slightly higher generalisation ability compared to the other models. The
 \gls{lda} model differs slightly, exhibiting higher generalisation ability but
 slightly lower values overall and significantly lower values on the
-infiltration category specifically. The \gls{gb} model exhibits strange
-behaviour as it seems to be dependent on the infiltration category to learn
+`Infiltration' category specifically. The \gls{gb} model exhibits strange
+behaviour as it seems to be dependent on the `Infiltration' category to learn
 patterns on the other classes, achieving zero recall values when the category
 is excluded. Paradoxically, the model also displays lower recall on the
-infiltration category compared to the other models.
+`Infiltration' category compared to the other models.
 %
 \begin{figure}[htbp]
     \centering
@@ -609,26 +636,26 @@ infiltration category compared to the other models.
     \end{minipage}
     \caption[Single Category Results]{Recall values per class when trained on a single category.\label{fig:inc_cat}}
 \end{figure}
-% 
+
 % TODO: continue new model revision from here
 This strange behaviour can be further explored in Figure~\ref{fig:inc_cat},
 which shows the heatmaps of recall values generated from the variants including
 single categories. Based on the values presented in this heatmap, the \gls{gb}
 model seems to be able to learn patterns that allow it to generalise from the
-Brute Force and Infiltration categories, but fails to learn anything from the
-Bot and Injection categories. This is in contrast with the \gls{dt}, \gls{rf}
-and \gls{knn} models, which are able to learn from all categories, indicated by
-the high recall values in the diagonal, however are not able to generalise when
-trained on Brute Force attacks. The \gls{lda} model displays lower values in
-the diagonal and generalises similarly to the other models excluding the
-\gls{gb} model. This indicates lower performance overall when trained on single
-attacks.
+`Brute Force' and `Infiltration' categories, but fails to learn anything from
+the `Bot' and `Injection' categories. This is in contrast with the \gls{dt},
+\gls{rf} and \gls{knn} models, which are able to learn from all categories,
+indicated by the high recall values in the diagonal, however are not able to
+generalise when trained on `Brute Force' attacks. The \gls{lda} model displays
+lower values in the diagonal and generalises similarly to the other models
+excluding the \gls{gb} model. This indicates lower performance overall when
+trained on single attacks.
 
 All classifiers except for the \gls{rf} classifier seem to be able to
-generalise from the infiltration class. This behaviour, in conjunction with the
-previous observations on the low accuracy on this class supports the idea that
-the infiltration category may be too broad and contain more than one sort of
-attack. This would explain why it is difficult to classify, yet offers
+generalise from the `Infiltration' class. This behaviour, in conjunction with
+the previous observations on the low accuracy on this class supports the idea
+that the `Infiltration' category may be too broad and contain more than one
+sort of attack. This would explain why it is difficult to classify, yet offers
 information about a wide variety of attacks.
 
 Despite these limited instances of generalisation, the overall generalisation
@@ -636,6 +663,10 @@ ability of the five models is low. Most instances of generalisation on this set
 of heatmaps yield low recall values, with the diagonal containing significantly
 higher values indicating a limited ability to generalise across categories
 overall.
+
+\section{Per Variant Results Omitting Specific Attacks}%
+\label{sec:res_var_att}
+
 %
 \begin{figure}[htbp]
     \centering
@@ -668,16 +699,16 @@ models generated from the variants omitting individual attacks. Each row
 represents the per attack recall values generated from one variant. The label
 of the row is the attack that was omitted.
 
-The primary patterns to observe are the vertical stripes wherever infiltration
-attacks are present and the diagonal, representing the difficulty of
-classifying infiltration attacks and generalising to unknown attacks. It is
-interesting to note, the diagonals have gaps, unlike in the category heatmaps.
-This indicates intra-category generalisation occurs during training, creating
-these gaps that are not visible in the category heatmaps. The slightly more
-noisy heatmaps resulting from the \gls{gb} model is further evidence this model
-is more dependent on generalised patterns compared to the other models. The
-\gls{lda} model also exhibits a slightly noisier heatmap however to a much
-lower degree than the \gls{gb} model.
+The primary patterns to observe are the vertical stripes wherever
+`Infiltration' attacks are present and the diagonal, representing the
+difficulty of classifying `Infiltration' attacks and generalising to unknown
+attacks. It is interesting to note, the diagonals have gaps, unlike in the
+category heatmaps. This indicates intra-category generalisation occurs during
+training, creating these gaps that are not visible in the category heatmaps.
+The slightly more noisy heatmaps resulting from the \gls{gb} model is further
+evidence this model is more dependent on generalised patterns compared to the
+other models. The \gls{lda} model also exhibits a slightly noisier heatmap
+however to a much lower degree than the \gls{gb} model.
 
 \begin{figure}[htbp]
     \centering
@@ -713,7 +744,7 @@ that influence the model's performance on other attacks. The relationships
 between each pair of attacks are indicated in the heatmaps. It should be noted
 that the algorithm employed seems to have a significant effect on the level of
 generalisation achieved, with \gls{gb}, \gls{dt} and \gls{lda} demonstrating
-the higher generalisation ability than \gls{rf} and gls{knn}.
+the higher generalisation ability than \gls{rf} and \gls{knn}.
 
 \section{Addressing Objectives}%
 \label{sec:add_obj}

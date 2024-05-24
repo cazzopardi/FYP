@@ -1,22 +1,35 @@
 \chapter{Methodology}%
 \label{chp:methodology}
 
-The work of Kus et al.~\cite{Kus} and Zoppi et al.~\cite{Zoppi} shines an
-illuminating light onto the field. Hence, this study follows similar
-principles.
+In the previous sections, we have defined the aims of this study, introduced
+the field of \gls{ml}-based intrusion detection and reviewed some of the
+significant works in the literature. In Chapter~\ref{chp:introduction} we
+define our primary aim of investigating both supervised and unsupervised
+techniques against both known and unknown attacks, dividing this aim into three
+objectives. This chapter will discuss in detail the methodology we propose to
+address these \hyperlink{obj}{objectives}.
 
-Models are evaluated using the methodology of Kus et al.~\cite{Kus} as this is
-a superset of the methodology applied by Zoppi et al.~\cite{Zoppi}.
-Additionally, Kus et al.~\cite{Kus} consider individual attacks, which will
-provide valuable insights to address \hyperlink{obj}{Objective 3}.
+The works of Kus et al.~\cite{Kus} and Zoppi et al.~\cite{Zoppi} shine an
+illuminating light onto the field, taking into consideration the possibility of
+unknown attacks and revealing the alarmingly low efficacy supervised models
+tend to demonstrate on these attacks.
 
-The methodology can be divided into the five following steps:
+Building upon the foundational research conducted by these authors, this study
+trains and evaluates models on variants of the dataset excluding certain
+attacks. More specifically, we generate the variants using the approach
+proposed by Kus et al.~\cite{Kus}. This approach has been selected over that of
+Zoppi et al.~\cite{Zoppi} as it is a superset of the approach taken by Zoppi et
+al.~\cite{Zoppi}. Additionally, Kus et al.~\cite{Kus} consider individual
+attacks, which will provide valuable insights to address
+\hyperlink{obj}{Objective 3}.
+
+Our methodology can be divided into the five following steps:
 \begin{enumerate}
       \item Selection of state-of-the-art models.
       \item Selection of a realistic and diverse dataset.
       \item Sampling and preprocessing of the dataset.
       \item Generation of training variants which intentionally exclude certain attacks.
-      \item Replication and evaluation of the replicated models on the training variants.
+      \item Replication and evaluation of the selected models on the training variants.
 \end{enumerate}
 The remainder of this chapter further details these steps.
 
@@ -33,12 +46,12 @@ and unsupervised \gls{dl} techniques. It should be noted that supervised
 \gls{dl} techniques are not considered as they have been found to be less
 effective by Zoppi et al.~\cite{Zoppi}.
 
-The criteria considered when selecting works were the number of citations by
-other works in the literature, the results presented by the paper and the
-specification of a clear replicable methodology. The former two criteria are
-intended to ensure the works selected represent the state-of-the-art whilst the
-latter criterion is intended to ensure accurate replication of the work is
-possible.
+The criteria considered when selecting works were the results presented by the
+paper, the number of citations by other works in the literature, the recency of
+publication and the specification of a clear replicable methodology. The former
+three criteria are intended to ensure the works selected represent the
+state-of-the-art whilst the latter criterion is intended to ensure accurate
+replication of the work is possible.
 
 Additionally, in the case of supervised techniques, works that consider class
 imbalance were given preference as this has been identified as a significant
@@ -66,12 +79,12 @@ realistic environment where unknown attacks may be encountered. Hence,
 selecting a realistic, modern dataset with sufficient variety of data is a
 vital step. In addition to the experimental dataset, we also require datasets
 used by the original authors of the selected models. These are required so that
-the replicated models can be evaluated using on this data using the same
-metrics presented by the original authors. These metrics can then be compared
-to those presented to verify the models were replicated correctly. Similarly,
-the dataset used by Kus et al.~\cite{Kus} in the original proposal of their
-methodology will also be used to evaluate the methodology and verify it has
-been replicated correctly.
+the replicated models can be evaluated on this data using the same metrics
+presented by the original authors. These metrics can then be compared to those
+of the original authors to verify the models were replicated correctly.
+Similarly, the dataset used by Kus et al.~\cite{Kus} in the original proposal
+of their methodology will also be used to evaluate the methodology and verify
+it has been replicated correctly.
 
 Our literature review yielded eight datasets that were considered for use in
 this study. These include the KDD99~\cite{kdd99}, NSL-KDD~\cite{nsl},
@@ -105,8 +118,8 @@ host inside the network to attack the network. The resulting dataset contains
 Karatas et al.~\cite{Karatas} evaluate their models on the CSE-CIC-IDS2018
 dataset. Hence, this dataset can be used to verify the replication of these
 models in addition to being used as the experimental dataset. In contrast, the
-dataset is not considered by Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao},
-therefore, another dataset is required to verify the replication of these
+dataset is not considered by Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao}.
+Therefore, another dataset is required to verify the replication of these
 models. The work of Pu et al.~\cite{Pu} is evaluated only on the NSL-KDD
 dataset. This dataset is also one of the datasets on which the models proposed
 by Cao et al.~\cite{Cao} are evaluated. Hence, this dataset is used to verify
@@ -137,27 +150,29 @@ The methodology of Kus et al.~\cite{Kus}, employed in this study, requires each
 instance in the dataset to be labelled with both the specific attack name and
 the attack category. The labels provided in the CSE-CIC-IDS2018 dataset can be
 described as an attack category, however, some labels are not broad enough to
-be defined as categories for the purpose of this study. An instance of this are
-the \gls{dos} attacks which are labelled according to the specific tool used.
-Hence, the dataset has an `attack name' column appended to it. The values of
-this column were filled according to Table 2 on the dataset's
-website~\cite{cic2018}, using the `Timestamp' and `Label' columns to determine
-the attack each instance belongs to.
+for the purposes of this study. An example of this are the \gls{dos} attacks,
+which are labelled according to the specific tool used. Hence, we append an
+`attack name' column to the dataset. The values of this column are filled
+according to Table 2 on the dataset's website~\cite{cic2018}. This table
+specifies the attack schedule used during dataset generation, detailing the
+start and end times of each attack as well as the labels attributed to each
+attack. Hence, we use the `Timestamp' and `Label' columns to determine the
+specific attack each instance in the dataset belongs to.
 
-Numerous instances in the dataset occur outside the specified attack times in
-this table. In most cases, only one attack with a particular label occurred
-each day. Hence, it has been assumed that instances with a matching label,
-occurring outside the specified attack times, but on the same attack day
-constitute part of that attack. The exception to this are the bot attacks
-carried out on 02/03/2018. Two Bot attacks were carried out on the same day,
-with malicious instances present between the end time of the first attack and
-the start time of the second. These instances have been labelled as the
-`Unknown' attack type.
+It should be noted, numerous instances in the dataset occur outside the attack
+time brackets specified in this table. In most cases, only one attack with a
+particular label occurred each day. Hence, it is assumed that instances with a
+matching label, occurring outside the specified attack times, but on the same
+attack day constitute part of that attack. The exception to this are the `Bot'
+attacks carried out on 02/03/2018. Two `Bot' attacks were carried out on the
+same day, with malicious instances present between the end time of the first
+attack and the start time of the second. These instances have been labelled as
+the `Unknown' attack type.
 
-Next, an `attack category' column was generated from this new column. The
+Next, an `attack category' column is generated from this new column. The
 categorisation adopted for this study is shown in Table~\ref{tab:categories}.
-It should be noted that the previously mentioned ambiguous bot attacks were
-categorised as `Bot' attacks.
+It should be noted that the previously mentioned ambiguous `Bot' attacks
+labelled as `Unknown' are categorised as `Bot' attacks.
 
 \begin{table}
       \centering
@@ -201,16 +216,33 @@ differ significantly in their nature and attacks that share similarities.
 Conclusions are not be intended to generalise to attack types not present in
 the dataset that may fall under the same subjective categorisation.
 
+The dataset contains 83 features, however, the features `Src IP', `Dst IP' and
+`Flow ID' are only present for a small portion of the data. Additionally, these
+features are specific to the network configuration used during dataset
+generation and hence, tend to be ignored in the literature. Of the remaining 80
+features, the following features represent nominal data: `Protocol', `Src
+Port', `Dst Port', `Fwd PSH Flags', `Bwd PSH Flags', `Fwd URG Flags' and `Bwd
+URG Flags'. The `Src Port' and `Dst Port' columns are naturally in numeric form
+whereas the other nominal features are already encoded numerically by the
+original authors. All flag columns are encoded as binary values indicating the
+presence of the flag whilst the protocol column contains three unique values:
+zero, six and seventeen. It has been assumed these values represent three
+different protocols as the authors do not specify their encodings. All other
+features in the dataset represent discrete and continuous data, and hence
+require no encoding.
+
 The CSE-CIC-IDS2018 dataset contains approximately 16,000,000 instances, an
 enormous number that introduces complexities as it is not feasible to keep the
-full dataset in memory during processing on the 32GB of RAM that were available
+full dataset in memory during processing on the 32 GB of RAM that were available
 for this project. Hence, the dataset was sampled to 4,519,553 instances. The
 sampling strategy adopted was random sampling of 28\% of the data.
 
-Once the sampled, fully labelled dataset was generated, the individual
-preprocessing pipelines of each replicated study were applied. Some additional
-steps were added where necessary. We will now briefly outline the steps taken
-in each work.
+Once the sampled, fully labelled dataset was generated, individual
+preprocessing pipelines of each replicated study were applied based on the work
+of their original authors. Some additional steps were added where necessary,
+including a common set of steps designed for the CSE-CIC-IDS2018 dataset for
+the unsupervised models which were originally evaluated on different datasets.
+We will now briefly outline the steps taken for each model.
 
 The following steps, based on the methodology of Karatas et al.~\cite{Karatas},
 were carried out prior to all experiments.
@@ -222,7 +254,7 @@ were carried out prior to all experiments.
             Additionally, instances with an `Unknown' attack type were also removed.
       \item Missing values were replaced with zero
       \item Infinity values were replaced with the maximum value in the column
-      \item During replication, the `Timestamp' columns was separated into date and time
+      \item During replication, the `Timestamp' column was separated into date and time
             columns to eliminate non-numeric values. The column was then removed for the
             experiments as none of the models replicated analyse time series data. Hence,
             any information present in this column will be valid only under the specific
@@ -235,7 +267,10 @@ were carried out prior to all experiments.
             Byts'. Two additional categorical columns were added, containing a one for
             negative values and a zero for positive values in the corresponding column.
       \item The label column was encoded into numeric values. This was done for both the
-            `attack category' and `attack name' columns for the purposes of this study.
+            `attack category' and `attack name' columns for the purposes of this study. For
+            convenience, the zero value was set to represent the benign class whereas all
+            other classes were numbered according to the order in which they appear. The
+            encodings were saved to disk for later use in decoding.
       \item The dataset was split into training and testing sets using an 80/20 split and
             then shuffled.
       \item Lastly, \gls{smote} was employed on the training set to reduce the class
@@ -245,9 +280,9 @@ were carried out prior to all experiments.
 \end{enumerate}
 
 Following these preprocessing steps, the unsupervised models had additional
-preprocessing carried out, based on the work of the original authors. Note, the
-\gls{smote} step was excluded when processing for unsupervised models as they
-do not consider minority samples during training.
+preprocessing carried out, based on the work of their original authors. Note,
+the \gls{smote} step was excluded when processing for unsupervised models as
+they do not consider minority samples during training.
 
 The following additional steps were applied to the data processed by the
 \gls{ssc}-\gls{ocsvm} model, based on the methodology of Pu et al.~\cite{Cao}.
@@ -256,9 +291,9 @@ The following additional steps were applied to the data processed by the
             two levels, was converted to one-hot encoding representation.
       \item F-test feature selection was employed, selecting the k best features based on
             the ANOVA F-value~\cite{f_test} of each feature, where k is a hyperparameter.
-      \item All features were then standardised.
+      \item All features were then normalised using z-score standardisation.
       \item Finally, malicious samples were removed from the training set, and the training
-            set was reduced to 200,000 samples. This number was selected by progressivley
+            set was reduced to 200,000 samples. This number was selected by progressively
             increasing the sample size until the performance did not improve any further.
 \end{enumerate}
 
@@ -281,18 +316,21 @@ The following additional steps were applied to the data processed by the
 \label{sec:variants}
 
 Following preprocessing, the dataset was split into variants according to the
-methodology of Kus et al.~\cite{Kus}. Briefly, this consists of filtering the
-dataset in four phases. In the first phase, the dataset has particular attack
-excluded from the training set. Hence, the excluded attacks simulate unknown
-attacks and accurately depict model performance on such unknown attacks should
-it encounter them at runtime. In the second phase, all attacks are filtered out
-except for one attack, and of course, the benign class. This provides more
-insight allowing for a better understanding of how individual attacks provide
-valuable knowledge that may generalise to other attacks. In the third and
-fourth phases, these two steps are repeated using attack categories instead of
-particular attack types. This provides more insight as to how attacks may
-generalise to other attacks within the same categories as well as attacks in
-other categories.
+methodology of Kus et al.~\cite{Kus}. This consists of filtering the dataset in
+four phases.
+
+In the first phase, the dataset has particular attack category excluded from
+the training set. Hence, the excluded attacks simulate unknown attacks and
+accurately depict model performance on such unknown attacks should it encounter
+them at runtime. In the second phase, all categories are filtered out except
+for one, and of course, the benign category. This provides more insight
+allowing for a better understanding of how attack categories provide valuable
+knowledge that may generalise to other categories. In the third and fourth
+phases, these two steps are repeated focusing on individual attacks instead of
+attack categories. This provides more insight into the relationships between
+different individual attacks allowing for generalisation and allows us to
+analyse generalisation within a category, which would not be possible when
+considering only categories.
 
 The CSE-CIC-IDS2018 contains 21 individual attacks, which have been divided
 into five categories. Hence, 52 dataset variants were generated.
@@ -300,13 +338,16 @@ into five categories. Hence, 52 dataset variants were generated.
 \section{Implementation and Execution}%
 \label{sec:implementation}
 
+The implementation of this project's evaluation can be found in the project's
+repository on GitHub~\cite{repo}.
+
 The evaluation of this study is written in Python 3.11. The \gls{dt}, \gls{rf},
-\gls{knn} and \gls{lda} models were implemented using the scikit-learn
+\gls{knn} and \gls{lda} models are implemented using the scikit-learn
 library~\cite{scikit-learn} as was done by the original authors. The \gls{gb}
-model was implemented using the XGBoost library~\cite{xgboost} to increase the
+model is implemented using the XGBoost library~\cite{xgboost} to increase the
 execution speed beyond what is possible with scikit-learn~\cite{scikit-learn}.
-The work of Pu et al.~\cite{Pu} was replicated using
-ThunderSVM~\cite{ThunderSVM}, a \gls{gpu}-accelerated library that offers an
+The work of Pu et al.~\cite{Pu} is replicated using
+ThunderSVM~\cite{ThunderSVM}, a \gls{gpu}-accelerated library that offers a
 \gls{ocsvm} implementation. Cao et al.~\cite{Cao} provide the source code of
 their implementation on GitHub~\cite{cao_git}. This implementation employs
 Tensorflow~\cite{tensorflow} for the \gls{sae} and scikit-learn for the
@@ -315,44 +356,47 @@ Tensorflow 2 and the \gls{ocsvm} model was replaced with a
 ThunderSVM~\cite{ThunderSVM} model to reduce execution time.
 
 Experiments are executed on \gls{wsl} Ubuntu 22.04 with an Intel I9--10900F,
-two \gls{gpu} NVIDIA GeForce RTX3080 with 10 GB \gls{ram} each and 32 GB main
-\gls{ram}\@ The ThunderSVM~\cite{ThunderSVM} and Tensorflow~\cite{tensorflow}
-libraries were configured to leverage \gls{gpu} acceleration.
+two NVIDIA GeForce RTX3080 \gls{gpu}s with 10 GB \gls{ram} each and 32 GB
+system \gls{ram}. The ThunderSVM~\cite{ThunderSVM} and
+Tensorflow~\cite{tensorflow} libraries were configured to leverage \gls{gpu}
+acceleration.
 
-The results of each original study were replicated on one of the datasets used
-by the original authors to verify the models were replicated correctly. The
-methodology was also replicated on the models and dataset used by Kus et
-al.~\cite{Kus} to ensure it was replicated correctly. Once, matching results
-were achieved, the models were trained on the variants to produce the results
-of this study. The unsupervised models considered expect only normal, or
-benign, data in their training sets. Hence, these were only trained once as all
-variants are rendered identical when malicious samples are omitted. Each model
-was trained as a binary classification model, classifying each sample as benign
-or malicious.
+Each model is trained as a binary classification model, classifying each sample
+as benign or malicious. In order to achieve this without rendering per class
+metrics impossible to calculate, the labels are stored as multi-class labels
+and are converted to binary labels immediately before being passed to the
+models. All correct attack predictions are then set to the appropriate class to
+ensure per class metrics are calculated correctly.
 
-Metrics were then calculated based on the predictions obtained during
-execution. The scikit-learn~\cite{scikit-learn} classification report and
-accuracy score functions were used to compute the metrics. To better define
-performance on unknown attacks, we consider the Recall-Unk metric defined by
-Zoppi et al.~\cite{Zoppi}. This metric represents the recall value when
-considering only samples of the unknown class and provides insight into the
-performance of the model on unknown classes.
+The results of each original study are replicated by evaluating each model on
+one of the datasets used by the original authors to verify the models are
+correct. The methodology is also evaluated on two of the models and the dataset
+used by Kus et al.~\cite{Kus} to ensure it is replicated correctly.
+Specifically, we replicate the results of the \gls{rf} and \gls{svm} models
+presented in the original work. Kus et al.~\cite{Kus} also evaluate and present
+a \gls{bilstm} model, however, we have opted to exclude this from our
+replication as it is not necessary to meet our aims and has a significantly
+longer execution time. We aim to confirm the validity of the evaluation
+methodology, which is consistent across all models. Hence, the replication of
+two models is sufficient to meet out goals.
 
-% In the ideal case, the evaluation metrics of 
-% each dataset variant would be calculated using 5-fold cross validation.
-% However, due to the high computational demands of the methodology, there is a
-% possibility that the proposed procedure will be unfeasible to carry out using
-% the resources available. Should this be the case, a standard train-test split
-% may be employed in place of 5-fold cross validation and stratified sampling can
-% be explored to reduce the size of the dataset without decreasing the quality of
-% the results.
+Once, matching results are achieved, the models are trained on the variants
+generated to produce the results of this study. The unsupervised models
+considered expect only normal, or benign, data in their training sets. Hence,
+these are only trained once as all variants are rendered identical when
+malicious samples are omitted.
 
-The hyperparameters used are specified in Table~\ref{tab:hyperparameters}. All
-source code used in the implementation can be found in this project's
-repository on GitHub~\cite{repo}.
+Metrics are then calculated based on the predictions obtained during execution.
+The scikit-learn~\cite{scikit-learn} classification report and accuracy score
+functions were used to compute the metrics.
+
+Hyperparameters are input values required by \gls{ml} models that are not
+altered during training. The hyperparameters used in this study are specified
+in Table~\ref{tab:hyperparameters}. All of these hyperparameters were set based
+on the work of the original authors of the models~\cite{Karatas, Pu, Cao}.
 
 \begin{table}
-      \caption{Hyperparamters\label{tab:hyperparameters}}
+      \caption{Hyperparamaters\label{tab:hyperparameters}}
       \centering
       \begin{tblr}{|Q[m,0.15\textwidth]|Q[m,0.8\textwidth]|}
             \hline

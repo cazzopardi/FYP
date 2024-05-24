@@ -13,14 +13,21 @@ allowing for the detection of unknown attacks before these attacks are
 discovered or perhaps even developed.
 
 This potential has not gone unnoticed in the research community with numerous
-papers proposing and exploring \gls{ml} techniques for \gls{nids}. Some of
-these papers have achieved remarkable results demonstrating the efficacy of
+authors proposing and exploring \gls{ml} techniques for \gls{nids}. Some of
+these authors have achieved remarkable results demonstrating the efficacy of
 \gls{ml} in this field. However, most of these works do not consider the impact
 of unknown attacks when evaluating their models, creating a false sense of
 security that may leave information systems vulnerable. In this study, we have
-replicated four \gls{ml} models from two state-of-the-art works and evaluated
-them using the methodology proposed by the work of Kus et al.~\cite{Kus}, which
-has also been replicated.
+replicated seven \gls{ml} models from three state-of-the-art works and
+evaluated them using the methodology proposed by the work of Kus et
+al.~\cite{Kus}, which has also been replicated. More specifically, we have
+replicated and evaluated the \gls{dt}, \gls{rf}, \gls{gb}, \gls{knn},
+\gls{lda}, \gls{ssc}-\gls{ocsvm} and \gls{sae}-\gls{ocsvm} models. The best
+performing algorithm from these in the domain of \gls{nids} depends on the
+attacks the system is expected to face.\ \gls{dt} demonstrates the best
+performance on known attacks, however, \gls{sae}-\gls{ocsvm} demonstrates the
+best performance on unknown attacks. The \gls{lda} model offers a balance
+between the two and may prove an effective option in the right circumstances.
 
 This analysis has addressed our three primary objectives. We have analysed the
 efficacy of current state-of-the-art techniques and discovered that they are
@@ -28,20 +35,20 @@ extremely effective on known attacks and on certain categories of unknown
 attacks, however, some categories require prior knowledge to be classified
 effectively. We have also compared the efficacies of supervised and
 unsupervised techniques and discovered that supervised techniques are more
-effective on known attacks overall as they do not struggle with any categories
-unlike unsupervised techniques, which are ineffective against certain
-categories. Unsupervised techniques, however, are unaffected by the prior
-knowledge, or lack thereof, available on attacks. Supervised techniques, in
-contrast, suffer a considerable decrease in efficacy without prior knowledge of
-the attack. Finally, we have explored the relationships present between
-individual attacks and attack categories in regard to generalisation. This
-analysis has revealed an alarmingly low level of generalisation in supervised
-models, even within attack categories in certain cases. This indicates these
-supervised models may be more accurately placed in the category of \gls{sids}
-than \gls{aids}. However, it should be noted that some level of generalisation
-does take place, potentially offering an advantage over traditional \gls{sids}.
-Furthermore, the specific algorithm employed has a significant effect on the
-level of generalisation achieved.
+effective on known attacks overall as they do not struggle with any categories.
+Unsupervised techniques, in contrast, are ineffective against certain
+categories, for example the `Bot' category, for which both unsupervised models
+demonstrated low metrics. Unsupervised techniques, however, are unaffected by
+the prior knowledge, or lack thereof, available on attacks. Supervised
+techniques, in contrast, suffer a considerable decrease in efficacy without
+prior knowledge of the attack. Finally, we have explored the relationships
+present between individual attacks and attack categories in regard to
+generalisation. This analysis has revealed an alarmingly low level of
+generalisation in supervised models, even within attack categories in certain
+cases. However, it should be noted that some level of generalisation does take
+place, potentially offering an advantage over \gls{sids}. Furthermore, the
+specific algorithm employed has a significant effect on the level of
+generalisation achieved.
 
 Overall, these results should help to shed light on the efficacy and behaviour
 of a variety of \gls{ml} techniques in the ever-evolving cyberthreat landscape
@@ -69,9 +76,20 @@ The authors also made available the raw data captured during dataset
 generation. Further research into extracting different features from this raw
 data may unlock new opportunities within the field.
 
-Finally, all the models considered in this work treat samples individually,
-without considering neighbouring samples. Models that consider time series data
-may be able to learn patterns present across several network flows originating
-from the same attack, which may improve model performance. Future work could
+All the models considered in this work treat samples individually, without
+considering neighbouring samples. Models that consider time series data may be
+able to learn patterns present across several network flows originating from
+the same attack, which may improve model performance. Future work could
 consider such time series models in comparison to single sample models such as
 those analysed in this work.
+
+Finally, an evaluation of these techniques in conjunction with current
+practical \gls{nids} tools employed in the industry, such as Elastic Security,
+would help to further evaluate the efficacy of these techniques in practical
+applications. Due to time constraints, this was not possible in this study. As
+discussed in Section~\ref{sec:nids}, Elastic Security combines data from
+various sources including \gls{ml} pipelines. Hence, each of these \gls{ml} models
+could be added as a custom \gls{ml} detection rule. A comparison could then be
+made between the performance of the system with and without the custom rule to
+determine whether these techniques could improve pragmatic \gls{nids}
+performance when incorporated with current state-of-the-art tools.
