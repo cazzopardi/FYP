@@ -1,0 +1,18 @@
+# project
+data/CSE-CIC-IDS-2018/*
+!data/CSE-CIC-IDS-2018/attack_list.csv
+!data/CSE-CIC-IDS-2018/category_list.csv
+temp/
+
+data/NSL-KDD/*
+output/
+
+# python
+venv
+__pycache__/
+
+# VSCode
+/.vscode
+
+# MacOS
+.DS_Store

@@ -1,0 +1,16 @@
+Label,Attack Category
+Benign,Benign
+FTP-BruteForce,Brute Force
+SSH-Bruteforce,Brute Force
+DoS attacks-GoldenEye,DoS
+DoS attacks-Slowloris,DoS
+DoS attacks-SlowHTTPTest,DoS
+DoS attacks-Hulk,DoS
+DDoS attacks-LOIC-HTTP,DoS
+DDOS attack-LOIC-UDP,DoS
+DDOS attack-HOIC,DoS
+Brute Force -Web,Brute Force
+Brute Force -XSS,Injection
+SQL Injection,Injection
+Infilteration,Infiltration
+Bot,Bot

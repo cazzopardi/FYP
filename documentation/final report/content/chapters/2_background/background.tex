@@ -1,0 +1,284 @@
+\chapter{Background}%
+\label{chp:background}
+
+\section{Network Intrusion Detection}%
+\label{sec:nids}
+
+\gls{nids} play a crucial role in the realm of network defence, complementing
+other techniques such as firewalls and encryption. These sophisticated software
+systems analyse network traffic to detect malicious behaviour in real
+time~\cite{survey2}.\ \gls{nids} can be broadly divided into two categories
+distinguished by the method of identification employed~\cite{survey1}.
+
+\gls{sids} function by identifying specific attack signatures. They typically
+require access to a signature database, recognising previously documented
+attacks by correlating sequences of commands or actions to entries on the
+database. This is highly effective on known threats present in the database,
+however their efficacy wanes considerably against unknown
+attacks~\cite{survey1, survey2}.
+
+\gls{aids}, in contrast, discern attacks by profiling non-malicious behaviour
+and recognising deviations. This strategy relies on the assumption that
+malicious traffic inherently differs from benign activity. This approach yields
+several advantages, primarily, the capability to recognise unknown attacks,
+absent from any attack signature database and the lack of a need for such a
+database, which can be laborious to maintain and keep up-to-date. Of course,
+the approach is not without disadvantages, most notably the high susceptibility
+to false alarms as any deviation from the expected profile, malicious or not,
+will be flagged~\cite{survey1, survey2}.
+
+Numerous methodologies can be employed in the implementation of \gls{aids},
+including statistics-based, knowledge-based and \gls{ml}-based
+approaches~\cite{survey1}. Statistics-based \gls{ids} rely on statistical
+models and tests to isolate outliers from normal data, which are then flagged
+as potential threats. Knowledge-based \gls{ids} leverage expert insights or
+domain-specific rules to flag behaviour that may be malicious.\ \gls{ml}-based
+\gls{ids} employ \gls{ml} models trained to differentiate normal and malicious
+traffic patterns~\cite{survey1}.
+
+Several \gls{nids} implementations exist in practice, for example Snort and
+Elastic Security are two popular options. Snort is an open-source \gls{nids}
+that employs signature-based detection to identify threats through predefined
+rules, while also incorporating some anomaly detection capabilities through
+preprocessors. Elastic Security is a software tool built on the Elastic Stack,
+a powerful data analytics and search platform. Elastic Security allows for
+intrusion detection rules to be defined leveraging data from various sources to
+identify malicious behaviour. Detection rules offer significant flexibility
+allowing for a variety of techniques to be employed including signature-based
+detection, knowledge-based detection and \gls{ml}-based rules.
+
+\section{Machine Learning in Network Intrusion
+  Detection}%
+\label{sec:ml_nids}
+
+\gls{ml} exhibits incredible potential in the field owing to its capacity to
+model complex patterns directly from data without developer
+knowledge~\cite{ml}.
+This could simplify the process of creating \gls{nids} and improve the ability
+of these systems to detect unknown attacks. The realm of \gls{ml} encompasses a
+diverse array of methodologies and algorithms, broadly classified into
+supervised, unsupervised, and reinforcement learning
+paradigms~\cite{ml_taxonomy}.
+
+This study will consider supervised and unsupervised techniques. Supervised
+techniques rely on labelled data and generate predictions by learning to map
+the feature set to the label based on the training data~\cite{supervised_ml,
+    ml_taxonomy}. Unsupervised techniques, on the other hand, operate without the
+need for labelled data. They instead learn patterns present in the data by
+measuring similarity and dissimilarity between data points. These identified
+patterns can subsequently be used to inform predictions~\cite{unsupervised_ml,
+    ml_taxonomy}.
+
+These families can be further divided into traditional techniques and \gls{dl}
+techniques. Traditional techniques typically leverage feature engineering and
+statistical methods to extract meaningful information from datasets enabling
+predictions or decisions based on the derived information~\cite{Najafabadi2015,
+    useful_ml}. In contrast, \gls{dl} techniques consists of numerous layers of
+interconnected neurons which each take the sum of their inputs, multiply by
+their weight and apply an activation function to the output. This is then
+passed either to the neurons of the next layer or to the final output
+layer~\cite{dl}.
+
+Supervised techniques tend to be affected negatively by imbalanced datasets,
+where they may exhibit a bias towards predicting the majority class, leading to
+less accurate predictions for minority classes~\cite{imbalance_prob,
+    survey_cicids}. One approach to address this issue, which has been employed
+extensively in the literature, is \gls{smote}~\cite{smote, smote_survey,
+    Karatas, Jiang}.\ \gls{smote} generates synthetic minority class samples to
+reduce imbalance by interpolating data from other nearby points. These points
+are selected using the \gls{knn} algorithm~\cite{knn}. By increasing the number
+of minority class samples in the dataset, the effects of class imbalance can be
+alleviated~\cite{smote}.
+
+\section{Metrics}%
+\label{sec:metrics}
+
+Various evaluation metrics exist in the field of \gls{ml}. In the domain of
+classification problems, some of the most prevalent metrics used to evaluate
+\gls{ml} models include accuracy, precision, recall and F-measure values. These
+are calculated from the counts of \gls{tp}, \gls{fp}, \gls{tn} and \gls{fn}
+predictions made during testing~\cite{metrics}.
+
+Accuracy~\cite{metrics} represents the proportion of correct predictions and is
+the most common metric used. It can, however, be misleading in datasets with
+significant class imbalance as if the model performs well on the majority
+class, it will achieve a high accuracy regardless of the performance on the
+minority class. In tasks like intrusion detection, where detecting minority
+classes is crucial, this skewed accuracy can be misleading. It is defined as:
+
+\[ \text{Accuracy} = \frac{\text{\gls{tp}}+\text{\gls{tn}}}{\text{\gls{tp}}+\text{\gls{tn}}+\text{\gls{fp}}+\text{\gls{fn}}} \]
+
+Recall~\cite{metrics} represents the proportion of samples of a specific class
+that were correctly identified by the model. In the context of intrusion
+detection, recall holds particular importance as it directly influences the
+system's capability to detect attacks effectively. It is defined as:
+
+\[ \text{Recall} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fn}}} \]
+
+Recall-Unk~\cite{Zoppi} represents the recall value when considering only
+samples of the unknown class. It is proposed by Zoppi et al.~\cite{Zoppi} to
+better define the performance of a model on unknown classes and is considered
+in this study for the same reasons. Zoppi et al.~\cite{Zoppi} define \gls{tu}
+and \gls{fu} in order to calculate Recall-Unk.\ \gls{tu} represent correctly
+identified attack instances that belong to an attack excluded from the
+training set.\ \gls{fu} represent attack instances belonging to an excluded attack
+that are not identified by the model. Recall-Unk is defined as:
+
+\[ \text{Recall-Unk} = \frac{\text{\gls{tu}}}{\text{\gls{tu}}+\text{\gls{fu}}} \]
+
+Precision~\cite{metrics} represents the likelihood a positive prediction made
+by the model is correct, an important metric in intrusion detection as a low
+precision indicates a high false alarm rate. It is defined as:
+
+\[ \text{Precision} = \frac{\text{\gls{tp}}}{\text{\gls{tp}}+\text{\gls{fp}}}
+\]
+
+The F1-measure~\cite{metrics} serves as a unified metric that considers both
+recall and precision. It is less susceptible to the effects of class imbalance
+when compared to accuracy. It is defined as:
+\[ \text{F1-measure} = 2 \times \frac{\text{Precision} \times
+        \text{Recall}}{\text{Precision} + \text{Recall}} \]
+
+The \gls{roc} curve~\cite{metrics} is also a common tool used for evaluating
+models, with the \gls{auc-roc} serving as a valuable metric. The curve consists
+of the \gls{fpr} rate on the x-axis plotted against the recall on the y-axis,
+where \gls{fpr} is defined as:
+\[ \text{\gls{fpr}} = \frac{\text{\gls{fp}}}{\text{\gls{fp}} + \text{\gls{tn}}}
+\]
+
+% K-fold cross-validation is a robust evaluation strategy widely employed in
+% machine learning. The dataset is divided into k partitions, or folds, and the
+% model is trained k times each time using a different fold as the test set
+% whilst all other partitions constitute the training set. The metrics calculated
+% in each fold are then aggregated yielding the final results. This enhances the
+% reliability of the evaluation by decreasing variance in the metrics caused by
+% stochasticity in the train-test splitting of the dataset~\cite{kfoldcv}.
+
+% Note: if the above is uncommented the section should be renamed, otherwise move the paragraph to a different section
+
+\section{Feature Selection}%
+\label{sec:feat_eng}
+Feature selection is among the most important components of preprocessing.
+The aim of feature selection is to simplify the set of features in a dataset and
+increase the efficacy of the model by selecting the most relevant features and
+discarding unnecessary features~\cite{feat-sel}. Features may be relevant,
+redundant, or irrelevant. Relevant features are those that offer valuable
+information about the target variable and are vital to enable the model to
+learn patterns present in the dataset. Redundant features refer to features
+that also offer valuable information to the model however are superseded by
+other features that contain the same or more information. Hence, their
+inclusion will increase the model complexity without any significant
+improvement to model efficacy. Irrelevant features refer to those that do not
+contain any information about the target variable. These become a source of
+noise to the model and should be removed to maximise efficacy and reduce excess
+model complexity.
+
+Feature selection techniques, similarly to machine learning techniques, can be
+categorised based on their label requirements. Supervised feature selection
+techniques require labels and are typically employed for classification and
+regression tasks, whereas, unsupervised techniques do not require labels and
+are typically employed for clustering tasks~\cite{feat-sel}.
+
+\section{Literature Review}%
+\label{sec:literature}
+
+There exist several works in the literature focused on the field of
+\gls{ml}-based network intrusion detection. This section briefly outlines some
+significant works in the field.
+
+In 2020, Karatas et al.~\cite{Karatas} proposed six \gls{ml}-based \gls{ids},
+employing the techniques of \gls{knn}, \gls{rf}, \gls{gb}, AdaBoost, \gls{dt}
+and \gls{lda}. They evaluated their models on the CSE-CIC-IDS 2018 dataset. Due
+to the class imbalance present in this dataset, the authors employ \gls{smote}.
+The results indicate the proposed models are very effective with accuracies on
+the sampled data ranging from 91.18\% to 99.35\%. The \gls{rf} algorithm had
+the highest accuracy on the sampled dataset, however the AdaBoost algorithm had
+the highest precision and F1 score which may be more significant given the
+class imbalance present in the dataset.
+
+Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
+propose a \gls{cnn} to extract spatial features, which are then processed
+through a \gls{bilstm} network to extract temporal features. To handle class
+imbalance, the authors first apply \gls{oss} to reduce noisy samples in the
+majority class, then increase the number of minority samples through
+\gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
+the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
+respectively.
+
+Mighan and Kahani (2021)~\cite{Mighan} propose a hybrid approach using a
+stacked auto-encoder network for latent feature extraction followed by a
+support vector machine classifier. The proposed model was evaluated on the
+ISCX2012 and CICIDS2017 datasets achieving accuracies of 90.2\% and 99.49\%
+respectively. They concluded that \gls{dl} feature extraction outperformed
+other methods. Note, class imbalance was not addressed in this study, despite
+being present in both datasets used.
+
+Kus et al. (2022)~\cite{Kus} argue that the current evaluation standard in
+\gls{ml}-based industrial intrusion detection may create a false sense of
+security. They argue that it does not assess the model's ability to detect
+unknown attacks, absent from the training set. They propose a new evaluation
+methodology to assess the efficacy of \gls{ml}-based industrial \gls{ids} in
+detecting these unknown attacks. This methodology is applied to three
+industrial intrusion detection models proposed in a work by Lopez Perez et
+al.~\cite{Perez}. The results indicate an alarmingly low ability to recognise
+unseen attacks, with detection rates dropping to between 3.2\% and 14.7\% for
+some types of attacks. The authors conclude that the models they tested only
+learn signatures of attacks and are not performing true anomaly-based intrusion
+detection. The study focuses primarily on industrial intrusion detection and
+does not attempt to make any generalisations to other domains of intrusion
+detection.
+
+A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day} reviews
+many more similar works with a particular focus on zero-day attacks. It
+supports the argument of Kus et al.~\cite{Kus} stating that many researchers in
+the field are not currently addressing the existence of zero-day attacks and
+suggests that future works should not assume all existing attack
+classifications are present in the dataset.
+
+Pu et al.~\cite{Pu} propose an unsupervised approach, combining \gls{ssc} and
+\gls{ocsvm}. They evaluate their proposal on the NSL-KDD dataset against three
+other unsupervised models, specifically, a combination of \gls{ssc} and
+Evidence Accumulation, \gls{dbscan} and K-means clustering. The results
+indicated the proposed model outperformed the other models.
+
+Cao et al.~\cite{Cao} take an unsupervised \gls{dl} approach, proposing new
+regularisers to classical and variational auto-encoders to map normal network
+samples towards the origin. One class classification models can then be used to
+detect malicious samples which will be mapped further from the origin. They
+evaluated this approach on 14 datasets, including, CTU13\-09, CTU13\-13,
+NSL-KDD, and UNSW-NB15. The results indicate the approach is effective on high
+dimensional and sparse network data.
+
+In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
+machine learning algorithms on 11 different network intrusion datasets. The
+study includes supervised, unsupervised, \gls{dl} and meta-learning algorithms.
+The methodology, like that of Kus et al.~\cite{Kus}, involves creating variants
+of each dataset excluding specific categories in order to simulate the
+occurrence of unknown attacks. They conclude that supervised classifiers yield
+a higher accuracy, however, this is significantly degraded in the face of
+unknown attacks. Unsupervised learners on the other hand are less accurate but
+experience a less dramatic decline in the face of unknown attacks. They also
+conclude meta-learners outperform their non-meta-learning counterparts.
+
+Other, less conventional approaches have also been employed in the literature,
+with some novel approaches having been proposed since this literature review
+was first carried out. For instance, OpenMax is an extension of the softmax
+activation function commonly used in \gls{dl} which has seen application to
+\gls{nids}~\cite{openmax}. Another possibility that has been explored in a
+different domain is \gls{gan} dataset enhancement which essentially involves
+using \gls{dl} to generate realistic attack samples in the dataset without
+prior knowledge of the attacks~\cite{gan_enhancement}. Biologically inspired
+algorithms may also offer an interesting approach to the field~\cite{AIm}.
+
+\section{Conclusion}%
+\label{sec:conclusion2}
+From the above works, we observe that the research community has achieved
+impressive results in the field of intrusion detection. However, as Kus et
+al.~\cite{Kus} have discovered, these laboratory results may not accurately
+reflect reality.
+
+The supervised learning approaches explored above tend not to consider the
+possibility of unknown attacks and hence may be ineffective in practical
+applications. As indicated by Zoppi et al.~\cite{Zoppi}, unsupervised
+techniques may be more effective in detecting unknown attacks, however at the
+cost of reduced efficacy against known attacks.

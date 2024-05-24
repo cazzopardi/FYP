@@ -1,0 +1,23 @@
+
+dask[distributed]
+dask[dataframe]
+mkl
+pandas >= 2.2.1
+thundersvm >= 0.3.4
+xgboost >= 2.0.3
+tensorflow >= 2.14.0
+matplotlib >= 3.8.4
+seaborn >= 0.13.2
+scikit-learn >= 1.4.1
+numpy >=1.26.4
+keras >= 2.14.0
+
+# Kus et al. replication
+liac-arff
+
+# Rocio Lopez Repo Requirements
+scipy>=1.6.1
+# tensorflow>=2.4.1
+# numpy>=1.19.2
+# keras>=2.3.0
+# scikit_learn>=0.22.0

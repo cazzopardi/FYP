@@ -1,0 +1,116 @@
+\chapter{Proposed Evaluation}%
+\label{chp:evaluation}
+
+The work of Kus et al.~\cite{Kus} and Zoppi et al.~\cite{Zoppi} shines an
+illuminating light onto the field. Hence, this study will follow similar
+principles.
+
+Models will be evaluated using the methodology of Kus et al.~\cite{Kus} as this
+is a superset of the methodology applied by Zoppi et al.~\cite{Zoppi}.
+Additionally, as noted by Ahmad et al.~\cite{zero-day}, categorising attacks
+into broad labels such as \gls{dos} can create inconsistencies and confusion in
+the literature due to their subjectivity. Hence, it is important to also
+consider individual attacks as Kus et al.~\cite{Kus} do.
+
+It should also be noted that categorisations used in this paper should be
+interpreted as a shorthand method of referring to the specific attack types
+included under the category in this study. Conclusions will not be intended to
+generalise to attack types not present in the dataset that may fall under the
+same subjective categorisation.
+
+\section{Models}%
+\label{sec:models}
+
+The methodology will be applied to several state-of-the-art models designed for
+general purpose datasets belonging to three families. Namely, these families
+are supervised traditional \gls{ml} techniques, unsupervised traditional
+\gls{ml} techniques and unsupervised \gls{dl} techniques. It should be noted
+that supervised \gls{dl} techniques will not be considered as they have been
+found to be less effective by Zoppi et al.~\cite{Zoppi}.
+
+The study will replicate the models proposed in the works of Karatas et
+al.~\cite{Karatas}, Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao}. These works
+have been selected as they are the most highly cited amongst recent studies
+that provide clear methodologies from the families the study will compare.
+
+In addition, the work of Karatas et al.~\cite{Karatas} addresses class
+imbalance, which is a significant problem when applying supervised \gls{ml} to
+intrusion detection. This is due to the prevalence of normal, non-malicious
+traffic in realistic scenarios when compared to the volume of malicious
+traffic~\cite{imbalance}.
+
+\section{Datasets}%
+\label{sec:datasets}
+The CSE-CIC-IDS2018 dataset is a collaborative effort between the
+Communications Security Establishment and the Canadian Institute of Cybersecurity,
+and serves as a successor to the CICIDS2017 dataset which is a smaller, less
+diverse counterpart. The aim of the project was to produce an up to date,
+realistic dataset for the evaluation of \gls{nids}. The dataset was generated
+on infrastructure consisting of a victim network with 420 machines and 30
+servers, and an attack network consisting of 50 machines. The machines were
+divided into departments mimicking a typical corporate network. A typical
+network environment was simulated using B-profiles, which describe user
+behaviour through statistical and \gls{ml} techniques, allowing it to be
+accurately replicated. The dataset includes a variety of modern attack
+categories, namely, \gls{dos} attacks, brute force attacks, code injection,
+botnet attacks, and infiltration attacks which involve using an exploit on a
+host inside the network to attack the network. The resulting dataset contains
+80 features and approximately 16,000,000 instances~\cite{cic2018, cic2018data}.
+
+The CSE-CIC-IDS2018 dataset is, to the best of my knowledge, the most
+up-to-date, general purpose network intrusion dataset publicly available today.
+It offers a large volume of data containing diverse attack scenarios and a
+realistic network environment. It is for these reasons that it will be used to
+evaluate and compare the models of this study.
+
+The NSL-KDD~\cite{nsl} dataset is an improvement over its predecessor, the
+KDD99 dataset. It was created as a benchmark for intrusion detection systems
+and offers a more balanced class distribution than its predecessor. The dataset
+has been used extensively in the field of intrusion detection, however, the
+underlying network data dates back to 1998. Both the unsupervised models this
+study will replicate have been evaluated on this dataset by the original
+authors. Hence, this dataset will be used to verify the models were replicated
+correctly, but will not be used to make comparisons as due to its age, the
+results may not generalise well to modern cyber threat landscapes.
+
+\section{Methodology}%
+\label{sec:methodology}
+
+Once the models have been replicated, the procedure proposed by Kus et
+al.~\cite{Kus} will be carried out. In the ideal case, the evaluation metrics
+of each dataset variant would be calculated using 5-fold cross validation.
+However, due to the high computational demands of the methodology, there is a
+possibility that the proposed procedure will be unfeasible to carry out using
+the resources available. Should this be the case, a standard train-test split
+may be employed in place of 5-fold cross validation and stratified sampling can
+be explored to reduce the size of the dataset without decreasing the quality of
+the results.
+
+\section{Metrics}%
+\label{sec:metrics}
+
+The trained models will be expected to act as classifiers recognising benign
+and malicious traffic. Hence, the performance of the models on each dataset
+variant will be evaluated using standard metrics for classification tasks in
+the field of \gls{ml}. These include accuracy, precision, recall and F-measure
+values, as well as the receiver-operating characteristic curve and the area
+under this curve.~\cite{metrics}
+
+The recall calculated can then be used to generate a heatmap for each phase of
+the methodology proposed by Kus et al. The resulting heatmaps will clearly
+illustrate which attacks and categories were detected even when absent from the
+training set and which attacks and categories contain information about other
+attacks.
+
+\section{Drawing Conclusions}%
+\label{sec:conclusions}
+
+The aggregate of the results described above allow conclusions to be drawn
+regarding the overall performance of current state-of-the-art \gls{nids}. This
+addresses \hyperlink{obj}{Objective 1} defined in the aims and objectives
+section.
+
+Furthermore, Karatas et al.~\cite{Karatas} take a supervised learning approach
+whereas Pu et al.~\cite{Pu} and Cao et al.~\cite{Cao} take an unsupervised
+learning approach. Hence, the comparison of the results across these works
+allows for conclusions to be drawn addressing \hyperlink{obj}{Objective 2}.

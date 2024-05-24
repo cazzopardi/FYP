@@ -1,0 +1,55 @@
+\chapter{Timeline Going Forward}%
+\label{chp:timeline}
+
+Going forward, the next step will be to replicate the results obtained by Kus
+et al.~\cite{Kus} from the developed python script. This will verify that the
+script implements their methodology correctly.
+
+Once this has been done, the work of Karatas et al.~\cite{Karatas} will be
+replicated. This will involve the following steps:
+\begin{enumerate}
+      \item Applying \gls{smote} on the CSE-CIC-IDS2018 dataset to reduce the class
+            imbalance present in the dataset.
+      \item Preprocessing the dataset,
+            \begin{enumerate}
+                  \item Adding an ID column to keep track of samples during preprocessing
+                  \item Replacing NaN and infinity values with numerical representations
+                  \item Dividing the timestamp column into 2 numerical columns
+                  \item Adding sign columns for the `Init Fwd Win Byts' and `Init Bwd Win Byts' columns
+                  \item Converting attack labels to numerical values
+                  \item Shuffling the dataset
+            \end{enumerate}
+      \item Implementation of the 6 \gls{ml} models using the scikit-learn library in
+            python
+      \item Training the models and verifying the results match the original work
+\end{enumerate}
+
+Next, the NSL-KDD dataset will be downloaded and labels will be added to it
+uniquely identifying attacks. The work of Pu et al.~\cite{Pu} and Cao et
+al.~\cite{Cao} can then be replicated.
+
+Replicating the work of Pu et al.~\cite{Pu} will involve the following steps:
+\begin{enumerate}
+      \item Preprocessing the dataset
+            \begin{enumerate}
+                  \item Encoding non-numeric categorical features using one-hot encoding
+                  \item Applying the F-test for feature selection
+                  \item Normalising all features
+            \end{enumerate}
+      \item Implementation of the \gls{ssc}-\gls{ocsvm} model
+      \begin{enumerate}
+            \item Dividing the feature set into N subspaces
+            \item Training \gls{ocsvm} models for each subspace and producing partitions
+            \item Updating a dissimilarity vector with the dissimilarity values from each partition
+            \item Ranking the dissimilarity vector and applying a threshold dissimilarity value to flag anomalous samples
+      \end{enumerate}
+      \item Training the model and verifying the results match the original work
+\end{enumerate}
+
+Cao et al.~\cite{Cao} provide a GitHub repository including the
+source code required to replicate the work, hence, this repository will be
+cloned and used to replicate the model.
+
+Finally, the developed python script can be executed on each model. The
+results of these experiments will then be processed into tables and the
+heatmaps will be generated from the recall values computed.

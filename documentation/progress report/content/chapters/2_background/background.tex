@@ -1,0 +1,109 @@
+\chapter{Background}%
+\label{chp:background}
+
+\section{Related Works}%
+\label{sec:related}
+
+In the literature, there is no absence of works in the field of \gls{ml}-based
+network intrusion detection. This section will briefly outline some
+significant works in the field.
+
+In 2020, Karatas et al.~\cite{Karatas} proposed 6 \gls{ml}-based \gls{ids},
+employing the techniques of K Nearest Neighbours, Random Forest, Gradient
+Boosting, Adaboost, Decision Tree and Linear Discriminant Analysis. They
+evaluated their models on the CSE-CIC-IDS 2018 dataset. Due to the class
+imbalance present in this dataset, the authors applied the \gls{smote}. The
+results indicate the proposed models are very effective with accuracies on the
+sampled data ranging from 91.18\% to 99.35\%. The Random Forest algorithm had
+the highest accuracy on the sampled dataset, however the Adaboost algorithm had
+the highest precision and F1 score which may be more significant given the
+class imbalance present in the dataset.
+
+Jiang et al. (2020)~\cite{Jiang} take a \gls{dl} approach to the problem. They
+propose a \gls{cnn} to extract spatial features, which are then processed
+through a \gls{bilstm} network to extract temporal features. To handle class
+imbalance, the authors first apply \gls{oss} to reduce noisy samples in the
+majority class, then increase the number of minority samples through
+\gls{smote}. The proposed solution is evaluated on both the NSL-KDD dataset and
+the UNSW-NB15 dataset, achieving accuracies of 83.58\% and 77.16\%
+respectively.
+
+Mighan and Kahani (2021)~\cite{Mighan} propose a hybrid approach using a
+stacked auto-encoder network for latent feature extraction followed by a
+support vector machine classifier. The proposed model was evaluated on the
+ISCX2012 and CICIDS2017 datasets achieving accuracies of 90.2\% and 99.49\%
+respectively. They concluded that \gls{dl} feature extraction outperformed
+other methods. Note, class imbalance was not addressed in this study, despite
+being present in both datasets used.
+
+Kus et al. (2022)~\cite{Kus} argue that the current evaluation standard in
+\gls{ml}-based industrial intrusion detection may create a false sense of
+security. They argue that it does not assess the model's ability to detect
+unknown attacks, absent from the training set. They propose a new evaluation
+methodology to assess the efficacy of \gls{ml}-based industrial \gls{ids} in
+detecting these unknown attacks.
+
+The methodology involves training and testing the model on variants of the
+dataset. The procedure consists of 4 phases. In the first phase, one attack
+category is excluded from the training set each iteration. Hence, the
+generalisability to this unseen attack can be measured from the evaluation on
+the test set. In the second phase, only one attack category is included in the
+training set, allowing the relations between different attack categories to be
+investigated. Finally, in the third and fourth phase, the first two phases are
+repeated however using individual attacks in place of attack categories. This
+results in a number of dataset variants equal to 4 times the number of attack
+categories.
+
+This methodology is applied to three industrial intrusion detection models
+proposed in a work by Lopez Perez et al.~\cite{Perez} The results indicate an
+alarmingly low ability to recognise unseen attacks, with detection rates
+dropping to between 3.2\% and 14.7\% for some types of attacks. The authors
+conclude that the models they tested only learn signatures of attacks and are
+not performing true anomaly-based intrusion detection. The study focuses
+primarily on industrial intrusion detection and does not attempt to make any
+generalisations to other domains of intrusion detection.
+
+A literature review carried out in 2023 by Ahmad et al.~\cite{zero-day} reviews
+many more similar works with a particular focus on zero-day attacks. It
+supports the argument of Kus et al.~\cite{Kus} stating that many researchers in
+the field are not currently addressing the existence of zero-day attacks and
+suggests that future works should not assume all existing attack
+classifications are present in the dataset.
+
+Pu et al.~\cite{Pu} propose an unsupervised approach, combining \gls{ssc} and
+\gls{ocsvm}. They evaluate their proposal on the NSL-KDD dataset against three
+other unsupervised models, specifically, a combination of \gls{ssc} and
+Evidence Accumulation, \gls{dbscan} and K-means clustering. The results indicated the
+proposed model outperformed the other models.
+
+Cao et al.~\cite{Cao} take an unsupervised deep learning approach, proposing new
+regularisers to classical and variational autoencoders to map normal network
+samples towards the origin. One class classification models can then be used to
+detect malicious samples which will be mapped further from the origin. They
+evaluated this approach on 4 datasets, namely, CTU13\-09, CTU13\-13, NSL-KDD,
+and UNSW-NB15. The results indicate the approach is effective on high
+dimensional and sparse network data.
+
+In 2023, Zoppi et al.~\cite{Zoppi} carried out a comparison of 47 different
+machine learning algorithms on 11 different network intrusion datasets. The
+study includes supervised, unsupervised, deep learning and meta-learning
+algorithms. The methodology, like that of Kus et al., involves creating
+variants of each dataset excluding specific categories in order to simulate the
+occurrence of unknown attacks. They conclude that supervised classifiers yield
+a higher accuracy, however, this is significantly degraded in the face of
+unknown attacks. Unsupervised learners on the other hand are less accurate but
+experience a less dramatic decline in the face of unknown attacks. They also
+conclude meta-learners outperform their non-meta-learning counterparts.
+
+\section{Conclusion}%
+\label{sec:conclusion}
+From the above works, we observe that the research community has achieved
+very impressive results in the field of intrusion detection. However, as Kus et
+al.\ have discovered, these laboratory results may not accurately reflect
+reality.
+
+The supervised learning approaches explored above do not consider the
+possibility of unknown attacks and hence may be ineffective in practical
+applications. As indicated by Zoppi et al.~\cite{Zoppi}, unsupervised
+techniques may be more effective in detecting unknown attacks, however at the
+cost of reduced efficacy against known attacks.
